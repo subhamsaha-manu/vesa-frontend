@@ -1,5 +1,6 @@
 overwrite: true
 schema: "schema.graphql"
+documents: "./src/**/*.{ts,tsx,js,jsx}"  # Correct glob pattern for documents
 generates:
   src/types.ts:
     plugins:
@@ -8,18 +9,13 @@ generates:
       scalars:
         JSON: "{ [key: string]: any }"
   src/:
-    plugins:
-      - typescript-operations
-      - typescript-react-apollo
     preset: near-operation-file
-    documents:
-      - './src/**/*.js':
-        noRequire: true
-      - './src/**/*.ts':
-        noRequire: true
     presetConfig:
       extension: .generated.tsx
       baseTypesPath: types.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
     config:
       withHooks: true
       withComponent: true

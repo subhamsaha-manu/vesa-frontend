@@ -132,9 +132,7 @@ export const ChangePassword: React.FC = () => {
                     })
                   }}
                 />
-                <FormErrorMessage>
-                  {errors.oldPassword && errors.oldPassword.message}
-                </FormErrorMessage>
+                <FormErrorMessage>""</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!isNil(errors.newPassword)} isRequired>
                 <FormLabel htmlFor="newPassword">New Password</FormLabel>
@@ -153,9 +151,7 @@ export const ChangePassword: React.FC = () => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>
-                  {errors.newPassword && errors.newPassword.message}
-                </FormErrorMessage>
+                <FormErrorMessage>""</FormErrorMessage>
               </FormControl>
               <HStack align="center" justifyContent="end">
                 <ButtonGroup gap="4">
