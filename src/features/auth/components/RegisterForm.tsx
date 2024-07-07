@@ -147,9 +147,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                   required: 'This is required',
                 })}
               />
-              <FormErrorMessage data-testid="login-email-error-message">
-                {errors.email && errors.email.message}
-              </FormErrorMessage>
+              <FormErrorMessage data-testid="login-email-error-message">""</FormErrorMessage>
               <FormHelperText>We never share your email.</FormHelperText>
             </FormControl>
             <FormControl>
@@ -179,7 +177,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>""</FormErrorMessage>
             </FormControl>
             <HStack align="center" justifyContent="space-between">
               <Link to="/auth/login">

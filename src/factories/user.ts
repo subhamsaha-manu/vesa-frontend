@@ -4,10 +4,10 @@ import * as Factory from 'factory.ts'
 import { User } from '@/types'
 
 export const currentUserMock = Factory.Sync.makeFactory<User>({
-  uuid: faker.datatype.uuid(),
-  name: faker.name.firstName(),
+  uuid: faker.string.uuid(),
+  name: faker.person.firstName(),
   email: faker.internet.email(),
-  mobileNumber: faker.phone.phoneNumber(),
+  mobileNumber: faker.phone.number(),
   isLoggedIn: true,
   stars: 5,
   score: 10,

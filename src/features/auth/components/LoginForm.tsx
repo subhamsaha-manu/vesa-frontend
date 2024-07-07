@@ -182,7 +182,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 })}
               />
               <FormErrorMessage data-testid="login-email-error-message">
-                {errors.email && errors.email.message}
+                Email is required
               </FormErrorMessage>
               <FormHelperText>We never share your email.</FormHelperText>
             </FormControl>
@@ -204,7 +204,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>Incorrect Password</FormErrorMessage>
             </FormControl>
             <Flex display-name="forgot-password-flex">
               <Button

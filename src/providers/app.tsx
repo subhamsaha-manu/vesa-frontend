@@ -1,6 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
 import { ChakraProvider, Flex, Heading, Image, VStack } from '@chakra-ui/react'
-import React, { Suspense } from 'react'
+import React, { FC, ReactNode, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { HashRouter } from 'react-router-dom'
 
@@ -35,7 +35,11 @@ export const ErrorFallback = () => {
   )
 }
 
-export const AppProvider: React.FC = ({ children }) => {
+type AppProviderProps = {
+  children: ReactNode
+}
+
+export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   return (
     <ChakraProvider theme={theme}>
       <Suspense fallback={<SpinnerContainer height="60vh" />}>

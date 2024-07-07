@@ -9,7 +9,7 @@ export const linkError = onError(({ networkError, graphQLErrors }) => {
     graphQLErrors.map(({ message, locations, path }) => {
       console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
     })
-    if (graphQLErrors[0]?.extensions?.response?.status === 401) {
+    if (graphQLErrors[0]?.extensions?.response === 401) {
       return logoutRedirect()
     }
   }

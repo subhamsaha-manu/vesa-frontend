@@ -131,9 +131,7 @@ export const ResetPassword: React.FC = () => {
                       required: 'This is required',
                     })}
                   />
-                  <FormErrorMessage>
-                    {otpValidationErrors.otp && otpValidationErrors.otp.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>""</FormErrorMessage>
                 </FormControl>
                 <HStack align="center" justifyContent="end">
                   <Button mt={4} colorScheme="cyan" variant="solid" type="submit">
@@ -167,9 +165,7 @@ export const ResetPassword: React.FC = () => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormErrorMessage>
-                    {errors.newPassword && errors.newPassword.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>""</FormErrorMessage>
                 </FormControl>
                 <HStack align="center" justifyContent="end">
                   <Button mt={4} colorScheme="cyan" variant="solid" type="submit">
