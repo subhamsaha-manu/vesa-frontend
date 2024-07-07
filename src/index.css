@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Signika:wght@300;400,700");
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Signika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: 'Signika', sans-serif;
+}
+
+#root {
+    min-height: 98vh;
+}

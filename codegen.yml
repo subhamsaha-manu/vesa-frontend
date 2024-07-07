@@ -1,0 +1,30 @@
+overwrite: true
+schema: "schema.graphql"
+generates:
+  src/types.ts:
+    plugins:
+      - typescript
+    config:
+      scalars:
+        JSON: "{ [key: string]: any }"
+  src/:
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    preset: near-operation-file
+    documents:
+      - './src/**/*.js':
+        noRequire: true
+      - './src/**/*.ts':
+        noRequire: true
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: types.ts
+    config:
+      withHooks: true
+      withComponent: true
+      withHOC: false
+      reactApolloVersion: 3
+      apolloReactHooksImportFrom: "@apollo/client"
+      apolloReactCommonImportFrom: "@apollo/client"
+      apolloReactComponentsImportFrom: "@apollo/client/react/components"

@@ -1,0 +1,39 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "outDir": "./build",
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "webpack",
+    "build",
+    "webpack-modules"
+  ],
+  "extends": "./tsconfig.paths.json"
+}
