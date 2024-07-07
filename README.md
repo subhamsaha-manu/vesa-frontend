@@ -1,4 +1,4 @@
-# quiz-app-frontend
+# vesa-frontend
 
 To run the project locally:
 

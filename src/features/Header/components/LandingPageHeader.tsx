@@ -5,12 +5,15 @@ import {
   Collapse,
   Flex,
   IconButton,
+  Image,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import logo from '@/assets/logo/vesa-logo.jpg'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
@@ -22,9 +25,10 @@ export const LandingPageHeader = () => {
   return (
     <Box>
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
+        bg="#e5e2db"
         color={useColorModeValue('gray.600', 'white')}
         minH="60px"
+        h="120px"
         py={{ base: 2 }}
         px={{ base: 4 }}
         borderBottom={1}
@@ -44,30 +48,37 @@ export const LandingPageHeader = () => {
             aria-label="Toggle Navigation"
           />
         </Flex>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: 'center', md: 'start' }}
+          alignItems={{ base: 'center', md: 'center' }}
+        >
+          <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+        </Flex>
 
-        <Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>
-          <Button
-            fontSize="md"
-            fontWeight={400}
-            variant="link"
-            onClick={() => navigate('/auth/login')}
-          >
-            Sign In
-          </Button>
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="md"
-            fontWeight={600}
-            color="white"
-            bg="cyan.400"
-            onClick={() => handleSignUpClick()}
-            _hover={{
-              bg: 'cyan.300',
-            }}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+        {/*<Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>*/}
+        {/*  <Button*/}
+        {/*    fontSize="md"*/}
+        {/*    fontWeight={400}*/}
+        {/*    variant="link"*/}
+        {/*    onClick={() => navigate('/auth/login')}*/}
+        {/*  >*/}
+        {/*    Sign In*/}
+        {/*  </Button>*/}
+        {/*  <Button*/}
+        {/*    display={{ base: 'none', md: 'inline-flex' }}*/}
+        {/*    fontSize="md"*/}
+        {/*    fontWeight={600}*/}
+        {/*    color="white"*/}
+        {/*    bg="cyan.400"*/}
+        {/*    onClick={() => handleSignUpClick()}*/}
+        {/*    _hover={{*/}
+        {/*      bg: 'cyan.300',*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    Sign Up*/}
+        {/*  </Button>*/}
+        {/*</Stack>*/}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

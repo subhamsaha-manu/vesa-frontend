@@ -18,7 +18,7 @@ export const LandingLayout: React.FC<LandingLayoutProps> = ({
       <Flex
         direction="column"
         align="center"
-        maxW={{ xl: '1200px' }}
+        //maxW={{ xl: '1200px' }}
         minH="85vh"
         m="0 auto"
         display-name={`container-for-${page}`}
