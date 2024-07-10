@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client'
 import { ChakraProvider, Flex, Heading, Image, VStack } from '@chakra-ui/react'
 import React, { FC, ReactNode, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import { getClient } from '@/apollo/client'
 import img from '@/assets/illustrations/SomethingWentWrong.png'
@@ -44,11 +44,11 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
     <ChakraProvider theme={theme}>
       <Suspense fallback={<SpinnerContainer height="60vh" />}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <HashRouter>
+          <BrowserRouter>
             <ApolloProvider client={getClient()}>
               <AuthenticationProvider>{children}</AuthenticationProvider>
             </ApolloProvider>
-          </HashRouter>
+          </BrowserRouter>
         </ErrorBoundary>
       </Suspense>
     </ChakraProvider>

@@ -6,14 +6,20 @@ import {
   Flex,
   IconButton,
   Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo from '@/assets/logo/vesa-logo.jpg'
+import { Search01Icon, ShoppingBasket01Icon, UserIcon } from 'hugeicons-react'
+import { Text } from '@chakra-ui/layout'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
@@ -22,15 +28,42 @@ export const LandingPageHeader = () => {
   const handleSignUpClick = () => {
     navigate('/auth/register')
   }
+
+  const menuOptions = [
+    {
+      label: 'Home',
+      path: '/',
+    },
+    {
+      label: 'Category 1',
+      path: '/category-1',
+    },
+    {
+      label: 'Category 2',
+      path: '/category-2',
+    },
+    {
+      label: 'Category 3',
+      path: '/category-3',
+    },
+    {
+      label: 'About Us',
+      path: '/about-us',
+    },
+    {
+      label: 'Contact Us',
+      path: '/contact-us',
+    },
+  ]
   return (
-    <Box>
+    <Box display-name="landing-page-header-box">
       <Flex
+        display-name="landing-page-header-flex"
         bg="#e5e2db"
         color={useColorModeValue('gray.600', 'white')}
         minH="60px"
         h="120px"
-        py={{ base: 2 }}
-        px={{ base: 4 }}
+        p={{ base: '15px 100px' }}
         borderBottom={1}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
@@ -49,11 +82,54 @@ export const LandingPageHeader = () => {
           />
         </Flex>
         <Flex
-          flex={{ base: 1 }}
           justify={{ base: 'center', md: 'start' }}
           alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-logo-flex"
         >
           <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+        </Flex>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: 'center', md: 'center' }}
+          alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-menu-options-flex"
+          gap={8}
+          flexGrow={1}
+        >
+          {menuOptions.map(({ label, path }) => (
+            <Flex
+              display-name="landing-page-header-menu-options-flex"
+              key={label}
+              _hover={{ cursor: 'pointer' }}
+              onClick={() => navigate(path)}
+            >
+              <Text fontSize="md" color="subtle">
+                {label}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
+        <Flex display-name="landing-page-header-search-product-flex" mr="70px">
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <Search01Icon color="gray.300" size={20} />
+            </InputLeftElement>
+            <Input
+              placeholder="Search for product"
+              size="md"
+              background="white"
+              borderRadius="40px"
+            />
+          </InputGroup>
+        </Flex>
+        <Flex
+          justify={{ base: 'center', md: 'end' }}
+          alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-icons-flex"
+          gap={8}
+        >
+          <UserIcon size={22} />
+          <ShoppingBasket01Icon size={22} />
         </Flex>
 
         {/*<Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>*/}
