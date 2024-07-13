@@ -1,10 +1,10 @@
-import { Flex, Image } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import img from '@/assets/illustrations/ComingSoon.svg'
 import { useAuthenticationContext } from '@/features/auth'
 import { storage } from '@/utils/storage'
+import { Dashboard } from '@/features/product'
 
 export const LandingContent: React.FC = () => {
   const location = useLocation()
@@ -35,7 +35,7 @@ export const LandingContent: React.FC = () => {
       h={{ base: 'calc(100vh - 60px)', md: 'calc(100vh - 120px)' }}
       overflow="scroll"
     >
-      <Image src={img} />
+      <Dashboard />
     </Flex>
   )
 }

@@ -7,7 +7,7 @@ import { storage } from '@/utils/storage'
 export const getCurrentUserDetails = async () => {
   const token = storage.getItem(USER_TOKEN)
 
-  return await axios.get(`${process.env.REACT_APP_BACKEND_PRODUCTION_URL}/v1/user/details`, {
+  return await axios.get(`${process.env.REACT_APP_VESA_BACKEND_PRODUCTION_URL}/v1/user/details`, {
     headers: {
       authorization: `Bearer ${token}`,
     },

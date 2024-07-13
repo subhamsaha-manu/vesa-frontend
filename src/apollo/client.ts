@@ -6,9 +6,10 @@ import { storage } from '@/utils/storage'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const url = isProduction
-  ? formatProductionURL(process.env.REACT_APP_BACKEND_PRODUCTION_URL!)
-  : process.env.REACT_APP_BACKEND_DEVELOPMENT_URL
+  ? formatProductionURL(process.env.REACT_APP_VESA_BACKEND_PRODUCTION_URL!)
+  : process.env.REACT_APP_VESA_BACKEND_DEVELOPMENT_URL
 
+console.info({ isProduction, url })
 const httpLink = createHttpLink({
   uri: `${url}/graphql`,
 })

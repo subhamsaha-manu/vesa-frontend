@@ -5,10 +5,10 @@ import { protectedRoutes } from './protected'
 import { publicRoutes } from './public'
 
 import { useAuthenticationContext } from '@/features/auth'
-import { Landing } from '@/features/misc'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { MainLayout } from '@/components/Layout'
+import { Dashboard } from '@/features/product'
 
 const AboutUs = React.lazy(() => import('@/features/about-us'))
 
@@ -28,12 +28,12 @@ export const AppRoutes = () => {
   const commonRoute = [
     {
       path: '/',
-      element: <Landing />,
-    },
-    {
-      path: '/',
       element: <App />,
       children: [
+        {
+          path: '/',
+          element: <Dashboard />,
+        },
         {
           path: 'about-us',
           element: <AboutUs />,
