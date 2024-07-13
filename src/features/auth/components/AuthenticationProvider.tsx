@@ -16,7 +16,7 @@ const AuthenticationContext = createContext<AuthenticationContextType>(
   {} as AuthenticationContextType
 )
 export const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({ children }) => {
-  const token = storage.getToken('AUTH_TOKEN')
+  const token = storage.getItem('AUTH_TOKEN')
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!isEmpty(token))
 
   const context = useMemo(

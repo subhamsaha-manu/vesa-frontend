@@ -28,11 +28,8 @@ import * as z from 'zod'
 import { LoginWithFB } from './LoginWithFB'
 import { LoginWithGmail } from './LoginWithGmail'
 
-import { useSignupMutation } from '../apis/signup.generated'
-
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useAuthenticationContext } from '@/features/auth'
-import { ErrorFallback } from '@/providers/app'
 import { storage } from '@/utils/storage'
 
 type RegisterFormProps = {
@@ -59,7 +56,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const toast = useToast()
 
   const onSignupComplete = (token: string) => {
-    storage.setToken('AUTH_TOKEN', token)
+    storage.setItem('AUTH_TOKEN', token)
     setIsAuthenticated(true)
     toast({
       title: 'Signup Successful',
@@ -71,34 +68,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     onSuccess()
   }
 
-  const [signup, { loading, error }] = useSignupMutation({
-    onCompleted: (data) => {
-      if (data.signup) {
-        const { token } = data.signup
-
-        onSignupComplete(token)
-      } else {
-        const error = {
-          message: 'Email already registered',
-          type: 'unique',
-        }
-        setError('email', error)
-      }
-    },
-  })
-
   const onSubmit = (values: any) => {
     const { email, password, name, mobileNumber } = values
-    signup({
-      variables: {
-        input: {
-          email,
-          password,
-          name,
-          mobileNumber,
-        },
-      },
-    })
   }
 
   const [showPassword, setShowPassword] = useState(false)
@@ -115,10 +86,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     setValue('email', userEmail)
     setValue('name', userName)
   }
-
-  if (error) {
-    return <ErrorFallback />
-  }
+  //
+  // if (error) {
+  //   return <ErrorFallback />
+  // }
 
   return (
     <Box rounded="lg" bg="white" boxShadow="lg" p={8}>
@@ -187,11 +158,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
                 mt={4}
                 colorScheme="cyan"
                 variant="outline"
-                isLoading={loading}
+                isLoading={false}
                 type="submit"
                 role="button"
               >
-                {loading ? <SpinnerContainer size="20px" overflow="unset" /> : 'Submit'}
+                {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Submit'}
               </Button>
             </HStack>
             <Divider />

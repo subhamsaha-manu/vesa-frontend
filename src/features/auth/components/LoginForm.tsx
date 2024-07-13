@@ -30,13 +30,8 @@ import * as z from 'zod'
 import { LoginWithFB } from './LoginWithFB'
 import { LoginWithGmail } from './LoginWithGmail'
 
-import { useForgotPasswordMutation } from '../apis/forgotPassword.generated'
-import { useIsLoginViaSocialAppSuccessfulLazyQuery } from '../apis/isLoginViaSocialAppSuccessful.generated'
-import { useLoginMutation } from '../apis/login.generated'
-
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useAuthenticationContext } from '@/features/auth'
-import { ErrorFallback } from '@/providers/app'
 import { storage } from '@/utils/storage'
 
 const schema = z.object({
@@ -75,7 +70,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       return null
     }
 
-    storage.setToken('AUTH_TOKEN', token)
+    storage.setItem('AUTH_TOKEN', token)
     setIsAuthenticated(true)
 
     toast({
@@ -88,55 +83,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     onSuccess()
   }
 
-  const [loginUser, { error, loading: loginInProgress }] = useLoginMutation({
-    onCompleted: (data) => {
-      const { token } = data.login
-      onLoginCompletion(token)
-    },
-  })
-
-  const [isLoginViaSocialAppSuccessful] = useIsLoginViaSocialAppSuccessfulLazyQuery({
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      const { token } = data.isLoginViaSocialAppSuccessful
-      onLoginCompletion(token)
-    },
-  })
-
-  const [forgotPassword, { loading: generatingOTP }] = useForgotPasswordMutation({
-    onCompleted: (data) => {
-      if (data.forgotPassword) {
-        const userEmail = getValues('email')
-        toast({
-          title: 'OTP sent at your email',
-          description: 'Use it to reset password',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
-        navigate(`/reset-password/${userEmail}`)
-      } else {
-        toast({
-          title: 'OTP could not be sent at your email',
-          description: 'Check if email is correct or try again later',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
-      }
-    },
-  })
-
   const onSubmit = (values: any) => {
     const { email, password } = values
-    loginUser({
-      variables: {
-        input: {
-          email,
-          password,
-        },
-      },
-    })
   }
 
   const [showPassword, setShowPassword] = useState(false)
@@ -147,25 +95,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   const onSuccessGoogle = (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     const profileObj = (res as GoogleLoginResponse).profileObj
     setValue('email', profileObj.email)
-    isLoginViaSocialAppSuccessful({
-      variables: {
-        email: profileObj.email,
-      },
-    })
   }
   const onSuccessFB = (userInfo: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
     const userEmail = (userInfo as ReactFacebookLoginInfo).email!
     setValue('email', userEmail)
-    isLoginViaSocialAppSuccessful({
-      variables: {
-        email: userEmail,
-      },
-    })
   }
 
-  if (error) {
-    return <ErrorFallback />
-  }
+  // if (error) {
+  //   return <ErrorFallback />
+  // }
   return (
     <Box rounded="lg" bg="white" boxShadow="lg" p={8}>
       <Stack spacing={4}>
@@ -218,20 +156,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                       type: 'unique',
                     }
                     setError('email', error)
-                  } else {
-                    forgotPassword({
-                      variables: {
-                        email: userEmail,
-                      },
-                    })
                   }
                 }}
               >
-                {generatingOTP ? (
-                  <SpinnerContainer size="20px" overflow="unset" />
-                ) : (
-                  'Forgot Password'
-                )}
+                {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Forgot Password'}
               </Button>
             </Flex>
             <HStack align="center" justifyContent="space-between">
@@ -239,7 +167,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 <Text color="blue.400">Create Account</Text>
               </Link>
               <Button mt={4} colorScheme="cyan" variant="outline" type="submit">
-                {loginInProgress ? <SpinnerContainer size="20px" overflow="unset" /> : 'Submit'}
+                {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Submit'}
               </Button>
             </HStack>
             <Divider />

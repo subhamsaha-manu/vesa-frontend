@@ -1,180 +1,67 @@
 type Query {
-    currentUser: User
-    mainTopics: [MainTopic!]!
-    subtopics(topicId: ID!): [Subtopic!]!
-    questions(subtopicId: ID):[Question!]!
-    challenges:[Challenge!]!
-    questionIdsForChallenge(challengeId: ID!):[String!]!
-    getQuestion(questionId: ID!):Question!
-    getAnotherLoggedInUser: User
-    getAllOtherLoggedInUsers: [User!]!
-    getChallengeResult(challengeId:ID!):Result
-    isChallengeActive(challengeId: ID!): Boolean!
-    getUserInfo(userId: ID!):User
-    isChallengeAccepted(challengeId: ID!,challengedUserUuid:ID!):ChallengeStatus!
-    isLoginViaSocialAppSuccessful(email: String!):AuthPayload!
-    isOldPasswordValid(oldPassword: String!):Boolean!
-    isOTPValid(email:String!,otp: String!):Boolean!
-    isInviteAccepted(challengeId: String!):Boolean!
+    login(email: String!, password: String!): Boolean!
+    products(productFilter: ProductFilter!): [MinifiedProduct!]!
+    product(productId: ID!): Product!
 }
 
 type Mutation {
-    login(input: LoginUserInput!): AuthPayload!
-    signup(input: SignupUserInput!): AuthPayload
-    sendChallenge(input: SendChallengeInput!):Boolean!
-    updateChallenge(challengeId: ID!, status: ChallengeStatus!):Boolean!
-    saveResult(saveResultInput: SaveResultInput!):Boolean!
-    startOneVOneChallenge(input: StartOneVOneChallengeInput!):ID!
-    logout:Boolean!
-    addQuestion(input: AddQuestionInput!):Boolean!
-    deleteQuestions(questionIds: [ID!]!):Boolean!
-    updateQuestion(questionId: ID!,input: UpdateQuestionInput!):Boolean!
-    bulkUploadQuestions(input: [AddQuestionInput!]!): Boolean!
-    updatePassword(newPassword: String!,userEmail: String): Boolean!
-    forgotPassword(email: String!):Boolean!
-    sendChallengeAndInvite(email: String!,host: String!):ID!
-    createChallengeEntry(challengeId: ID!):Boolean!
-}
-type User {
-    uuid: ID!
-    name: String!
-    email: String!
-    mobileNumber: String
-    isLoggedIn: Boolean!
-    stars: Int!
-    score: Int!
-    roles: [String!]!
+    register(registerUserInput: RegisterUserInput!): Boolean!
+    addProduct(addProductInput: AddProductInput!): Boolean!
 }
 
-interface Topic {
-    uuid: ID!
-    name: String!
+input ProductFilter {
+    productIds: [ID!]
+    categories: [ProductCategory!]
+    text: String
 }
 
-type MainTopic implements Topic{
-    uuid: ID!
-    name: String!
+type Product {
+    id: ID!
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    thumbnailUrl: String!
     description: String!
-    type: TopicType!
+    categories: [ProductCategory!]!
 }
 
-type Subtopic implements Topic {
-    uuid: ID!
-    topicId: ID!
+enum ProductCategory {
+    CATEGORY1
+    CATEGORY2
+    CATEGORY3
+}
+
+type MinifiedProduct {
+    id: ID!
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    thumbnailUrl: String!
+}
+
+input RegisterUserInput {
     name: String!
-    difficulty: DifficultyLevel!
+    email: String!
+    phoneNumber: String!
+    password: String!
+    userRole: UserRole
+}
+
+input AddProductInput {
+    title: String!
     description: String!
-    type: TopicType!
+    price: Float!
+    categories: [ProductCategory!]!
+    thumbnailUrl: String!
+    imageUrl: String!
 }
 
-enum TopicType {
-    MAIN_TOPIC
-    SUB_TOPIC
+enum UserRole {
+    ADMIN
+    USER
 }
-
-enum DifficultyLevel {
-    EASY,
-    MEDIUM,
-    HARD
-}
-
-type Question {
-    uuid: ID!
-    title: String!
-    choices: [Choice!]!
-    weight: Int!
-}
-
-type Choice {
-    uuid: ID!
-    title: String!
-    isCorrect: Boolean!
-}
-
-input SendChallengeInput {
-    name: String!
-    email: String!
-    questionIds: [String!]!
-}
-
-type Challenge {
-    uuid: ID!
-    userUuid:ID!
-    questionIds: [String!]!
-    title: String!
-    type: ChallengeType!
-    status: ChallengeStatus!
-}
-
-enum ChallengeType{
-    SENT,
-    RECEIVED,
-}
-
-enum ChallengeStatus {
-    STARTED,
-    ACTIVE,
-    COMPLETED,
-    CANCELLED,
-    PENDING
-}
-
-input SaveResultInput {
-    challengeId:ID!
-    totalScore: Int!
-    totalRemainingTime: Int!
-}
-
-input StartOneVOneChallengeInput {
-    toUserUuid: ID!
-}
-
-type Result {
-    score: Int!
-    outcome: OutcomeType!
-    basedOnTime: Boolean!
-}
-
-enum OutcomeType {
-    WIN,
-    LOST,
-    DRAW
-}
-
-input LoginUserInput {
-    email: String!
-    password: String!
-}
-
-input SignupUserInput {
-    email: String!
-    password: String!
-    name: String!
-    mobileNumber: String
-}
-
-type AuthPayload {
-    token: String!
-    code: Int
-    message: String
-    name: String
-}
-
-input AddQuestionInput {
-    questionTitle: String!
-    questionChoices:[QuestionChoice!]!
-}
-
-input QuestionChoice{
-    choiceTitle: String!
-    isCorrect: Boolean!
-}
-
-input UpdateQuestionInput {
-    questionTitle: String!
-    questionChoices:[QuestionChoice!]!
-}
-
 schema {
     query: Query
     mutation: Mutation

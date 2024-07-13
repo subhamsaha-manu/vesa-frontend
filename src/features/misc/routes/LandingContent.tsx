@@ -18,7 +18,7 @@ export const LandingContent: React.FC = () => {
       const url = `${incomingPath}${location.search}`
 
       navigate('/auth/login')
-      storage.setToken('INCOMING_PATH', url)
+      storage.setItem('INCOMING_PATH', url)
     }
   }, [incomingPath, location.search, navigate])
 

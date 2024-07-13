@@ -14,7 +14,7 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const bearerToken = storage.getToken('AUTH_TOKEN')
+  const bearerToken = storage.getItem('AUTH_TOKEN')
   return {
     headers: {
       ...headers,

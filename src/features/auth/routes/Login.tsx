@@ -11,7 +11,7 @@ export const Login: React.FC = (props) => {
   const [from, setFrom] = useState<string>('/app')
 
   useEffect(() => {
-    setFrom(storage.getToken('INCOMING_PATH') || '/app')
+    setFrom(storage.getItem('INCOMING_PATH') || '/app')
   }, [])
 
   const onSuccessFn = () => {

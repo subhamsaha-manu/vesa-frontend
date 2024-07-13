@@ -1,8 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import React from 'react'
-
-import { Footer } from '@/features/Footer'
-import { AppHeader } from '@/features/Header'
+import { LandingPageHeader } from '@/features/Header'
 
 type MainLayoutProps = {
   children: React.ReactNode
@@ -10,20 +8,18 @@ type MainLayoutProps = {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <Flex display-name="main-layout-flex-container" direction="column">
+    <>
+      <LandingPageHeader />
       <Flex
-        p="5"
-        justify="flex-end"
-        bg="#0e1e25"
-        display-name="header-flex-container"
-        display="flex"
+        display-name="main-layout-flex-container"
+        flexDir="column"
+        h={{ base: '80vh', xl: '80vh' }}
+        m="0 auto"
+        width={{ base: '100%', xl: '1136px' }}
+        alignItems="center"
       >
-        <Flex justify="center" display-name="header-flex-container-2">
-          <AppHeader />
-        </Flex>
+        {children}
       </Flex>
-      <main>{children}</main>
-      <Footer />
-    </Flex>
+    </>
   )
 }

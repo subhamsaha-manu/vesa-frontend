@@ -1,13 +1,13 @@
 const storagePrefix = 'AUTH_TOKEN'
 
 export const storage = {
-  getToken: (storageKey?: string) => {
+  getItem: (storageKey?: string) => {
     return JSON.parse(window.sessionStorage.getItem(storageKey ?? storagePrefix) as string)
   },
-  setToken: (storageKey: string, token: any) => {
+  setItem: (storageKey: string, token: any) => {
     window.sessionStorage.setItem(storageKey ?? storagePrefix, JSON.stringify(token))
   },
-  clearToken: (storageKey?: string) => {
+  clearItem: (storageKey?: string) => {
     window.sessionStorage.removeItem(storageKey ?? storagePrefix)
   },
 }

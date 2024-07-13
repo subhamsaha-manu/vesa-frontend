@@ -22,8 +22,6 @@ import * as z from 'zod'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Layout } from '@/components/Layout'
-import { useUpdatePasswordMutation } from '@/features/change-password/apis/updatePassword.generated'
-import { useIsOtpValidLazyQuery } from '@/features/reset-password/apis/isOTPValid.generated'
 
 const schema = z.object({
   newPassword: z.string().min(1, 'Required'),
@@ -57,56 +55,12 @@ export const ResetPassword: React.FC = () => {
   const navigate = useNavigate()
   const { userEmail } = useParams()
 
-  const [updatePassword, { loading: updatePasswordInProgress }] = useUpdatePasswordMutation({
-    onCompleted: (data) => {
-      if (data.updatePassword) {
-        toast({
-          title: 'Password updated successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
-        navigate('/app')
-      }
-    },
-  })
-
-  const [validateOTP, { loading: validatingOTP }] = useIsOtpValidLazyQuery({
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      if (data.isOTPValid) {
-        setIsOTPValid(true)
-      } else {
-        toast({
-          title: 'OTP Invalid',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
-      }
-    },
-  })
-
   const otpValidationSubmit = (values: any) => {
     const { otp } = values
-
-    validateOTP({
-      variables: {
-        email: userEmail!,
-        otp,
-      },
-    })
   }
 
   const onSubmit = (values: any) => {
     const { newPassword } = values
-
-    updatePassword({
-      variables: {
-        newPassword,
-        userEmail,
-      },
-    })
   }
 
   return (
@@ -135,11 +89,7 @@ export const ResetPassword: React.FC = () => {
                 </FormControl>
                 <HStack align="center" justifyContent="end">
                   <Button mt={4} colorScheme="cyan" variant="solid" type="submit">
-                    {validatingOTP ? (
-                      <SpinnerContainer size="20px" overflow="unset" />
-                    ) : (
-                      'Validate OTP'
-                    )}
+                    {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Validate OTP'}
                   </Button>
                 </HStack>
               </VStack>
@@ -169,11 +119,7 @@ export const ResetPassword: React.FC = () => {
                 </FormControl>
                 <HStack align="center" justifyContent="end">
                   <Button mt={4} colorScheme="cyan" variant="solid" type="submit">
-                    {updatePasswordInProgress ? (
-                      <SpinnerContainer size="20px" overflow="unset" />
-                    ) : (
-                      'Reset Password'
-                    )}
+                    {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Reset Password'}
                   </Button>
                 </HStack>
               </VStack>

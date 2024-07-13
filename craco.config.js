@@ -1,6 +1,6 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const { whenDev } = require('@craco/craco')
 const { NoEmitOnErrorsPlugin } = require('webpack')
 const PORT = 3002
@@ -12,7 +12,7 @@ module.exports = {
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.webpack.js', '.web.js', '.mjs'],
     },
-    configure: (webpackConfig, { env, paths }) => {
+    configure: (webpackConfig, { env }) => {
       //  output
       webpackConfig.output = {
         ...webpackConfig.output,

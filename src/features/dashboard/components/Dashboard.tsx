@@ -2,7 +2,7 @@ import { Heading, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 import { ContentLayout } from '@/components/Layout/ContentLayout'
-import { useCurrentUserContext } from '@/features/auth'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const Dashboard = () => {
   const [activeTileId, setActiveTileId] = useState<string>('')

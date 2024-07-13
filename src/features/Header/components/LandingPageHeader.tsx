@@ -14,7 +14,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo from '@/assets/logo/vesa-logo.jpg'
@@ -23,6 +23,21 @@ import { Text } from '@chakra-ui/layout'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
+
+  const [isSticky, setIsSticky] = useState(false)
+
+  const handleScroll = () => {
+    setIsSticky(window.scrollY > 0)
+  }
+
+  useEffect(() => {
+    console.info('useEffect')
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const navigate = useNavigate()
 
   const handleSignUpClick = () => {
@@ -55,8 +70,9 @@ export const LandingPageHeader = () => {
       path: '/contact-us',
     },
   ]
+  console.info({ isSticky })
   return (
-    <Box display-name="landing-page-header-box">
+    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={2}>
       <Flex
         display-name="landing-page-header-flex"
         bg="#e5e2db"
