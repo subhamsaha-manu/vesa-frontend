@@ -57,9 +57,6 @@ export const ContentLayout: React.FC<ContentLayoutProps> = ({
 
         {children}
       </Flex>
-      <Flex h="80px" background="white" w="100%">
-        <Heading>Footer</Heading>
-      </Flex>
     </>
   )
 }
