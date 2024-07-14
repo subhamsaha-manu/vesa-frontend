@@ -8,7 +8,15 @@ type ProductTileProps = {
 }
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {
   return (
-    <Flex display-name="product-tile-flex" flexDir="column" borderRadius={8} gap={8}>
+    <Flex
+      display-name="product-tile-flex"
+      flexDir="column"
+      borderRadius={8}
+      gap={8}
+      flex="1 1 calc(25% - 20px)"
+      boxSizing="border-box"
+      m="10px"
+    >
       <Flex display-name="product-image-section">
         <Image
           src={product.imageUrl}

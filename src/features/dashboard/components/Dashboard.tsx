@@ -12,7 +12,7 @@ export const Dashboard: FC = () => {
           Our Collection
         </Heading>
       </Flex>
-      <Flex display-name="dashboard-catalogue-wrapper-flex" w="100%" p={10}>
+      <Flex display-name="dashboard-catalogue-wrapper-flex" w="100%" p={{ base: 2, xl: 10 }}>
         <Catalogue />
       </Flex>
     </Flex>

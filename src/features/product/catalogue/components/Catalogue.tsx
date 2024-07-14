@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { useProductsQuery } from '@/features/product/catalogue/apis/products.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { Flex, Wrap, WrapItem } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { ProductTile } from '@/features/product/catalogue/components/ProductTile'
 import { MinifiedProduct } from '@/types'
 
@@ -24,13 +24,11 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
 
   return (
     <Flex display-name="products-dashboard-flex" w="100%" h="auto" flexDir="column" gap={10}>
-      <Wrap spacing="30px">
+      <Flex display-name="products-container" flexWrap="wrap" justifyContent="space-between">
         {data.products.map((product: MinifiedProduct) => (
-          <WrapItem key={product.productId} maxW="25%" h="30%">
-            <ProductTile product={product} />
-          </WrapItem>
+          <ProductTile product={product} />
         ))}
-      </Wrap>
+      </Flex>
     </Flex>
   )
 }

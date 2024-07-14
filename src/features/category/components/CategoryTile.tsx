@@ -1,6 +1,6 @@
 import { Category } from '@/types'
 import { FC } from 'react'
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex, Heading, Image } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { lowerCase } from 'lodash'
 
@@ -12,11 +12,9 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
   return (
     <Flex
       display-name="category-tile-flex"
-      flexGrow={1}
-      h="100%"
       flexDir="column"
-      p={8}
-      backgroundImage={category.imageUrl}
+      position="relative"
+      overflow="hidden"
       justify="end"
       onClick={() => navigate(`/product-category/${lowerCase(category.name)}`)}
       _hover={{
@@ -26,8 +24,15 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
       }}
     >
-      <Flex display-name="content-layout-heading-flex" w="100%" justify="start">
-        <Heading size="xl" color="#FFFFFF" fontWeight="500">
+      <Image src={category.imageUrl} alt={category.name} w="100%" h="auto" loading="lazy" />
+      <Flex
+        display-name="content-layout-heading-flex"
+        position="absolute"
+        bottom="40px"
+        left="10px"
+        p="0 10px"
+      >
+        <Heading size={{ base: 'sm', xl: 'xl' }} color="#FFFFFF" fontWeight="500">
           {category.name}
         </Heading>
       </Flex>

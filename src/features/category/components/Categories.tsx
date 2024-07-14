@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useCategoriesQuery } from '../apis/categories.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { Flex, Wrap, WrapItem } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { CategoryTile } from './CategoryTile'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 
@@ -33,16 +33,18 @@ export const Categories: FC = () => {
       w="100%"
       h="auto"
       flexDir="column"
-      p={10}
-      gap={10}
+      p={{ base: 2, xl: 10 }}
     >
-      <Wrap spacing="40px">
+      <Flex
+        display-name="categories-container"
+        display="grid"
+        gridTemplateColumns="repeat(4, 1fr)"
+        gap="20px"
+      >
         {data.categories.map((category) => (
-          <WrapItem key={category.categoryId} w="23%" h="350px">
-            <CategoryTile category={category} />
-          </WrapItem>
+          <CategoryTile category={category} />
         ))}
-      </Wrap>
+      </Flex>
     </Flex>
   )
 }
