@@ -2,16 +2,18 @@ type Query {
     login(email: String!, password: String!): Boolean!
     products(productFilter: ProductFilter!): [MinifiedProduct!]!
     product(productId: ID!): Product!
+    categories: [Category!]!
 }
 
 type Mutation {
     register(registerUserInput: RegisterUserInput!): Boolean!
     addProduct(addProductInput: AddProductInput!): Boolean!
+    addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
 }
 
 input ProductFilter {
     productIds: [ID!]
-    categories: [ProductCategory!]
+    categoryIds: [ID!]
     text: String
 }
 
@@ -23,13 +25,7 @@ type Product {
     imageUrl: String!
     thumbnailUrl: String!
     description: String!
-    categories: [ProductCategory!]!
-}
-
-enum ProductCategory {
-    CATEGORY1
-    CATEGORY2
-    CATEGORY3
+    categoryIds: [ID!]!
 }
 
 type MinifiedProduct {
@@ -53,7 +49,7 @@ input AddProductInput {
     title: String!
     description: String!
     price: Float!
-    categories: [ProductCategory!]!
+    categoryIds: [ID!]!
     thumbnailUrl: String!
     imageUrl: String!
 }
@@ -62,6 +58,20 @@ enum UserRole {
     ADMIN
     USER
 }
+
+type Category {
+    categoryId: ID!
+    name: String!
+    description: String!
+    imageUrl: String!
+}
+
+input AddCategoryInput {
+    name: String!
+    description: String!
+    imageUrl: String!
+}
+
 schema {
     query: Query
     mutation: Mutation

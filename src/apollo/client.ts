@@ -9,7 +9,6 @@ const url = isProduction
   ? formatProductionURL(process.env.REACT_APP_VESA_BACKEND_PRODUCTION_URL!)
   : process.env.REACT_APP_VESA_BACKEND_DEVELOPMENT_URL
 
-console.info({ isProduction, url })
 const httpLink = createHttpLink({
   uri: `${url}/graphql`,
 })

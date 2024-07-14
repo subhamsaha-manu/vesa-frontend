@@ -1,27 +1,20 @@
-import { Heading, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Flex, Heading } from '@chakra-ui/react'
+import React, { FC } from 'react'
+import { Catalogue } from '@/features/product'
+import { Categories } from '@/features/category'
 
-import { ContentLayout } from '@/components/Layout/ContentLayout'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
-
-export const Dashboard = () => {
-  const [activeTileId, setActiveTileId] = useState<string>('')
-
-  const { currentUser } = useCurrentUserContext()
-  const { name } = currentUser!
-
+export const Dashboard: FC = () => {
   return (
-    <ContentLayout pageTitle="">
-      <VStack
-        display-name="dashboard-container"
-        h="77vh"
-        overflow="scroll"
-        w="100%"
-        alignItems="start"
-        spacing={8}
-      >
-        <Heading size="sm">Hi welcome back {name}</Heading>
-      </VStack>
-    </ContentLayout>
+    <Flex flexGrow={1} w="100%" display-name="dashboard-flex" flexDir="column">
+      <Categories />
+      <Flex display-name="content-layout-heading-flex" w="100%" justify="center">
+        <Heading size="xl" color="#1E355B" fontWeight="500">
+          Our Collection
+        </Heading>
+      </Flex>
+      <Flex display-name="dashboard-catalogue-wrapper-flex" w="100%" p={10}>
+        <Catalogue />
+      </Flex>
+    </Flex>
   )
 }

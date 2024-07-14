@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuthenticationContext } from '@/features/auth'
 import { storage } from '@/utils/storage'
-import { Dashboard } from '@/features/product'
+import { Dashboard } from '@/features/dashboard'
 
 export const LandingContent: React.FC = () => {
   const location = useLocation()

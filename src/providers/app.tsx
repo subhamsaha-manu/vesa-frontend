@@ -9,6 +9,7 @@ import img from '@/assets/illustrations/SomethingWentWrong.png'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { AuthenticationProvider } from '@/features/auth/components/AuthenticationProvider'
 import theme from '@/utils/theme'
+import { CategoriesContextProvider } from '@/context'
 
 const ERROR_HEADING = "Oops! Something's  wrong."
 const ERROR_DESCRIPTION = 'Try refreshing the app.'
@@ -46,7 +47,9 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <BrowserRouter>
             <ApolloProvider client={getClient()}>
-              <AuthenticationProvider>{children}</AuthenticationProvider>
+              <AuthenticationProvider>
+                <CategoriesContextProvider>{children}</CategoriesContextProvider>
+              </AuthenticationProvider>
             </ApolloProvider>
           </BrowserRouter>
         </ErrorBoundary>

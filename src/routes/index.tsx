@@ -8,7 +8,9 @@ import { useAuthenticationContext } from '@/features/auth'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { MainLayout } from '@/components/Layout'
-import { Dashboard } from '@/features/product'
+
+import { Dashboard } from '@/features/dashboard'
+import { CategoryProducts } from '@/features/product/category-specific/components/CategoryProducts'
 
 const AboutUs = React.lazy(() => import('@/features/about-us'))
 
@@ -33,6 +35,10 @@ export const AppRoutes = () => {
         {
           path: '/',
           element: <Dashboard />,
+        },
+        {
+          path: '/product-category/:categoryName',
+          element: <CategoryProducts />,
         },
         {
           path: 'about-us',
