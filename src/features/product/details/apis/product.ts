@@ -8,6 +8,7 @@ export const product = gql`
       price
       thumbnailUrl
       imageUrl
+      description
     }
   }
 `

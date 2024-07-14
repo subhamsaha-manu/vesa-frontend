@@ -2,11 +2,13 @@ import { FC } from 'react'
 import { MinifiedProduct } from '@/types'
 import { Flex, Image } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/layout'
+import { useNavigate } from 'react-router-dom'
 
 type ProductTileProps = {
   product: MinifiedProduct
 }
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {
+  const navigate = useNavigate()
   return (
     <Flex
       display-name="product-tile-flex"
@@ -16,6 +18,8 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
       flex="1 1 calc(25% - 20px)"
       boxSizing="border-box"
       m="10px"
+      _hover={{ cursor: 'pointer' }}
+      onClick={() => navigate(`/product/${product.productId}`)}
     >
       <Flex display-name="product-image-section">
         <Image

@@ -10,7 +10,8 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { MainLayout } from '@/components/Layout'
 
 import { Dashboard } from '@/features/dashboard'
-import { CategoryProducts } from '@/features/product/category-specific/components/CategoryProducts'
+
+import { CategoryProducts, ProductDetails } from '@/features/product'
 
 const AboutUs = React.lazy(() => import('@/features/about-us'))
 
@@ -39,6 +40,10 @@ export const AppRoutes = () => {
         {
           path: '/product-category/:categoryName',
           element: <CategoryProducts />,
+        },
+        {
+          path: '/product/:productId',
+          element: <ProductDetails />,
         },
         {
           path: 'about-us',
