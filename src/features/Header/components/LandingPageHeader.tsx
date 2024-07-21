@@ -18,11 +18,14 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo from '@/assets/logo/vesa-logo.jpg'
-import { Search01Icon, ShoppingBasket01Icon, UserIcon } from 'hugeicons-react'
+import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { Text } from '@chakra-ui/layout'
+import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
+import { UserCartHeaderIcon } from '@/features/user-cart'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
+  const { categories } = useCategoriesContextProvider()
 
   const navigate = useNavigate()
 
@@ -30,23 +33,17 @@ export const LandingPageHeader = () => {
     navigate('/auth/register')
   }
 
+  const categoryMenuOptions = categories.map(({ name }) => ({
+    label: name,
+    path: `/product-category/${name.toLowerCase()}`,
+  }))
+
   const menuOptions = [
     {
       label: 'Home',
       path: '/',
     },
-    {
-      label: 'Category 1',
-      path: '/category-1',
-    },
-    {
-      label: 'Category 2',
-      path: '/category-2',
-    },
-    {
-      label: 'Category 3',
-      path: '/category-3',
-    },
+    ...categoryMenuOptions,
     {
       label: 'About Us',
       path: '/about-us',
@@ -131,7 +128,7 @@ export const LandingPageHeader = () => {
           gap={8}
         >
           <UserIcon size={22} />
-          <ShoppingBasket01Icon size={22} />
+          <UserCartHeaderIcon />
         </Flex>
 
         {/*<Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>*/}

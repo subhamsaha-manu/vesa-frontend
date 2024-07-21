@@ -3,12 +3,19 @@ type Query {
     products(productFilter: ProductFilter!): [MinifiedProduct!]!
     product(productId: ID!): Product!
     categories: [Category!]!
+    userCart(userId: ID!): [CartItem!]!
+    userWishlist(userId: ID!): [MinifiedProduct!]!
 }
 
 type Mutation {
     register(registerUserInput: RegisterUserInput!): Boolean!
     addProduct(addProductInput: AddProductInput!): Boolean!
     addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
+    addProductToCart(userId:ID!, productId: ID!): Boolean!
+    removeProductFromCart(userId:ID!, productId: ID, removeAll: Boolean): Boolean!
+    addProductToWishlist(userId:ID!, productId: ID!): Boolean!
+    removeProductFromWishlist(userId:ID!, productId: ID!): Boolean!
+    emptyCart(userId: ID!): Boolean!
 }
 
 input ProductFilter {
@@ -70,6 +77,14 @@ input AddCategoryInput {
     name: String!
     description: String!
     imageUrl: String!
+}
+
+type CartItem {
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    quantity: Int!
 }
 
 schema {

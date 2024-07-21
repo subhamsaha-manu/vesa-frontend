@@ -1,6 +1,6 @@
 import { Category } from '@/types'
 
 export type CategoriesContextType = {
-  categories: Array<Pick<Category, 'categoryId' | 'name'>>
-  setCategories: (param: Array<Pick<Category, 'categoryId' | 'name'>>) => void
+  categories: Array<Omit<Category, 'description'>>
+  setCategories: (param: Array<Omit<Category, 'description'>>) => void
 }
