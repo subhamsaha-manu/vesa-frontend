@@ -25,7 +25,7 @@ export const CategoryProducts: FC = () => {
       <Flex
         display-name="breadcrumb-layout-heading-flex-category-product"
         w="100%"
-        p="5px 0"
+        p="15px 0"
         gap={2}
       >
         <Text
