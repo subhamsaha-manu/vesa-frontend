@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Delete02Icon } from 'hugeicons-react'
 import { useEmptyCartMutation } from '../apis/emptyCart.generated'
 import { EmptyCart } from './EmptyCart'
-import { CartContent } from '@/features/user-cart/components/CartContent'
+import { CartContent } from './CartContent'
 
 export const UserCart: FC = () => {
   const navigate = useNavigate()

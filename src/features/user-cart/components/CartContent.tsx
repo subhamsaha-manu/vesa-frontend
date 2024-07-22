@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { CartItem } from '@/types'
 import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
 import AdjustQuantity from '@/components/elements/AdjustQuantity'
-import { useAddProductToCartMutation } from '@/features/user-cart/apis/addProductToCart.generated'
+import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import round from 'lodash/round'
 
 type CartContentProps = {

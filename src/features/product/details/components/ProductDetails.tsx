@@ -4,7 +4,7 @@ import { useProductQuery } from '../apis/product.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { AddToCart } from '@/features/user-cart'
-import { AddToWishlist } from './AddToWishlist'
+import { AddToWishlist } from '@/features/user-wishlist'
 
 type ProductParamType = {
   productId: string

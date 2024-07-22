@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Button, Flex } from '@chakra-ui/react'
 import { ShoppingCartCheckIn01Icon } from 'hugeicons-react'
-import { useAddProductToCartMutation } from '@/features/user-cart/apis/addProductToCart.generated'
+import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useNavigate } from 'react-router-dom'
 import { userCart } from '../apis/userCart'

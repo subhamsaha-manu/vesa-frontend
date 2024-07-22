@@ -22,6 +22,7 @@ import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { Text } from '@chakra-ui/layout'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
+import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
@@ -128,6 +129,7 @@ export const LandingPageHeader = () => {
           gap={8}
         >
           <UserIcon size={22} />
+          <UserWishlistHeaderIcon />
           <UserCartHeaderIcon />
         </Flex>
 

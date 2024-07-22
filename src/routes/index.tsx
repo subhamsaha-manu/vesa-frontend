@@ -13,6 +13,7 @@ import { Dashboard } from '@/features/dashboard'
 
 import { CategoryProducts, ProductDetails } from '@/features/product'
 import { UserCart } from '@/features/user-cart'
+import { UserWishlist } from '@/features/user-wishlist'
 
 const AboutUs = React.lazy(() => import('@/features/about-us'))
 
@@ -49,6 +50,10 @@ export const AppRoutes = () => {
         {
           path: '/cart',
           element: <UserCart />,
+        },
+        {
+          path: '/wishlist',
+          element: <UserWishlist />,
         },
         {
           path: 'about-us',
