@@ -161,7 +161,7 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
             background="black"
             _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
             borderRadius="40px"
-            onClick={() => navigate('/cart')}
+            onClick={() => navigate('/checkout')}
             w="100%"
             fontSize="25px"
             fontWeight="300"
