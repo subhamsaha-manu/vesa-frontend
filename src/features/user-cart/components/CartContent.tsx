@@ -129,8 +129,8 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
       </Flex>
       <Flex
         display-name="cart-summary"
-        w="390px"
-        h="358px"
+        w="32%"
+        h="fit-content"
         background="#f2f2f2"
         p={7}
         flexDir="column"

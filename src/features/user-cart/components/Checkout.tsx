@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { Button, Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { CheckoutForm } from './CheckoutForm'
-import noop from 'lodash/noop'
+import { CartSummary } from './CartSummary'
 
 export const Checkout: FC = () => {
   const navigate = useNavigate()
@@ -46,51 +46,7 @@ export const Checkout: FC = () => {
           </Flex>
           <CheckoutForm />
         </Flex>
-        <Flex
-          display-name="cart-summary"
-          w="32%"
-          h="358px"
-          background="#f2f2f2"
-          p={7}
-          flexDir="column"
-          gap={6}
-          mb="100px"
-        >
-          <Heading>Your Order</Heading>
-          <Flex flexDir="column">
-            <Flex
-              display-name="subtotal"
-              justify="space-between"
-              p="15px 0"
-              borderBottom="1px solid #e6e6e6"
-            >
-              <Text>Subtotal</Text>
-              <Text>{`₹ 10`}</Text>
-            </Flex>
-            <Flex display-name="total" justify="space-between" p="15px 0">
-              <Text>Total</Text>
-              <Text fontSize="3xl">{`₹ 10`}</Text>
-            </Flex>
-          </Flex>
-          <Flex display-name="proceed-to-checkout" justify="center">
-            <Button
-              variant="solid"
-              size="lg"
-              color="white"
-              background="black"
-              _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
-              borderRadius="40px"
-              onClick={noop}
-              w="100%"
-              fontSize="25px"
-              fontWeight="300"
-              type="submit"
-              form="hook-form"
-            >
-              Place Order
-            </Button>
-          </Flex>
-        </Flex>
+        <CartSummary />
       </Flex>
     </Flex>
   )

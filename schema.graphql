@@ -16,6 +16,7 @@ type Mutation {
     addProductToWishlist(userId:ID!, productId: ID!): Boolean!
     removeProductFromWishlist(userId:ID!, productId: ID!): Boolean!
     emptyCart(userId: ID!): Boolean!
+    storeCheckoutDetails(input: StoreCheckoutDetailsInput!): Boolean!
 }
 
 input ProductFilter {
@@ -85,6 +86,18 @@ type CartItem {
     price: Float!
     imageUrl: String!
     quantity: Int!
+}
+
+input StoreCheckoutDetailsInput {
+    userId: ID
+    email: String!
+    name: String!
+    streetAddress: String!
+    apartment: String
+    city: String!
+    pincode: String!
+    state: String!
+    mobileNumber: String!
 }
 
 schema {
