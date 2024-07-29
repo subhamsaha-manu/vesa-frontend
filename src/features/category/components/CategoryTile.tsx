@@ -2,7 +2,7 @@ import { Category } from '@/types'
 import { FC } from 'react'
 import { Flex, Heading, Image } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
-import { lowerCase } from 'lodash'
+import { lowerCase, upperCase } from 'lodash'
 
 type CategoryTileProps = {
   category: Omit<Category, 'description'>
@@ -26,14 +26,20 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
     >
       <Image src={category.imageUrl} alt={category.name} w="100%" h="auto" loading="lazy" />
       <Flex
-        display-name="content-layout-heading-flex"
+        display-name="category-name-flex"
         position="absolute"
-        bottom="40px"
-        left="10px"
+        h="100%"
         p="0 10px"
+        align="center"
+        background="blackAlpha.700"
       >
-        <Heading size={{ base: 'sm', xl: 'xl' }} color="#FFFFFF" fontWeight="500">
-          {category.name}
+        <Heading
+          size={{ base: 'sm', xl: 'lg' }}
+          color="#FFFFFF"
+          fontWeight="700"
+          style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}
+        >
+          {upperCase(category.name)}
         </Heading>
       </Flex>
     </Flex>

@@ -10,6 +10,8 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { AuthenticationProvider } from '@/features/auth/components/AuthenticationProvider'
 import theme from '@/utils/theme'
 import { CategoriesContextProvider, UserCartContextProvider } from '@/context'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const ERROR_HEADING = "Oops! Something's  wrong."
 const ERROR_DESCRIPTION = 'Try refreshing the app.'
