@@ -1,11 +1,22 @@
-import React, { FC, useState } from 'react'
-import { useUserCartQuery } from '@/features/user-cart/apis/userCart.generated'
-import { Button, Flex, Heading, Text } from '@chakra-ui/react'
-import noop from 'lodash/noop'
+import React, { FC, RefObject, useState } from 'react'
+import { useUserCartQuery } from '../apis/userCart.generated'
+import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
 import round from 'lodash/round'
+import { usePlaceOrderMutation } from '../apis/placeOrder.generated'
+import { userCart } from '../apis/userCart'
+import { FieldValues } from 'react-hook-form'
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { ModeOfPayment, PlaceOrderInput } from '@/types'
+import { useNavigate } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
-export const CartSummary: FC = () => {
+type CartSummaryProps = {
+  orderDetailsRef: RefObject<FieldValues | null>
+}
+export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
   const [totalCartAmount, setTotalCartAmount] = useState<number>(0)
+
+  const navigate = useNavigate()
 
   const { data } = useUserCartQuery({
     variables: {
@@ -13,6 +24,9 @@ export const CartSummary: FC = () => {
     },
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
+      if (isEmpty(data.userCart)) {
+        navigate('/cart')
+      }
       const totalAmount = data.userCart.reduce((total, item) => {
         return total + item.price * item.quantity
       }, 0)
@@ -20,6 +34,44 @@ export const CartSummary: FC = () => {
       setTotalCartAmount(round(totalAmount, 2))
     },
   })
+
+  const toast = useToast()
+
+  const [placeOrder, { loading }] = usePlaceOrderMutation({
+    onCompleted: () => {
+      toast({
+        title: 'Order placed successfully',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+      navigate('/')
+    },
+    refetchQueries: [
+      { query: userCart, variables: { userId: '286ead03-759a-4748-a802-e2a5e1fc1371' } },
+    ],
+  })
+
+  const handlePlaceOrderClick = () => {
+    setTimeout(() => {
+      const input: PlaceOrderInput = {
+        userId: '286ead03-759a-4748-a802-e2a5e1fc1371',
+        orderItems: data!.userCart.map((cartItem) => ({
+          productId: cartItem.productId,
+          quantity: cartItem.quantity,
+        })),
+        modeOfPayment: ModeOfPayment.CreditCard,
+        country: 'India',
+        ...orderDetailsRef.current,
+      } as PlaceOrderInput
+
+      void placeOrder({
+        variables: {
+          placeOrderInput: input,
+        },
+      })
+    }, 200)
+  }
 
   return (
     <Flex
@@ -101,12 +153,13 @@ export const CartSummary: FC = () => {
           background="black"
           _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           borderRadius="40px"
-          onClick={noop}
+          onClick={handlePlaceOrderClick}
           w="100%"
           fontSize="25px"
           fontWeight="300"
           type="submit"
           form="hook-form"
+          leftIcon={loading ? <SpinnerContainer size="20px" overflow="unset" /> : <> </>}
         >
           Place Order
         </Button>

@@ -14,7 +14,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import React from 'react'
+import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo from '@/assets/logo/vesa-logo.jpg'
@@ -168,7 +168,7 @@ export const LandingPageHeader = () => {
 type MobileNavProps = {
   handleSignUpClick: () => void
 }
-const MobileNav: React.FC<MobileNavProps> = ({ handleSignUpClick }) => {
+const MobileNav: FC<MobileNavProps> = ({ handleSignUpClick }) => {
   return (
     <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
       <Flex justify="center">

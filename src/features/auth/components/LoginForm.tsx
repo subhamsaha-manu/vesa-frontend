@@ -20,7 +20,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isEmpty } from 'lodash'
 import isNil from 'lodash/isNil'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useForm } from 'react-hook-form'
@@ -42,7 +42,7 @@ const schema = z.object({
 type LoginFormProps = {
   onSuccess: () => void
 }
-export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
+export const LoginForm: FC<LoginFormProps> = ({ onSuccess }) => {
   const {
     handleSubmit,
     register,

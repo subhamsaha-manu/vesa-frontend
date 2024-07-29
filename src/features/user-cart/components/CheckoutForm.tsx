@@ -5,17 +5,10 @@ import {
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
 } from '@/utils/constants'
 import * as z from 'zod'
-import {
-  FieldError,
-  FieldErrorsImpl,
-  FieldValues,
-  Merge,
-  useController,
-  useForm,
-} from 'react-hook-form'
+import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
 import Select from 'react-select'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Flex, FormControl, FormErrorMessage, useToast } from '@chakra-ui/react'
+import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
 import isNil from 'lodash/isNil'
 import { stateOptions } from '../utils/IndianStates'
 import { InputField } from '@/components/form'
@@ -29,32 +22,29 @@ const schema = z.object({
     .regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
       message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
     }),
-  streetAddress: z.string().min(1, 'Street Address is mandatory'),
-  apartment: z.string().optional(),
+  addressLine1: z.string().min(1, 'Street Address is mandatory'),
+  addressLine2: z.string().optional(),
   city: z.string().min(1, 'Town is mandatory'),
   pincode: z.string().min(1, 'Pincode is mandatory').max(7, 'Pincode should be 6 digits'),
   state: z.string().min(1, 'State is mandatory'),
-  mobileNumber: z.string().refine((value) => /^\d{10}$/.test(value), {
+  phoneNumber: z.string().refine((value) => /^\d{10}$/.test(value), {
     message: INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
   }),
 })
-export const CheckoutForm: FC = () => {
+
+type CheckoutFormProps = {
+  onSubmit: (values: FieldValues) => void
+}
+
+export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
   const {
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     control,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
   })
-
-  const toast = useToast()
-
-  const isFieldError = (
-    error: FieldError | Merge<FieldError, FieldErrorsImpl<any>>
-  ): error is FieldError => {
-    return (error as FieldError).message !== undefined
-  }
 
   const {
     field: { value: state, onChange: onStateChange, ...restStateFieldProps },
@@ -73,13 +63,13 @@ export const CheckoutForm: FC = () => {
     }),
   }
 
-  const onSubmit = async (values: FieldValues) => {
-    console.info({ values })
+  const handleFormSubmit = async (values: FieldValues) => {
+    onSubmit(values)
   }
 
   return (
     <Flex display-name="register-form-container" flexDir="column" gap={4}>
-      <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
+      <form id="hook-form" onSubmit={handleSubmit(handleFormSubmit)}>
         <Flex flexDir="column" gap={4} align="stretch">
           <InputField
             fieldName="email"
@@ -96,18 +86,18 @@ export const CheckoutForm: FC = () => {
             isRequired
           />
           <InputField
-            fieldName="streetAddress"
+            fieldName="addressLine1"
             label="Street Address"
             placeholder="House Number and street name"
             control={control}
-            error={errors['streetAddress'] as FieldError}
+            error={errors['addressLine1'] as FieldError}
             isRequired
           />
           <InputField
-            fieldName="apartment"
+            fieldName="addressLine2"
             placeholder="Apartment, suite, unit etc. (optional)"
             control={control}
-            error={errors['apartment'] as FieldError}
+            error={errors['addressLine2'] as FieldError}
           />
           <Flex gap={4}>
             <InputField
@@ -140,10 +130,10 @@ export const CheckoutForm: FC = () => {
             <FormErrorMessage>{errors.state && 'State is mandatory'}</FormErrorMessage>
           </FormControl>
           <InputField
-            fieldName="mobileNumber"
+            fieldName="phoneNumber"
             label="Phone"
             control={control}
-            error={errors['mobileNumber'] as FieldError}
+            error={errors['phoneNumber'] as FieldError}
             isRequired
           />
         </Flex>

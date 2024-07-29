@@ -1,5 +1,5 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
-import React, { ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ContentLayoutProps = {
@@ -7,7 +7,7 @@ type ContentLayoutProps = {
   children: ReactNode
   showFullPageScroll?: boolean
 }
-export const ContentLayout: React.FC<ContentLayoutProps> = ({
+export const ContentLayout: FC<ContentLayoutProps> = ({
   pageTitle,
   children,
   showFullPageScroll,

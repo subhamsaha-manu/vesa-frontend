@@ -1,13 +1,13 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 import { LandingPageHeader } from '@/features/Header'
 import { Footer } from '@/features/Footer'
 
 type MainLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
     <>
       <LandingPageHeader />

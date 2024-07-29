@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Layout } from '@/components/Layout'
 import { RegisterForm } from '@/features/auth'
 import { storage } from '@/utils/storage'
 
-export const Register: React.FC = () => {
+export const Register: FC = () => {
   const navigate = useNavigate()
 
   const [from, setFrom] = useState<string>('/app')

@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import React, { createContext, ReactNode, useContext, useMemo, useState } from 'react'
+import React, { createContext, FC, ReactNode, useContext, useMemo, useState } from 'react'
 
 import { storage } from '@/utils/storage'
 
@@ -15,7 +15,7 @@ type AuthenticationProviderProps = {
 const AuthenticationContext = createContext<AuthenticationContextType>(
   {} as AuthenticationContextType
 )
-export const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({ children }) => {
+export const AuthenticationProvider: FC<AuthenticationProviderProps> = ({ children }) => {
   const token = storage.getItem('AUTH_TOKEN')
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!isEmpty(token))
 

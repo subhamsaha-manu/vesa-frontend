@@ -1,11 +1,20 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback, useRef, useState } from 'react'
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { CheckoutForm } from './CheckoutForm'
 import { CartSummary } from './CartSummary'
+import { FieldValues } from 'react-hook-form'
 
 export const Checkout: FC = () => {
   const navigate = useNavigate()
+
+  const [orderDetails, setOrderDetails] = useState<FieldValues | null>(null)
+  const orderDetailsRef = useRef(orderDetails)
+
+  const handleFormSubmit = useCallback(async (values: FieldValues) => {
+    setOrderDetails(values)
+    orderDetailsRef.current = values
+  }, [])
 
   return (
     <Flex display-name="checkout-flex" flexDir="column" w="100%" maxW="1310px">
@@ -44,9 +53,9 @@ export const Checkout: FC = () => {
           <Flex display-name="billing-form-heading" w="100%">
             <Text fontSize="3xl">Billing Details</Text>
           </Flex>
-          <CheckoutForm />
+          <CheckoutForm onSubmit={handleFormSubmit} />
         </Flex>
-        <CartSummary />
+        <CartSummary orderDetailsRef={orderDetailsRef} />
       </Flex>
     </Flex>
   )

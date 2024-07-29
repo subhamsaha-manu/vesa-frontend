@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC } from 'react'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Searchable from 'react-searchable-dropdown'
@@ -18,7 +18,7 @@ const SearchableWrapper = styled.div`
     width: 300px;
   }
 `
-export const SearchableComponent: React.FC<SearchableComponentProps> = ({
+export const SearchableComponent: FC<SearchableComponentProps> = ({
   items,
   selectedItem,
   onSelectionChange,

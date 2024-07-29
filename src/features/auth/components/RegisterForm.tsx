@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login'
 import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useForm } from 'react-hook-form'
@@ -42,7 +42,7 @@ const schema = z.object({
   mobileNumber: z.string(),
   password: z.string().min(1, 'Required'),
 })
-export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
+export const RegisterForm: FC<RegisterFormProps> = ({ onSuccess }) => {
   const {
     handleSubmit,
     register,

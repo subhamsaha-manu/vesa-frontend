@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
@@ -28,7 +28,7 @@ const schema = z.object({
   oldPassword: z.string().min(1, 'Required'),
   newPassword: z.string().min(1, 'Required'),
 })
-export const ChangePassword: React.FC = () => {
+export const ChangePassword: FC = () => {
   const {
     handleSubmit,
     register,

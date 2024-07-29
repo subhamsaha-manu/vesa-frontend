@@ -5,6 +5,7 @@ type Query {
     categories: [Category!]!
     userCart(userId: ID!): [CartItem!]!
     userWishlist(userId: ID!): [MinifiedProduct!]!
+    orders(userId: ID!): [Order!]!
 }
 
 type Mutation {
@@ -16,7 +17,7 @@ type Mutation {
     addProductToWishlist(userId:ID!, productId: ID!): Boolean!
     removeProductFromWishlist(userId:ID!, productId: ID!): Boolean!
     emptyCart(userId: ID!): Boolean!
-    storeCheckoutDetails(input: StoreCheckoutDetailsInput!): Boolean!
+    placeOrder(placeOrderInput: PlaceOrderInput!): Boolean!
 }
 
 input ProductFilter {
@@ -88,16 +89,66 @@ type CartItem {
     quantity: Int!
 }
 
-input StoreCheckoutDetailsInput {
-    userId: ID
+input PlaceOrderInput {
+    userId: ID!
     email: String!
+    phoneNumber: String!
     name: String!
-    streetAddress: String!
-    apartment: String
+    addressLine1: String!
+    addressLine2: String
     city: String!
-    pincode: String!
     state: String!
-    mobileNumber: String!
+    country: String!
+    pincode: String!
+    orderItems: [OrderItemInput!]!
+    modeOfPayment: ModeOfPayment!
+}
+
+input OrderItemInput {
+    productId: ID!
+    quantity: Int!
+}
+
+enum ModeOfPayment {
+    CREDIT_CARD,
+    DEBIT_CARD,
+    NET_BANKING,
+    UPI,
+    COD
+}
+
+type Order {
+    orderId: ID!
+    userId: ID!
+    email: String!
+    phoneNumber: String!
+    name: String!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String!
+    country: String!
+    pincode: String!
+    orderItems: [OrderItem!]!
+    modeOfPayment: ModeOfPayment!
+    orderDate: String!
+    orderStatus: OrderStatus!
+}
+
+type OrderItem {
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    quantity: Int!
+}
+
+enum OrderStatus {
+    PENDING,
+    CONFIRMED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
 }
 
 schema {

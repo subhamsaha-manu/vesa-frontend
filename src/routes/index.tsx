@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
 import { protectedRoutes } from './protected'
@@ -15,7 +15,7 @@ import { CategoryProducts, ProductDetails } from '@/features/product'
 import { Checkout, UserCart } from '@/features/user-cart'
 import { UserWishlist } from '@/features/user-wishlist'
 
-const AboutUs = React.lazy(() => import('@/features/about-us'))
+const AboutUs = lazy(() => import('@/features/about-us'))
 
 const App = () => {
   return (
