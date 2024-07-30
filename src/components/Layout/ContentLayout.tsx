@@ -1,30 +1,41 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import React, { FC, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Home01Icon } from 'hugeicons-react'
 
 type ContentLayoutProps = {
   pageTitle: string
   children: ReactNode
   showFullPageScroll?: boolean
+  showHeaderTitle?: boolean
 }
 export const ContentLayout: FC<ContentLayoutProps> = ({
   pageTitle,
   children,
   showFullPageScroll,
+  showHeaderTitle,
 }) => {
   const navigate = useNavigate()
 
   return (
     <>
-      <Flex display-name="breadcrumb-layout-heading-flex" w="100%" p="5px 15px" gap={2}>
-        <Text
-          fontSize="md"
-          color="gray"
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
+      <Flex
+        display-name="breadcrumb-layout-heading-flex"
+        w="100%"
+        maxW="1310px"
+        p="40px 15px 5px 15px"
+        gap={2}
+      >
+        <Flex
           onClick={() => navigate('/')}
+          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
+          gap={2}
         >
-          Home
-        </Text>
+          <Home01Icon size={20} color="#000000" />
+          <Text fontSize="md" color="gray">
+            Home
+          </Text>
+        </Flex>
         <Text fontSize="md" color="gray">
           {`>`}
         </Text>
@@ -38,10 +49,10 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
         pb={{ base: '150px', xl: showFullPageScroll ? '80px' : '16px' }}
         gap={8}
         display-name={`${pageTitle}-content-layout-container`}
-        // w={{ base: '100%', xl: '87%' }}
         w="100%"
-        h="auto"
-        // overflowY={showFullPageScroll ? 'scroll' : 'hidden'}
+        maxW="1310px"
+        minH={{ base: 'calc(100vh - 231px)', xl: 'calc(100vh - 231px)' }}
+        overflowY={showFullPageScroll ? 'scroll' : 'hidden'}
         style={{
           color: '#485465',
           backgroundColor: '#fff',
@@ -49,12 +60,13 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
           // boxShadow: '0 12px 20px 0 rgba(0,0,0,.05)',
         }}
       >
-        <Flex display-name="content-layout-heading-flex" w="100%" justify="center">
-          <Heading size="xl" color="#1E355B" fontWeight="500">
-            {pageTitle}
-          </Heading>
-        </Flex>
-
+        {showHeaderTitle && (
+          <Flex display-name="content-layout-heading-flex" w="100%" justify="center">
+            <Heading size="xl" color="#1E355B" fontWeight="500">
+              {pageTitle}
+            </Heading>
+          </Flex>
+        )}
         {children}
       </Flex>
     </>

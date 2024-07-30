@@ -7,6 +7,7 @@ import { Delete02Icon } from 'hugeicons-react'
 import { useEmptyCartMutation } from '../apis/emptyCart.generated'
 import { EmptyCart } from './EmptyCart'
 import { CartContent } from './CartContent'
+import { ContentLayout } from '@/components/Layout'
 
 export const UserCart: FC = () => {
   const navigate = useNavigate()
@@ -40,23 +41,7 @@ export const UserCart: FC = () => {
   }
 
   return (
-    <Flex display-name="user-cart-flex" flexDir="column" w="100%" maxW="1310px">
-      <Flex display-name="breadcrumb-layout-heading-flex-user-cart" w="100%" p="5px 0" gap={2}>
-        <Text
-          fontSize="md"
-          color="gray"
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
-          onClick={() => navigate('/')}
-        >
-          Home
-        </Text>
-        <Text fontSize="md" color="gray">
-          {`>`}
-        </Text>
-        <Text fontSize="md" as="b" color="gray">
-          Shopping Cart
-        </Text>
-      </Flex>
+    <ContentLayout pageTitle="user-cart" showFullPageScroll>
       <Flex display-name="main-cart-section" w="100%" gap={6} pt="30px" flexDir="column">
         <Flex display-name="heading-flex" w="100%" align="center" gap={6}>
           <Flex display-name="heading-flex" align="center">
@@ -107,6 +92,6 @@ export const UserCart: FC = () => {
           <CartContent cartItems={data.userCart} refetchCart={refetch} />
         )}
       </Flex>
-    </Flex>
+    </ContentLayout>
   )
 }

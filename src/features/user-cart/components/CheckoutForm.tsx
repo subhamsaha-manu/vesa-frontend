@@ -68,7 +68,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
   }
 
   return (
-    <Flex display-name="register-form-container" flexDir="column" gap={4}>
+    <Flex display-name="checkout-form-container" flexDir="column" gap={4}>
       <form id="hook-form" onSubmit={handleSubmit(handleFormSubmit)}>
         <Flex flexDir="column" gap={4} align="stretch">
           <InputField

@@ -9,6 +9,10 @@ export const Footer = () => {
       flexDir="column"
       color={useColorModeValue('gray.700', 'gray.200')}
       borderTop="1px solid #e6e6e6"
+      display-name="app-footer"
+      position="relative"
+      bottom="0"
+      left="0"
     >
       <Flex
         w="100%"

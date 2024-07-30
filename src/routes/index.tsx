@@ -16,6 +16,7 @@ import { Checkout, UserCart } from '@/features/user-cart'
 import { UserWishlist } from '@/features/user-wishlist'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
+const ContactUs = lazy(() => import('@/features/contact-us'))
 
 const App = () => {
   return (
@@ -40,28 +41,32 @@ export const AppRoutes = () => {
           element: <Dashboard />,
         },
         {
-          path: '/product-category/:categoryName',
+          path: 'product-category/:categoryName',
           element: <CategoryProducts />,
         },
         {
-          path: '/product/:productId',
+          path: 'product/:productId',
           element: <ProductDetails />,
         },
         {
-          path: '/cart',
+          path: 'cart',
           element: <UserCart />,
         },
         {
-          path: '/wishlist',
+          path: 'wishlist',
           element: <UserWishlist />,
         },
         {
-          path: '/checkout',
+          path: 'checkout',
           element: <Checkout />,
         },
         {
           path: 'about-us',
           element: <AboutUs />,
+        },
+        {
+          path: 'contact-us',
+          element: <ContactUs />,
         },
       ],
     },

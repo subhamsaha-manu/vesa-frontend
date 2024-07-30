@@ -16,7 +16,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           display-name="main-layout-flex-container"
           flexDir="column"
           m="0 auto"
-          width={{ base: '100%', xl: '1630px' }}
+          width={{ base: '100%' }}
           alignItems="center"
         >
           {children}

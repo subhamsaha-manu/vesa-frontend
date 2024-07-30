@@ -5,6 +5,7 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
+import { ContentLayout } from '@/components/Layout'
 
 type ProductParamType = {
   productId: string
@@ -25,28 +26,7 @@ export const ProductDetails: FC = () => {
   }
 
   return (
-    <Flex display-name="product-details-flex" flexDir="column" w="100%" maxW="1310px">
-      <Flex
-        display-name="breadcrumb-layout-heading-flex-product-details"
-        w="100%"
-        p="5px 0"
-        gap={2}
-      >
-        <Text
-          fontSize="md"
-          color="gray"
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
-          onClick={() => navigate('/')}
-        >
-          Home
-        </Text>
-        <Text fontSize="md" color="gray">
-          {`>`}
-        </Text>
-        <Text fontSize="md" as="b" color="gray">
-          {data.product.title}
-        </Text>
-      </Flex>
+    <ContentLayout pageTitle={data.product.title} showFullPageScroll>
       <Flex display-name="main-product-section" w="100%" gap={6} pt="30px">
         <Flex display-name="product-gallery" position="relative" w="57%" pl="104px">
           <Flex display-name="primary-image" position="relative" overflow="hidden" h="597px">
@@ -112,6 +92,6 @@ export const ProductDetails: FC = () => {
           </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </ContentLayout>
   )
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { CheckoutForm } from './CheckoutForm'
 import { CartSummary } from './CartSummary'
 import { FieldValues } from 'react-hook-form'
+import { ContentLayout } from '@/components/Layout'
 
 export const Checkout: FC = () => {
   const navigate = useNavigate()
@@ -17,23 +18,7 @@ export const Checkout: FC = () => {
   }, [])
 
   return (
-    <Flex display-name="checkout-flex" flexDir="column" w="100%" maxW="1310px">
-      <Flex display-name="breadcrumb-layout-heading-flex-user-cart" w="100%" p="5px 0" gap={2}>
-        <Text
-          fontSize="md"
-          color="gray"
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
-          onClick={() => navigate('/')}
-        >
-          Home
-        </Text>
-        <Text fontSize="md" color="gray">
-          {`>`}
-        </Text>
-        <Text fontSize="md" as="b" color="gray">
-          Checkout
-        </Text>
-      </Flex>
+    <ContentLayout pageTitle="checkout">
       <Flex display-name="main-cart-section" w="100%" gap={6} pt="30px" flexDir="column">
         <Flex display-name="heading-flex" w="100%" align="center" gap={6}>
           <Flex display-name="heading-flex" align="center">
@@ -57,6 +42,6 @@ export const Checkout: FC = () => {
         </Flex>
         <CartSummary orderDetailsRef={orderDetailsRef} />
       </Flex>
-    </Flex>
+    </ContentLayout>
   )
 }

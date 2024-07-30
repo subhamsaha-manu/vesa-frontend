@@ -18,6 +18,7 @@ type Mutation {
     removeProductFromWishlist(userId:ID!, productId: ID!): Boolean!
     emptyCart(userId: ID!): Boolean!
     placeOrder(placeOrderInput: PlaceOrderInput!): Boolean!
+    contactUs(name: String!, email: String!, phoneNumber: String!): Boolean!
 }
 
 input ProductFilter {

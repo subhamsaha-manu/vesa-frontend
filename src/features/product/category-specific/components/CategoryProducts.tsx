@@ -2,8 +2,9 @@ import React, { FC } from 'react'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import { useNavigate, useParams } from 'react-router-dom'
 import { startCase, upperCase } from 'lodash'
-import { Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, Heading } from '@chakra-ui/react'
 import { Catalogue } from '@/features/product'
+import { ContentLayout } from '@/components/Layout'
 
 type CategoryParams = {
   categoryName: string
@@ -21,28 +22,7 @@ export const CategoryProducts: FC = () => {
     categories.find((category) => category.name === transformedCategoryName)?.categoryId ?? ''
 
   return (
-    <Flex display-name="category-products-flex" flexDir="column" w="100%" maxW="1310px">
-      <Flex
-        display-name="breadcrumb-layout-heading-flex-category-product"
-        w="100%"
-        p="15px 0"
-        gap={2}
-      >
-        <Text
-          fontSize="md"
-          color="gray"
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
-          onClick={() => navigate('/')}
-        >
-          Home
-        </Text>
-        <Text fontSize="md" color="gray">
-          {`>`}
-        </Text>
-        <Text fontSize="md" as="b" color="gray">
-          {`${transformedCategoryName}`}
-        </Text>
-      </Flex>
+    <ContentLayout pageTitle={`${transformedCategoryName}`}>
       <Flex
         flexDir="column"
         p={{ base: '8px', xl: '0' }}
@@ -65,6 +45,6 @@ export const CategoryProducts: FC = () => {
 
         <Catalogue categoryIds={[categoryId]} />
       </Flex>
-    </Flex>
+    </ContentLayout>
   )
 }
