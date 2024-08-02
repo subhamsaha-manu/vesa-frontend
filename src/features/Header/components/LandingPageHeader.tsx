@@ -128,7 +128,7 @@ export const LandingPageHeader = () => {
           display-name="landing-page-header-icons-flex"
           gap={8}
         >
-          <UserIcon size={22} />
+          <UserIcon size={22} style={{ cursor: 'pointer' }} onClick={() => navigate('/account')} />
           <UserWishlistHeaderIcon />
           <UserCartHeaderIcon />
         </Flex>

@@ -1,6 +1,6 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { whenDev } = require('@craco/craco')
 const { NoEmitOnErrorsPlugin } = require('webpack')
 const PORT = 3002

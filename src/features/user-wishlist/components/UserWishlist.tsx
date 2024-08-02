@@ -7,7 +7,7 @@ import { WishlistContent } from './WishlistContent'
 import { EmptyWishlist } from './EmptyWishlist'
 import { ContentLayout } from '@/components/Layout'
 
-export const UserWishlist: FC = () => {
+const UserWishlist: FC = () => {
   const navigate = useNavigate()
 
   const { data, loading, refetch } = useUserWishlistQuery({
@@ -38,3 +38,5 @@ export const UserWishlist: FC = () => {
     </ContentLayout>
   )
 }
+
+export default UserWishlist

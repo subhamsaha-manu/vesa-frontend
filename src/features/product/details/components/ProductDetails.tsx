@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useProductQuery } from '../apis/product.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
+
+import { ContentLayout } from '@/components/Layout'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
-import { ContentLayout } from '@/components/Layout'
 
 type ProductParamType = {
   productId: string

@@ -9,7 +9,7 @@ import { EmptyCart } from './EmptyCart'
 import { CartContent } from './CartContent'
 import { ContentLayout } from '@/components/Layout'
 
-export const UserCart: FC = () => {
+const UserCart: FC = () => {
   const navigate = useNavigate()
   const [totalCartItems, setTotalCartItems] = useState<number>(0)
 
@@ -95,3 +95,5 @@ export const UserCart: FC = () => {
     </ContentLayout>
   )
 }
+
+export default UserCart
