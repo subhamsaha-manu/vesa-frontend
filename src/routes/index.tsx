@@ -20,8 +20,9 @@ const ContactUs = lazy(() => import('@/features/contact-us'))
 const UserCart = lazy(() => import('@/features/user-cart'))
 
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
-const Addresses = lazy(() => import('@/features/user-shipping-address'))
+const UserAccount = lazy(() => import('@/features/account'))
 const Orders = lazy(() => import('@/features/user-order-history'))
+const Addresses = lazy(() => import('@/features/user-shipping-address'))
 
 const App = () => {
   return (
@@ -38,61 +39,38 @@ const App = () => {
 export const AppRoutes = () => {
   const { isAuthenticated } = useAuthenticationContext()
 
-  const commonRoute = [
+  const accountRoutes = {
+    path: 'account',
+    element: <UserAccount />,
+    children: [
+      { path: 'addresses', element: <Addresses /> },
+      { path: 'orders', element: <Orders /> },
+    ],
+  }
+
+  const commonRoutes = [
     {
       path: '/',
       element: <App />,
       children: [
-        {
-          path: '/',
-          element: <Dashboard />,
-        },
-        {
-          path: 'product-category/:categoryName',
-          element: <CategoryProducts />,
-        },
-        {
-          path: 'product/:productId',
-          element: <ProductDetails />,
-        },
-        {
-          path: 'cart',
-          element: <UserCart />,
-        },
-        {
-          path: 'wishlist',
-          element: <UserWishlist />,
-        },
-        {
-          path: 'checkout',
-          element: <Checkout />,
-        },
-        {
-          path: 'about-us',
-          element: <AboutUs />,
-        },
-        {
-          path: 'contact-us',
-          element: <ContactUs />,
-        },
-        {
-          path: '/account',
-          element: <Addresses />,
-        },
-        {
-          path: '/orders',
-          element: <Orders />,
-        },
+        { path: '/', element: <Dashboard /> },
+        { path: 'product-category/:categoryName', element: <CategoryProducts /> },
+        { path: 'product/:productId', element: <ProductDetails /> },
+        { path: 'cart', element: <UserCart /> },
+        { path: 'wishlist', element: <UserWishlist /> },
+        { path: 'checkout', element: <Checkout /> },
+        { path: 'about-us', element: <AboutUs /> },
+        { path: 'contact-us', element: <ContactUs /> },
+        accountRoutes,
       ],
-    },
-    {
-      path: '*',
-      element: <Navigate to="/" replace />,
     },
   ]
 
-  const routes = isAuthenticated ? protectedRoutes : publicRoutes
-  const element = useRoutes([...routes, ...commonRoute])
+  const fallbackRoute = { path: '*', element: <Navigate to="/" replace /> }
 
-  return <>{element}</>
+  const routes = isAuthenticated
+    ? [...commonRoutes, ...protectedRoutes]
+    : [...commonRoutes, ...publicRoutes, fallbackRoute]
+
+  return useRoutes(routes)
 }

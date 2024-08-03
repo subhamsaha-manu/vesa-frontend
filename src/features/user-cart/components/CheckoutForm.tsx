@@ -13,6 +13,7 @@ import isNil from 'lodash/isNil'
 import { stateOptions } from '../utils/IndianStates'
 import { InputField } from '@/components/form'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -35,12 +36,14 @@ const schema = z.object({
 
 type CheckoutFormProps = {
   onSubmit: (values: FieldValues) => void
+  selectedAddressId?: string
 }
 
-export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
+export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressId }) => {
   const {
-    currentUser: { email, phoneNumber, name },
+    currentUser: { userId, email, phoneNumber, name },
   } = useCurrentUserContext()
+
   const {
     handleSubmit,
     formState: { errors },
@@ -49,6 +52,20 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
+  })
+
+  const [getShippingAddress] = useShippingAddressLazyQuery({
+    variables: {
+      userId,
+      addressId: selectedAddressId!,
+    },
+    onCompleted: (data) => {
+      setValue('addressLine1', data.shippingAddress.addressLine1)
+      setValue('addressLine2', data.shippingAddress.addressLine2)
+      setValue('city', data.shippingAddress.city)
+      setValue('pincode', data.shippingAddress.pincode)
+      setValue('state', data.shippingAddress.state)
+    },
   })
 
   const {
@@ -73,6 +90,12 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
     setValue('name', name)
     setValue('phoneNumber', phoneNumber)
   }, [])
+
+  useEffect(() => {
+    if (selectedAddressId) {
+      void getShippingAddress()
+    }
+  }, [selectedAddressId])
 
   const handleFormSubmit = async (values: FieldValues) => {
     onSubmit(values)

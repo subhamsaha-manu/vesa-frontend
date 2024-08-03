@@ -128,7 +128,17 @@ export const LandingPageHeader = () => {
           display-name="landing-page-header-icons-flex"
           gap={8}
         >
-          <UserIcon size={22} style={{ cursor: 'pointer' }} onClick={() => navigate('/account')} />
+          <Flex
+            display-name="user-account-header-icon"
+            gap={2}
+            _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
+          >
+            <UserIcon
+              size={22}
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate('/account')}
+            />
+          </Flex>
           <UserWishlistHeaderIcon />
           <UserCartHeaderIcon />
         </Flex>

@@ -5,11 +5,13 @@ import { CheckoutForm } from './CheckoutForm'
 import { CartSummary } from './CartSummary'
 import { FieldValues } from 'react-hook-form'
 import { ContentLayout } from '@/components/Layout'
+import { AddressListDropdown } from '@/features/user-shipping-address'
 
 export const Checkout: FC = () => {
   const navigate = useNavigate()
 
   const [orderDetails, setOrderDetails] = useState<FieldValues | null>(null)
+  const [selectedAddressId, setSelectedAddressId] = useState<string>()
   const orderDetailsRef = useRef(orderDetails)
 
   const handleFormSubmit = useCallback(async (values: FieldValues) => {
@@ -35,10 +37,11 @@ export const Checkout: FC = () => {
           flexDir="column"
           gap={6}
         >
-          <Flex display-name="billing-form-heading" w="100%">
+          <Flex display-name="billing-form-heading" w="100%" justify="space-between" align="center">
             <Text fontSize="3xl">Billing Details</Text>
+            <AddressListDropdown onSelect={(addressId) => setSelectedAddressId(addressId)} />
           </Flex>
-          <CheckoutForm onSubmit={handleFormSubmit} />
+          <CheckoutForm onSubmit={handleFormSubmit} selectedAddressId={selectedAddressId} />
         </Flex>
         <CartSummary orderDetailsRef={orderDetailsRef} />
       </Flex>

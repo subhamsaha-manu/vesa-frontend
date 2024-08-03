@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react'
-import { ContentLayout } from '@/components/Layout'
 import { useShippingAddressesQuery } from '../apis/shippingAddresses.generated'
 import {
   Button,
@@ -75,8 +74,8 @@ const Addresses: FC = () => {
 
   return (
     <>
-      <ContentLayout pageTitle="Account" showFullPageScroll>
-        <Flex display-name="account-header-section" justify="space-between" w="100%">
+      <Flex w="100%" flexDir="column" gap={5}>
+        <Flex display-name="addresses-header-section" justify="space-between" w="100%">
           <Text fontSize="md" as="b" color="gray">
             Addresses
           </Text>
@@ -92,15 +91,7 @@ const Addresses: FC = () => {
           </Button>
         </Flex>
 
-        <Flex
-          display-name="addresses-section"
-          w="100%"
-          gap={6}
-          pt="30px"
-          borderTop="1px solid #d5d5d5"
-          borderBottom="1px solid #d5d5d5"
-          flexDir="column"
-        >
+        <Flex display-name="addresses-section" w="100%" gap={6} pt="30px" flexDir="column">
           {data.shippingAddresses.map((address) => (
             <AddressCard
               key={address.addressId}
@@ -112,7 +103,7 @@ const Addresses: FC = () => {
             />
           ))}
         </Flex>
-      </ContentLayout>
+      </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
