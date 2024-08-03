@@ -1,35 +1,28 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
+import { CurrentUserContextType } from './types'
+import { User } from '@/types'
+import { useUserDetailQuery } from './apis/getCurrentUserDetails.generated'
 
-import { getCurrentUserDetails } from './apis/getCurrentUserDetails'
-
-import { CURRENT_USER } from '@/utils/constants'
-import { storage } from '@/utils/storage'
-
-export type CurrentUserType = {
-  readonly phone: string
-  readonly name: string
-  readonly email: string
-  readonly state: string
-  readonly isAdmin: boolean
-}
-
-type CurrentUserContextType = {
-  currentUser: CurrentUserType
-  setCurrentUser: (param: CurrentUserType) => void
-}
 const CurrentUserContext = createContext<CurrentUserContextType>({} as CurrentUserContextType)
+
 export const CurrentUserContextProvider: FC<{
   value?: CurrentUserContextType
   children: ReactNode
 }> = (props) => {
-  const [currentUser, setCurrentUser] = useState<CurrentUserType>({} as CurrentUserType)
+  const [currentUser, setCurrentUser] = useState<User>({} as User)
+
+  const { data } = useUserDetailQuery({
+    variables: {
+      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+    },
+    fetchPolicy: 'network-only',
+  })
 
   useEffect(() => {
-    getCurrentUserDetails().then((res) => {
-      setCurrentUser(res.data)
-      storage.setItem(CURRENT_USER, res.data)
-    })
-  }, [])
+    if (data) {
+      setCurrentUser(data.userDetail)
+    }
+  }, [data])
 
   const context = useMemo(
     () => ({

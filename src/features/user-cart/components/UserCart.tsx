@@ -8,21 +8,25 @@ import { useEmptyCartMutation } from '../apis/emptyCart.generated'
 import { EmptyCart } from './EmptyCart'
 import { CartContent } from './CartContent'
 import { ContentLayout } from '@/components/Layout'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const UserCart: FC = () => {
   const navigate = useNavigate()
   const [totalCartItems, setTotalCartItems] = useState<number>(0)
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
 
   const { data, loading, refetch } = useUserCartQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })
 
   const [emptyCart, { loading: emptyingCart }] = useEmptyCartMutation({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     onCompleted: () => refetch(),
   })

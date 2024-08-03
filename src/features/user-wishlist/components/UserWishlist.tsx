@@ -1,18 +1,20 @@
 import React, { FC } from 'react'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
 import { useUserWishlistQuery } from '../apis/userWishlist.generated'
 import { WishlistContent } from './WishlistContent'
 import { EmptyWishlist } from './EmptyWishlist'
 import { ContentLayout } from '@/components/Layout'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const UserWishlist: FC = () => {
-  const navigate = useNavigate()
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
 
   const { data, loading, refetch } = useUserWishlistQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })

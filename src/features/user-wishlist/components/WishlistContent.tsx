@@ -4,6 +4,7 @@ import { MultiplicationSignIcon } from 'hugeicons-react'
 import { useNavigate } from 'react-router-dom'
 import { MinifiedProduct } from '@/types'
 import { useRemoveProductFromWishlistMutation } from '../apis/removeProductFromWishlist.generated'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type WishlistContentProps = {
   wishlistItems: Array<Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>>
@@ -12,6 +13,10 @@ type WishlistContentProps = {
 export const WishlistContent: FC<WishlistContentProps> = ({ wishlistItems, refetchWishlist }) => {
   const navigate = useNavigate()
 
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
+  
   const [removeProductFromWishlist] = useRemoveProductFromWishlistMutation({
     onCompleted: () => {
       refetchWishlist()
@@ -39,7 +44,7 @@ export const WishlistContent: FC<WishlistContentProps> = ({ wishlistItems, refet
                     onClick={() => {
                       void removeProductFromWishlist({
                         variables: {
-                          userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+                          userId,
                           productId,
                         },
                       })

@@ -20,6 +20,7 @@ import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.
 import AdjustQuantity from '@/components/elements/AdjustQuantity'
 import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import round from 'lodash/round'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type CartContentProps = {
   cartItems: Array<CartItem>
@@ -27,6 +28,10 @@ type CartContentProps = {
 }
 export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) => {
   const navigate = useNavigate()
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
+  
   const [totalCartAmount, setTotalCartAmount] = useState<number>(0)
 
   const calculateTotalCartAmount = () => {
@@ -78,7 +83,7 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
                     onClick={() => {
                       void removeProductFromCart({
                         variables: {
-                          userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+                          userId,
                           productId,
                           removeAll: true,
                         },
@@ -104,7 +109,7 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
                       onIncrement={() =>
                         void addProductToCart({
                           variables: {
-                            userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+                            userId,
                             productId,
                           },
                         })
@@ -112,7 +117,7 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
                       onDecrement={() =>
                         void removeProductFromCart({
                           variables: {
-                            userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+                            userId,
                             productId,
                             removeAll: false,
                           },

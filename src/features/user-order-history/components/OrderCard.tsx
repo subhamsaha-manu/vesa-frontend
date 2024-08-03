@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { Order } from '@/types'
+import { MinifiedOrder } from '@/types'
 import { Flex, Text } from '@chakra-ui/react'
 
 type OrderCardProps = {
-  readonly order: Order
+  readonly order: MinifiedOrder
 }
 export const OrderCard: FC<OrderCardProps> = ({ order }) => {
   return (

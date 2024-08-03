@@ -5,18 +5,21 @@ import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useNavigate } from 'react-router-dom'
 import { userCart } from '../apis/userCart'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type AddToCartProps = {
   productId: string
 }
 export const AddToCart: FC<AddToCartProps> = ({ productId }) => {
   const [addedToCart, setAddedToCart] = useState<boolean>(false)
-
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
   const navigate = useNavigate()
 
   const [addToCart, { loading }] = useAddProductToCartMutation({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
       productId,
     },
     refetchQueries: [

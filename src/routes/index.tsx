@@ -13,6 +13,7 @@ import { Dashboard } from '@/features/dashboard'
 
 import { CategoryProducts, ProductDetails } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
+import { CurrentUserContextProvider } from '@/context'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
 const ContactUs = lazy(() => import('@/features/contact-us'))
@@ -24,11 +25,13 @@ const Orders = lazy(() => import('@/features/user-order-history'))
 
 const App = () => {
   return (
-    <MainLayout>
-      <Suspense fallback={<SpinnerContainer />}>
-        <Outlet />
-      </Suspense>
-    </MainLayout>
+    <CurrentUserContextProvider>
+      <MainLayout>
+        <Suspense fallback={<SpinnerContainer />}>
+          <Outlet />
+        </Suspense>
+      </MainLayout>
+    </CurrentUserContextProvider>
   )
 }
 

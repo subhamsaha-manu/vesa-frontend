@@ -7,7 +7,10 @@ type Query {
     userWishlist(userId: ID!): [MinifiedProduct!]!
     shippingAddresses(userId: ID!): [ShippingAddress!]!
     shippingAddress(userId: ID!, addressId: ID!): ShippingAddress!
-    userOrderHistory(userId: ID!): [Order!]!
+    userOrderHistory(userId: ID!): [MinifiedOrder!]!
+    userDetail(userId: ID!): User!
+    userAddressesMinified(userId: ID!): [MinifiedShippingAddress!]!
+    orderDetails(orderId: ID!): Order!
 }
 
 type Mutation {
@@ -185,6 +188,28 @@ type ShippingAddress {
     country: String!
     pincode: String!
     addressType: AddressType!
+    isDefault: Boolean!
+}
+
+type User {
+    userId: ID!
+    name: String!
+    email: String
+    phoneNumber: String
+    isAdmin: Boolean!
+    state: String!
+}
+
+type MinifiedOrder {
+    orderId: ID!
+    orderDate: String!
+    orderStatus: OrderStatus!
+    orderTotal: Float!
+}
+
+type MinifiedShippingAddress {
+    addressId: ID!
+    name: String!
     isDefault: Boolean!
 }
 

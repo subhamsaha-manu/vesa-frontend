@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import {
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -12,6 +12,7 @@ import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
 import isNil from 'lodash/isNil'
 import { stateOptions } from '../utils/IndianStates'
 import { InputField } from '@/components/form'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -38,9 +39,13 @@ type CheckoutFormProps = {
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
   const {
+    currentUser: { email, phoneNumber, name },
+  } = useCurrentUserContext()
+  const {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -62,6 +67,12 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit }) => {
       borderColor: errors.state ? 'red' : base.borderColor,
     }),
   }
+
+  useEffect(() => {
+    setValue('email', email)
+    setValue('name', name)
+    setValue('phoneNumber', phoneNumber)
+  }, [])
 
   const handleFormSubmit = async (values: FieldValues) => {
     onSubmit(values)

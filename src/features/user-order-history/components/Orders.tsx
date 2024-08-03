@@ -4,11 +4,16 @@ import { Flex, Text } from '@chakra-ui/react'
 import { useUserOrderHistoryQuery } from '../apis/userOrderHistory.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { OrderCard } from './OrderCard'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const Orders: FC = () => {
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
+  
   const { data, loading: fetchingOrders } = useUserOrderHistoryQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })

@@ -6,16 +6,20 @@ import { useAddProductToWishlistMutation } from '../apis/addProductToWishlist.ge
 import { Text } from '@chakra-ui/layout'
 import { userWishlist } from '../apis/userWishlist'
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type AddToWishlistProps = {
   productId: string
 }
 export const AddToWishlist: FC<AddToWishlistProps> = ({ productId }) => {
   const { wishlistItems } = useUserCartContextProvider()
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
 
   const [addToWishlist, { loading }] = useAddProductToWishlistMutation({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
       productId,
     },
     refetchQueries: [
