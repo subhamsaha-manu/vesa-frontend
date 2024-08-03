@@ -29,7 +29,7 @@ const Addresses: FC = () => {
 
   const { data, loading: fetchingAllAddresses } = useShippingAddressesQuery({
     variables: {
-      userId: '286ead03-759a-4748-a802-e2a5e1fc1371',
+      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
     },
     fetchPolicy: 'network-only',
   })
@@ -46,7 +46,7 @@ const Addresses: FC = () => {
       onClose()
     },
     refetchQueries: [
-      { query: shippingAddresses, variables: { userId: '286ead03-759a-4748-a802-e2a5e1fc1371' } },
+      { query: shippingAddresses, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
     ],
   })
 
@@ -62,7 +62,7 @@ const Addresses: FC = () => {
       onClose()
     },
     refetchQueries: [
-      { query: shippingAddresses, variables: { userId: '286ead03-759a-4748-a802-e2a5e1fc1371' } },
+      { query: shippingAddresses, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
     ],
   })
 
@@ -134,7 +134,7 @@ const Addresses: FC = () => {
                 if (name && !addressId) {
                   void addShippingAddress({
                     variables: {
-                      userId: '286ead03-759a-4748-a802-e2a5e1fc1371',
+                      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
                       input: {
                         name,
                         addressLine1,
@@ -152,7 +152,7 @@ const Addresses: FC = () => {
                 if (name && addressId) {
                   void updateShippingAddress({
                     variables: {
-                      userId: '286ead03-759a-4748-a802-e2a5e1fc1371',
+                      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
                       addressId,
                       input: {
                         name,

@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { startCase, upperCase } from 'lodash'
 import { Flex, Heading } from '@chakra-ui/react'
 import { Catalogue } from '@/features/product'
@@ -11,8 +11,6 @@ type CategoryParams = {
 }
 export const CategoryProducts: FC = () => {
   const { categories } = useCategoriesContextProvider()
-
-  const navigate = useNavigate()
 
   const { categoryName } = useParams<keyof CategoryParams>() as CategoryParams
 

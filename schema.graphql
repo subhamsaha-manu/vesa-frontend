@@ -5,9 +5,9 @@ type Query {
     categories: [Category!]!
     userCart(userId: ID!): [CartItem!]!
     userWishlist(userId: ID!): [MinifiedProduct!]!
-    orders(userId: ID!): [Order!]!
     shippingAddresses(userId: ID!): [ShippingAddress!]!
     shippingAddress(userId: ID!, addressId: ID!): ShippingAddress!
+    userOrderHistory(userId: ID!): [Order!]!
 }
 
 type Mutation {
@@ -125,10 +125,9 @@ enum ModeOfPayment {
 
 type Order {
     orderId: ID!
-    userId: ID!
-    email: String!
-    phoneNumber: String!
     name: String!
+    email: String!
+    phone: String!
     addressLine1: String!
     addressLine2: String
     city: String!
@@ -139,6 +138,7 @@ type Order {
     modeOfPayment: ModeOfPayment!
     orderDate: String!
     orderStatus: OrderStatus!
+    orderTotal: Float!
 }
 
 type OrderItem {

@@ -12,7 +12,7 @@ const UserWishlist: FC = () => {
 
   const { data, loading, refetch } = useUserWishlistQuery({
     variables: {
-      userId: '286ead03-759a-4748-a802-e2a5e1fc1371',
+      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
     },
     fetchPolicy: 'network-only',
   })

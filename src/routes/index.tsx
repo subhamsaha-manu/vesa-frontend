@@ -12,13 +12,15 @@ import { MainLayout } from '@/components/Layout'
 import { Dashboard } from '@/features/dashboard'
 
 import { CategoryProducts, ProductDetails } from '@/features/product'
+import { Checkout } from '@/features/user-cart'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
 const ContactUs = lazy(() => import('@/features/contact-us'))
 const UserCart = lazy(() => import('@/features/user-cart'))
-const Checkout = lazy(() => import('@/features/user-cart'))
+
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
 const Addresses = lazy(() => import('@/features/user-shipping-address'))
+const Orders = lazy(() => import('@/features/user-order-history'))
 
 const App = () => {
   return (
@@ -73,6 +75,10 @@ export const AppRoutes = () => {
         {
           path: '/account',
           element: <Addresses />,
+        },
+        {
+          path: '/orders',
+          element: <Orders />,
         },
       ],
     },

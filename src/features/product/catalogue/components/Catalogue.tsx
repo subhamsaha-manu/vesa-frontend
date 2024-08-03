@@ -19,7 +19,7 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
   })
 
   if (loading || !data) {
-    return <SpinnerContainer />
+    return <SpinnerContainer height="60vh" />
   }
 
   return (
