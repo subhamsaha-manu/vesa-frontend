@@ -8,7 +8,7 @@ import image3 from '@/assets/images/image3.jpg'
 import { CircleArrowLeft01Icon, CircleArrowRight01Icon } from 'hugeicons-react'
 
 const settings = {
-  dots: true,
+  dots: false,
   arrows: false,
   fade: true,
   infinite: true,
@@ -17,6 +17,8 @@ const settings = {
   autoplaySpeed: 5000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  swipe: true,
+  touch: true,
 }
 
 export const Carousel: FC = () => {
@@ -25,7 +27,7 @@ export const Carousel: FC = () => {
   const top = useBreakpointValue({ base: '90%', md: '50%' })
   const side = useBreakpointValue({ base: '30%', md: '10px' })
 
-  const studentGalleryImages = [
+  const galleryImages = [
     {
       id: 1,
       src: image1,
@@ -68,7 +70,7 @@ export const Carousel: FC = () => {
       </IconButton>
 
       <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
-        {studentGalleryImages.map(({ src, id }) => (
+        {galleryImages.map(({ src, id }) => (
           <Box
             key={id}
             height="6xl"

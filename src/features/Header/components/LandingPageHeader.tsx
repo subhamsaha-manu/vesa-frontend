@@ -4,7 +4,6 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerOverlay,
   Flex,
   IconButton,
   Image,
@@ -65,7 +64,7 @@ export const LandingPageHeader = () => {
   ]
 
   return (
-    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={10}>
+    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={1500}>
       <Flex
         display-name="landing-page-header-flex"
         bg="#e5e2db"
@@ -81,9 +80,25 @@ export const LandingPageHeader = () => {
         <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }}>
           <IconButton
             onClick={onToggle}
-            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-            variant="ghost"
+            icon={
+              isOpen ? (
+                <CloseIcon
+                  w={5}
+                  h={5}
+                  style={{ transition: 'transform 0.3s', transform: 'rotate(180deg)' }}
+                />
+              ) : (
+                <HamburgerIcon
+                  w={5}
+                  h={5}
+                  style={{ transition: 'transform 0.3s', transform: 'rotate(0deg)' }}
+                />
+              )
+            }
+            variant="outline"
             aria-label="Toggle Navigation"
+            border="none"
+            _hover={{ bg: 'transparent' }}
           />
         </Flex>
         <Flex
@@ -164,16 +179,12 @@ export const LandingPageHeader = () => {
         </Flex>
       </Flex>
 
-      <Drawer
-        isOpen={isOpen}
-        onClose={onToggle}
-        placement="left"
-        size="xs"
-        isFullHeight={false}
-        // styleConfig={{ top: '60px', opacity: '.7' }}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
+      <Drawer isOpen={isOpen} onClose={onToggle} placement="left" size="xs" preserveScrollBarGap>
+        <DrawerContent
+          sx={{
+            top: '60px !important',
+          }}
+        >
           <DrawerBody p={0}>
             <MobileNav menuOptions={menuOptions} />
           </DrawerBody>
