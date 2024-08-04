@@ -23,8 +23,16 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
         transform: 'scale(1.05)',
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
       }}
+      // h={{ base: '150px', xl: '150px' }}
     >
-      <Image src={category.imageUrl} alt={category.name} w="100%" h="auto" loading="lazy" />
+      {/*<Image src={category.imageUrl} alt={category.name} loading="lazy" h="330px" w="300px" />*/}
+      <Image
+        src={category.imageUrl}
+        alt={category.name}
+        loading="lazy"
+        h={{ base: '370px', xl: 'auto' }}
+        w="100%"
+      />
       <Flex
         display-name="category-name-flex"
         position="absolute"
@@ -34,7 +42,7 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
         background="blackAlpha.700"
       >
         <Heading
-          size={{ base: 'sm', xl: 'lg' }}
+          size={{ base: 'xl', xl: 'lg' }}
           color="#FFFFFF"
           fontWeight="700"
           style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}

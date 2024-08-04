@@ -92,11 +92,11 @@ export const Carousel: FC = () => {
         flexDir="column"
         gap={4}
       >
-        <Heading size={{ base: 'sm', xl: '4xl' }} fontWeight="700" letterSpacing="20px">
+        <Heading size={{ base: '2xl', xl: '4xl' }} fontWeight="700" letterSpacing="20px">
           VESA
         </Heading>
         <Heading
-          size={{ base: 'sm', xl: '2xl' }}
+          size={{ base: 'lg', xl: '2xl' }}
           color="#FFFFFF"
           fontWeight="500"
           style={{

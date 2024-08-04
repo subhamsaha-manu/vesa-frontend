@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { CategoryTile } from './CategoryTile'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 
@@ -13,15 +13,21 @@ export const Categories: FC = () => {
       h="auto"
       flexDir="column"
       p={{ base: 2, xl: 10 }}
+      pb={{ base: 6, xl: 0 }}
+      overflowX={{ base: 'scroll', xl: 'hidden' }}
     >
       <Flex
         display-name="categories-container"
-        display="grid"
+        display={{ base: 'flex', xl: 'grid' }}
         gridTemplateColumns="repeat(4, 1fr)"
+        flexDirection={{ base: 'row', xl: 'row' }}
+        // w="max-content"
         gap="20px"
       >
         {categories.map((category) => (
-          <CategoryTile category={category} />
+          <Box minW={{ base: '330px', xl: '1fr' }}>
+            <CategoryTile category={category} />
+          </Box>
         ))}
       </Flex>
     </Flex>
