@@ -1,8 +1,9 @@
 import { FC } from 'react'
-import { ContentLayout } from '@/components/Layout'
+import { ContentLayout, ErrorFallback } from '@/components/Layout'
 import { Flex } from '@chakra-ui/react'
 import { Sidebar } from '@/features/account/components/Sidebar'
 import { Outlet } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const UserAccount: FC = () => {
   return (
@@ -18,9 +19,11 @@ const UserAccount: FC = () => {
         >
           <Sidebar />
         </Flex>
-        <Flex display-name="account-right-section" flex="1" p="20px">
-          <Outlet />
-        </Flex>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Flex display-name="account-right-section" flex="1" p="20px">
+            <Outlet />
+          </Flex>
+        </ErrorBoundary>
       </Flex>
     </ContentLayout>
   )

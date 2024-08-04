@@ -21,6 +21,9 @@ export const orderDetails = gql`
         quantity
       }
       modeOfPayment
+      orderDate
+      orderStatus
+      orderTotal
     }
   }
 `

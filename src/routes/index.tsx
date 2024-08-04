@@ -7,13 +7,15 @@ import { publicRoutes } from './public'
 import { useAuthenticationContext } from '@/features/auth'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { MainLayout } from '@/components/Layout'
+import { ErrorFallback, MainLayout } from '@/components/Layout'
 
 import { Dashboard } from '@/features/dashboard'
 
 import { CategoryProducts, ProductDetails } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
 import { CurrentUserContextProvider } from '@/context'
+import { ErrorBoundary } from 'react-error-boundary'
+//import OrderDetails from '@/features/user-order-history/components/OrderDetails'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
 const ContactUs = lazy(() => import('@/features/contact-us'))
@@ -21,16 +23,23 @@ const UserCart = lazy(() => import('@/features/user-cart'))
 
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
 const UserAccount = lazy(() => import('@/features/account'))
-const Orders = lazy(() => import('@/features/user-order-history'))
+const Orders = lazy(() =>
+  import('@/features/user-order-history').then((module) => ({ default: module.Orders }))
+)
+const OrderDetails = lazy(() =>
+  import('@/features/user-order-history').then((module) => ({ default: module.OrderDetails }))
+)
 const Addresses = lazy(() => import('@/features/user-shipping-address'))
 
 const App = () => {
   return (
     <CurrentUserContextProvider>
       <MainLayout>
-        <Suspense fallback={<SpinnerContainer />}>
-          <Outlet />
-        </Suspense>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<SpinnerContainer />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </MainLayout>
     </CurrentUserContextProvider>
   )
@@ -41,10 +50,15 @@ export const AppRoutes = () => {
 
   const accountRoutes = {
     path: 'account',
-    element: <UserAccount />,
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <UserAccount />
+      </ErrorBoundary>
+    ),
     children: [
       { path: 'addresses', element: <Addresses /> },
       { path: 'orders', element: <Orders /> },
+      { path: 'orders/:orderId', element: <OrderDetails /> },
     ],
   }
 
@@ -70,7 +84,7 @@ export const AppRoutes = () => {
 
   const routes = isAuthenticated
     ? [...commonRoutes, ...protectedRoutes]
-    : [...commonRoutes, ...publicRoutes, fallbackRoute]
+    : [...commonRoutes, ...publicRoutes]
 
   return useRoutes(routes)
 }

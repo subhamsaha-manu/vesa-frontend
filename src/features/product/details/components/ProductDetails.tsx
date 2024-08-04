@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useProductQuery } from '../apis/product.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
@@ -13,7 +13,6 @@ type ProductParamType = {
 }
 export const ProductDetails: FC = () => {
   const { productId } = useParams<keyof ProductParamType>() as ProductParamType
-  const navigate = useNavigate()
 
   const { data, loading } = useProductQuery({
     variables: {

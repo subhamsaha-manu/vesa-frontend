@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import { MapsEditingIcon } from 'hugeicons-react'
+import { CheckListIcon, Logout04Icon, MapsEditingIcon } from 'hugeicons-react'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const Sidebar = () => {
@@ -42,8 +42,23 @@ export const Sidebar = () => {
             borderTop="1px solid #f6f6f6"
             _hover={{ bg: 'gray.200' }}
           >
-            <MapsEditingIcon size={20} color="#000000" />
+            <CheckListIcon size={20} color="#000000" />
             <Text fontSize="md">Orders</Text>
+          </Flex>
+        </Link>
+        <Link to="orders">
+          <Flex
+            display-name="account-nav-item"
+            align="center"
+            gap={4}
+            p="0 20px"
+            cursor="pointer"
+            h="53px"
+            borderTop="1px solid #f6f6f6"
+            _hover={{ bg: 'gray.200' }}
+          >
+            <Logout04Icon size={20} color="#000000" />
+            <Text fontSize="md">Logout</Text>
           </Flex>
         </Link>
       </Flex>

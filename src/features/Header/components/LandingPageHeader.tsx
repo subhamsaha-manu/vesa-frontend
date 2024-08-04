@@ -56,7 +56,7 @@ export const LandingPageHeader = () => {
   ]
 
   return (
-    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={2}>
+    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={10}>
       <Flex
         display-name="landing-page-header-flex"
         bg="#e5e2db"
@@ -136,7 +136,7 @@ export const LandingPageHeader = () => {
             <UserIcon
               size={22}
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/account')}
+              onClick={() => navigate('/account/orders')}
             />
           </Flex>
           <UserWishlistHeaderIcon />
