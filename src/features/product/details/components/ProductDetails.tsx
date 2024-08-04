@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useProductQuery } from '../apis/product.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
@@ -14,11 +14,16 @@ type ProductParamType = {
 export const ProductDetails: FC = () => {
   const { productId } = useParams<keyof ProductParamType>() as ProductParamType
 
+  const [mainImageURL, setMainImageURL] = useState<string>()
+
   const { data, loading } = useProductQuery({
     variables: {
       productId,
     },
     fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      setMainImageURL(data.product.imageUrl)
+    },
   })
 
   if (loading || !data) {
@@ -30,7 +35,7 @@ export const ProductDetails: FC = () => {
       <Flex display-name="main-product-section" w="100%" gap={6} pt="30px">
         <Flex display-name="product-gallery" position="relative" w="57%" pl="104px">
           <Flex display-name="primary-image" position="relative" overflow="hidden" h="597px">
-            <Image src={data.product.imageUrl} alt={data.product.title} />
+            <Image src={mainImageURL} alt={data.product.title} />
           </Flex>
           <Flex
             display-name="thumbnail-images"
@@ -42,9 +47,26 @@ export const ProductDetails: FC = () => {
             left={0}
             mr="30px"
           >
-            <Image src={data.product.thumbnailUrl} alt={data.product.title} h="98px" w="100%" />
-            <Image src={data.product.thumbnailUrl} alt={data.product.title} h="98px" w="100%" />
-            <Image src={data.product.thumbnailUrl} alt={data.product.title} h="98px" w="100%" />
+            <Image
+              src={data.product.imageUrl}
+              alt={data.product.title}
+              h="98px"
+              w="100%"
+              cursor="pointer"
+              onClick={() => setMainImageURL(data.product.imageUrl)}
+              border={mainImageURL === data.product.imageUrl ? '2px solid black' : 'none'}
+            />
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Image
+                src={data.product.thumbnailUrl}
+                alt={data.product.title}
+                h="98px"
+                w="100%"
+                cursor="pointer"
+                onClick={() => setMainImageURL(data.product.thumbnailUrl)}
+                border={mainImageURL === data.product.thumbnailUrl ? '2px solid black' : 'none'}
+              />
+            ))}
           </Flex>
         </Flex>
         <Flex display-name="product-summary" w="43%" flexDir="column" gap={4}>

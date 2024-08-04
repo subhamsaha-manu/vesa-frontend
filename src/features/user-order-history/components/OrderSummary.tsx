@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Order, OrderItem } from '@/types'
 import { Button, Flex, Image, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { capitalize } from 'lodash'
 
 type OrderSummaryProps = {
   order: Order
@@ -28,7 +29,7 @@ export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
             Payment Method
           </Text>
           <Flex flexDir="column">
-            <Text fontSize="sm">{order.modeOfPayment}</Text>
+            <Text fontSize="sm">{capitalize(order.modeOfPayment).replace('_', '-')}</Text>
           </Flex>
         </Flex>
         <Flex flex="1" flexDirection="column" gap={4}>

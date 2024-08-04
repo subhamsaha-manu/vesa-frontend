@@ -28,7 +28,7 @@ export const Sidebar = () => {
             _hover={{ bg: 'gray.200' }}
           >
             <MapsEditingIcon size={20} color="#000000" />
-            <Text fontSize="md">Address</Text>
+            <Text fontSize="md">Addresses</Text>
           </Flex>
         </Link>
         <Link to="orders">
@@ -65,43 +65,3 @@ export const Sidebar = () => {
     </Flex>
   )
 }
-/*
-<Flex display-name="account-nav" color="#666" flexDir="column">
-            <Flex
-              display-name="account-nav-item"
-              align="center"
-              gap={4}
-              p="0 20px"
-              cursor="pointer"
-              h="53px"
-              borderTop="1px solid #f6f6f6"
-            >
-              <MapsEditingIcon size={20} color="#000000" />
-              <Text fontSize="md">Address</Text>
-            </Flex>
-            <Flex
-              display-name="account-nav-item"
-              align="center"
-              gap={4}
-              p="0 20px"
-              cursor="pointer"
-              h="53px"
-              borderTop="1px solid #f6f6f6"
-            >
-              <MapsEditingIcon size={20} color="#000000" />
-              <Text fontSize="md">Orders</Text>
-            </Flex>
-            <Flex
-              display-name="account-nav-item"
-              align="center"
-              gap={4}
-              p="0 20px"
-              cursor="pointer"
-              h="53px"
-              borderTop="1px solid #f6f6f6"
-            >
-              <MapsEditingIcon size={20} color="#000000" />
-              <Text fontSize="md">Logout</Text>
-            </Flex>
-          </Flex>
-* */
