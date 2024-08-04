@@ -29,9 +29,9 @@ export const Dashboard: FC = () => {
         justify="center"
         align="center"
         gap={4}
-        p="0 32px"
+        p={{ base: '0 2px', xl: '0 32px' }}
       >
-        <Heading size="xl" color="#1E355B" fontWeight="500">
+        <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
           Our Collection
         </Heading>
         <Catalogue />

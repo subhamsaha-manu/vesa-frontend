@@ -4,10 +4,18 @@ import { FavouriteIcon } from 'hugeicons-react'
 import { useNavigate } from 'react-router-dom'
 import useUserCartContextProvider from '@/context/UserCartContextProvider'
 import { Text } from '@chakra-ui/layout'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const UserWishlistHeaderIcon: FC = () => {
   const navigate = useNavigate()
   const { wishlistItems } = useUserCartContextProvider()
+
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
+
   return (
     <>
       <Flex
@@ -15,24 +23,26 @@ export const UserWishlistHeaderIcon: FC = () => {
         gap={2}
         _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
       >
-        <FavouriteIcon size={22} onClick={() => navigate('/wishlist')} />
+        <FavouriteIcon size={isMobile ? 18 : 22} onClick={() => navigate('/wishlist')} />
       </Flex>
       {wishlistItems.length > 0 && (
         <Flex
           display-name="wishlist-items-count"
           style={{
             position: 'absolute',
-            top: '40px',
-            right: '140px',
+            top: isMobile ? '15px' : '40px',
+            right: isMobile ? '40px' : '140px',
             background: '#a1be28',
             borderRadius: '50%',
-            height: '25px',
-            width: '25px',
+            height: isMobile ? '15px' : '25px',
+            width: isMobile ? '15px' : '25px',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Text fontWeight={700}>{wishlistItems.length}</Text>
+          <Text fontSize={{ base: 'xs', xl: 'md' }} fontWeight={{ base: '300', xl: '700' }}>
+            {wishlistItems.length}
+          </Text>
         </Flex>
       )}
     </>

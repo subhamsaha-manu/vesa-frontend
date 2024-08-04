@@ -22,7 +22,7 @@ export const DrawerComponent: FC<DrawerComponentProps> = ({
   children,
 }) => {
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: 'md', xl: 'lg' }}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

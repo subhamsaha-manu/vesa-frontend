@@ -29,7 +29,7 @@ export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
   removeAddress,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={toggleWarningModal} isCentered size="xl">
+    <Modal isOpen={isOpen} onClose={toggleWarningModal} isCentered size={{ base: 'md', xl: 'lg' }}>
       <ModalOverlay />
       <ModalContent data-testid="remove-address-warning-modal">
         <ModalHeader>

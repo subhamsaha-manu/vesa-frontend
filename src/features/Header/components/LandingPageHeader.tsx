@@ -1,15 +1,16 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
-  Collapse,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerOverlay,
   Flex,
   IconButton,
   Image,
   Input,
   InputGroup,
   InputLeftElement,
-  Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -18,15 +19,23 @@ import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo from '@/assets/logo/vesa-logo.jpg'
+import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { Text } from '@chakra-ui/layout'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
   const { categories } = useCategoriesContextProvider()
+
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
 
   const navigate = useNavigate()
 
@@ -62,18 +71,14 @@ export const LandingPageHeader = () => {
         bg="#e5e2db"
         color={useColorModeValue('gray.600', 'white')}
         minH="60px"
-        h="120px"
-        p={{ base: '15px 100px' }}
+        h={{ base: '60px', xl: '120px' }}
+        p={{ base: '5px 10px', xl: '15px 100px' }}
         borderBottom={1}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
       >
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}
-        >
+        <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }}>
           <IconButton
             onClick={onToggle}
             icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
@@ -85,8 +90,18 @@ export const LandingPageHeader = () => {
           justify={{ base: 'center', md: 'start' }}
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-logo-flex"
+          display={{ base: 'none', md: 'flex' }}
         >
           <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+        </Flex>
+        <Flex
+          justify="center"
+          alignItems="center"
+          display-name="landing-page-header-logo-flex"
+          display={{ base: 'flex', md: 'none' }}
+          flex={1}
+        >
+          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="120px" />
         </Flex>
         <Flex
           flex={{ base: 1 }}
@@ -95,6 +110,7 @@ export const LandingPageHeader = () => {
           display-name="landing-page-header-menu-options-flex"
           gap={8}
           flexGrow={1}
+          display={{ base: 'none', md: 'flex' }}
         >
           {menuOptions.map(({ label, path }) => (
             <Flex
@@ -109,7 +125,11 @@ export const LandingPageHeader = () => {
             </Flex>
           ))}
         </Flex>
-        <Flex display-name="landing-page-header-search-product-flex" mr="70px">
+        <Flex
+          display-name="landing-page-header-search-product-flex"
+          mr="70px"
+          display={{ base: 'none', md: 'flex' }}
+        >
           <InputGroup>
             <InputLeftElement pointerEvents="none">
               <Search01Icon color="gray.300" size={20} />
@@ -126,7 +146,7 @@ export const LandingPageHeader = () => {
           justify={{ base: 'center', md: 'end' }}
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-icons-flex"
-          gap={8}
+          gap={{ base: 4, md: 8 }}
         >
           <Flex
             display-name="user-account-header-icon"
@@ -134,7 +154,7 @@ export const LandingPageHeader = () => {
             _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
           >
             <UserIcon
-              size={22}
+              size={isMobile ? 18 : 22}
               style={{ cursor: 'pointer' }}
               onClick={() => navigate('/account/orders')}
             />
@@ -142,59 +162,55 @@ export const LandingPageHeader = () => {
           <UserWishlistHeaderIcon />
           <UserCartHeaderIcon />
         </Flex>
-
-        {/*<Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>*/}
-        {/*  <Button*/}
-        {/*    fontSize="md"*/}
-        {/*    fontWeight={400}*/}
-        {/*    variant="link"*/}
-        {/*    onClick={() => navigate('/auth/login')}*/}
-        {/*  >*/}
-        {/*    Sign In*/}
-        {/*  </Button>*/}
-        {/*  <Button*/}
-        {/*    display={{ base: 'none', md: 'inline-flex' }}*/}
-        {/*    fontSize="md"*/}
-        {/*    fontWeight={600}*/}
-        {/*    color="white"*/}
-        {/*    bg="cyan.400"*/}
-        {/*    onClick={() => handleSignUpClick()}*/}
-        {/*    _hover={{*/}
-        {/*      bg: 'cyan.300',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    Sign Up*/}
-        {/*  </Button>*/}
-        {/*</Stack>*/}
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav handleSignUpClick={handleSignUpClick} />
-      </Collapse>
+      <Drawer
+        isOpen={isOpen}
+        onClose={onToggle}
+        placement="left"
+        size="xs"
+        isFullHeight={false}
+        // styleConfig={{ top: '60px', opacity: '.7' }}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerBody p={0}>
+            <MobileNav menuOptions={menuOptions} />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   )
 }
 
 type MobileNavProps = {
-  handleSignUpClick: () => void
+  menuOptions: { label: string; path: string }[]
 }
-const MobileNav: FC<MobileNavProps> = ({ handleSignUpClick }) => {
+const MobileNav: FC<MobileNavProps> = ({ menuOptions }) => {
+  const navigate = useNavigate()
+
   return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
-      <Flex justify="center">
-        <Button
-          fontSize="md"
-          fontWeight={600}
-          color="black"
-          border="1px solid black"
-          onClick={() => handleSignUpClick()}
-          _hover={{
-            bg: 'cyan.300',
-          }}
+    <Flex
+      flexDir="column"
+      bg={useColorModeValue('white', 'gray.800')}
+      p={4}
+      display={{ md: 'none' }}
+    >
+      {menuOptions.map(({ label, path }) => (
+        <Flex
+          display-name="mobile-nav-menu-options-flex"
+          key={label}
+          _hover={{ cursor: 'pointer', background: 'gray.100' }}
+          onClick={() => navigate(path)}
+          h="50px"
+          p={2}
+          align="center"
         >
-          Sign Up
-        </Button>
-      </Flex>
-    </Stack>
+          <Text fontSize="md" color="subtle">
+            {label}
+          </Text>
+        </Flex>
+      ))}
+    </Flex>
   )
 }

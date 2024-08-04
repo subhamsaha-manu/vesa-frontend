@@ -62,7 +62,7 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
       >
         {showHeaderTitle && (
           <Flex display-name="content-layout-heading-flex" w="100%" justify="center">
-            <Heading size="xl" color="#1E355B" fontWeight="500">
+            <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
               {pageTitle}
             </Heading>
           </Flex>

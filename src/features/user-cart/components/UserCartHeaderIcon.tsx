@@ -4,10 +4,16 @@ import { ShoppingBasket01Icon } from 'hugeicons-react'
 import { useNavigate } from 'react-router-dom'
 import useUserCartContextProvider from '@/context/UserCartContextProvider'
 import { Text } from '@chakra-ui/layout'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const UserCartHeaderIcon: FC = () => {
   const navigate = useNavigate()
   const { numberOfCartItems } = useUserCartContextProvider()
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
   return (
     <>
       <Flex
@@ -15,24 +21,26 @@ export const UserCartHeaderIcon: FC = () => {
         gap={2}
         _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
       >
-        <ShoppingBasket01Icon size={22} onClick={() => navigate('/cart')} />
+        <ShoppingBasket01Icon size={isMobile ? 18 : 22} onClick={() => navigate('/cart')} />
       </Flex>
       {numberOfCartItems > 0 && (
         <Flex
           display-name="cart-items-count"
           style={{
             position: 'absolute',
-            top: '40px',
-            right: '84px',
+            top: isMobile ? '15px' : '40px',
+            right: isMobile ? '5px' : '84px',
             background: '#a1be28',
             borderRadius: '50%',
-            height: '25px',
-            width: '25px',
+            height: isMobile ? '15px' : '25px',
+            width: isMobile ? '15px' : '25px',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Text fontWeight={700}>{numberOfCartItems}</Text>
+          <Text fontSize={{ base: 'xs', xl: 'md' }} fontWeight={{ base: '300', xl: '700' }}>
+            {numberOfCartItems}
+          </Text>
         </Flex>
       )}
     </>
