@@ -2,6 +2,7 @@ import { Flex, Heading, Text } from '@chakra-ui/react'
 import React, { FC, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Home01Icon } from 'hugeicons-react'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 type ContentLayoutProps = {
   pageTitle: string
@@ -17,13 +18,19 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
 }) => {
   const navigate = useNavigate()
 
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
+
   return (
     <>
       <Flex
         display-name="breadcrumb-layout-heading-flex"
         w="100%"
         maxW="1310px"
-        p="40px 15px 5px 15px"
+        p={{ base: '15px', xl: '40px 15px 5px 15px' }}
         gap={2}
       >
         <Flex
@@ -31,22 +38,22 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
           _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
           gap={2}
         >
-          <Home01Icon size={20} color="#000000" />
-          <Text fontSize="md" color="gray">
+          <Home01Icon size={isMobile ? 18 : 22} color="#000000" />
+          <Text fontSize={isMobile ? 'xs' : 'md'} color="gray">
             Home
           </Text>
         </Flex>
-        <Text fontSize="md" color="gray">
+        <Text fontSize={isMobile ? 'xs' : 'md'} color="gray">
           {`>`}
         </Text>
-        <Text fontSize="md" as="b" color="gray">
+        <Text fontSize={isMobile ? 'xs' : 'md'} as="b" color="gray">
           {`${pageTitle}`}
         </Text>
       </Flex>
       <Flex
         flexDir="column"
         p={{ base: '8px', xl: '16px' }}
-        pb={{ base: '150px', xl: showFullPageScroll ? '80px' : '16px' }}
+        pb={{ base: '50px', xl: showFullPageScroll ? '80px' : '16px' }}
         gap={8}
         display-name={`${pageTitle}-content-layout-container`}
         w="100%"

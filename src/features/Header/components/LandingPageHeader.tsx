@@ -186,7 +186,7 @@ export const LandingPageHeader = () => {
           }}
         >
           <DrawerBody p={0}>
-            <MobileNav menuOptions={menuOptions} />
+            <MobileNav menuOptions={menuOptions} onToggle={onToggle} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -196,8 +196,9 @@ export const LandingPageHeader = () => {
 
 type MobileNavProps = {
   menuOptions: { label: string; path: string }[]
+  onToggle: () => void
 }
-const MobileNav: FC<MobileNavProps> = ({ menuOptions }) => {
+const MobileNav: FC<MobileNavProps> = ({ menuOptions, onToggle }) => {
   const navigate = useNavigate()
 
   return (
@@ -212,7 +213,10 @@ const MobileNav: FC<MobileNavProps> = ({ menuOptions }) => {
           display-name="mobile-nav-menu-options-flex"
           key={label}
           _hover={{ cursor: 'pointer', background: 'gray.100' }}
-          onClick={() => navigate(path)}
+          onClick={() => {
+            onToggle()
+            navigate(path)
+          }}
           h="50px"
           p={2}
           align="center"

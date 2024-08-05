@@ -1,41 +1,28 @@
-import React, { FC, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useProductQuery } from '../apis/product.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { Flex, Heading, Image, Text } from '@chakra-ui/react'
-
+import { Product } from '@/types'
+import React, { FC, useEffect, useState } from 'react'
 import { ContentLayout } from '@/components/Layout'
+import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
 
-type ProductParamType = {
-  productId: string
+type ProductDetailsDesktopViewProps = {
+  productDetail: Omit<Product, 'id' | 'categoryIds'>
 }
-export const ProductDetails: FC = () => {
-  const { productId } = useParams<keyof ProductParamType>() as ProductParamType
-
+export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
+  productDetail,
+}) => {
   const [mainImageURL, setMainImageURL] = useState<string>()
 
-  const { data, loading } = useProductQuery({
-    variables: {
-      productId,
-    },
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      setMainImageURL(data.product.imageUrl)
-    },
-  })
-
-  if (loading || !data) {
-    return <SpinnerContainer height="60vh" />
-  }
+  useEffect(() => {
+    setMainImageURL(productDetail.imageUrl)
+  }, [productDetail])
 
   return (
-    <ContentLayout pageTitle={data.product.title} showFullPageScroll>
+    <ContentLayout pageTitle={productDetail.title} showFullPageScroll>
       <Flex display-name="main-product-section" w="100%" gap={6} pt="30px">
         <Flex display-name="product-gallery" position="relative" w="57%" pl="104px">
           <Flex display-name="primary-image" position="relative" overflow="hidden" h="597px">
-            <Image src={mainImageURL} alt={data.product.title} />
+            <Image src={mainImageURL} alt={productDetail.title} />
           </Flex>
           <Flex
             display-name="thumbnail-images"
@@ -48,23 +35,23 @@ export const ProductDetails: FC = () => {
             mr="30px"
           >
             <Image
-              src={data.product.imageUrl}
-              alt={data.product.title}
+              src={productDetail.imageUrl}
+              alt={productDetail.title}
               h="98px"
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(data.product.imageUrl)}
-              border={mainImageURL === data.product.imageUrl ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(productDetail.imageUrl)}
+              border={mainImageURL === productDetail.imageUrl ? '2px solid black' : 'none'}
             />
             {Array.from({ length: 3 }).map((_, index) => (
               <Image
-                src={data.product.thumbnailUrl}
-                alt={data.product.title}
+                src={productDetail.thumbnailUrl}
+                alt={productDetail.title}
                 h="98px"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(data.product.thumbnailUrl)}
-                border={mainImageURL === data.product.thumbnailUrl ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(productDetail.thumbnailUrl)}
+                border={mainImageURL === productDetail.thumbnailUrl ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>
@@ -72,7 +59,7 @@ export const ProductDetails: FC = () => {
         <Flex display-name="product-summary" w="43%" flexDir="column" gap={4}>
           <Flex display-name="product-details" w="100%" flexDir="column" gap={4}>
             <Heading size="lg" color="#1E355B" fontWeight="500">
-              {data.product.title}
+              {productDetail.title}
             </Heading>
             <Flex
               display-name="meta-content"
@@ -92,12 +79,12 @@ export const ProductDetails: FC = () => {
             </Flex>
             <Flex display-name="product-price">
               <Text fontSize="36px" color="#1E355B">
-                {`₹ ${data.product.price}`}
+                {`₹ ${productDetail.price}`}
               </Text>
             </Flex>
             <Flex display-name="product-description">
               <Text fontSize="18px" fontWeight="100">
-                {data.product.description}
+                {productDetail.description}
               </Text>
             </Flex>
           </Flex>
@@ -109,8 +96,8 @@ export const ProductDetails: FC = () => {
             align="center"
             mt="20px"
           >
-            <AddToCart productId={productId} />
-            <AddToWishlist productId={productId} />
+            <AddToCart productId={productDetail.productId} />
+            <AddToWishlist productId={productDetail.productId} />
           </Flex>
         </Flex>
       </Flex>

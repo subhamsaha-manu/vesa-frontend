@@ -11,7 +11,7 @@ import { ErrorFallback, MainLayout } from '@/components/Layout'
 
 import { Dashboard } from '@/features/dashboard'
 
-import { CategoryProducts, ProductDetails } from '@/features/product'
+import { CategoryProducts, ProductDetailsContainer } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
 import { CurrentUserContextProvider } from '@/context'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -69,7 +69,7 @@ export const AppRoutes = () => {
       children: [
         { path: '/', element: <Dashboard /> },
         { path: 'product-category/:categoryName', element: <CategoryProducts /> },
-        { path: 'product/:productId', element: <ProductDetails /> },
+        { path: 'product/:productId', element: <ProductDetailsContainer /> },
         { path: 'cart', element: <UserCart /> },
         { path: 'wishlist', element: <UserWishlist /> },
         { path: 'checkout', element: <Checkout /> },

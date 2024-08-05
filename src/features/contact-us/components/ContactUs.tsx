@@ -60,7 +60,12 @@ export const ContactUs: FC = () => {
 
   return (
     <ContentLayout pageTitle="Customer Service" showHeaderTitle>
-      <Flex display-name="contact-us-container" w="100%" gap="240px">
+      <Flex
+        display-name="contact-us-container"
+        w="100%"
+        gap={{ base: '24px', xl: '240px' }}
+        flexDir={{ base: 'column', xl: 'row' }}
+      >
         <Flex display-name="contact-us-form-container" flexDir="column" flexGrow={1} gap={4}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Flex flexDir="column" gap={4} align="stretch">

@@ -10,8 +10,9 @@ import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type AddToWishlistProps = {
   productId: string
+  mobileView?: boolean
 }
-export const AddToWishlist: FC<AddToWishlistProps> = ({ productId }) => {
+export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView }) => {
   const { wishlistItems } = useUserCartContextProvider()
   const {
     currentUser: { userId },
@@ -37,13 +38,17 @@ export const AddToWishlist: FC<AddToWishlistProps> = ({ productId }) => {
       opacity={isProductInWishlist ? 0.5 : 1}
       onClick={() => addToWishlist()}
       align="center"
+      flex={1}
     >
       {loading ? (
         <SpinnerContainer size="20px" overflow="unset" width="5%" />
       ) : (
-        <HeartAddIcon fill={isProductInWishlist ? 'red' : 'transparent'} />
+        <HeartAddIcon
+          fill={isProductInWishlist ? 'red' : 'transparent'}
+          size={mobileView ? 18 : 22}
+        />
       )}
-      <Text>Add to Wishlist</Text>
+      <Text fontSize={mobileView ? 'sm' : 'md'}>Add to Wishlist</Text>
     </Flex>
   )
 }

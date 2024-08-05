@@ -8,18 +8,29 @@ const AboutUs: FC = () => {
   return (
     <ContentLayout pageTitle="About Us" showFullPageScroll>
       <Flex
-        display-name="about-us-content-flex"
+        display-name="about-us-container-flex"
         w="100%"
         textAlign="justify"
         flexDir="column"
         flexWrap="wrap"
-        p="0 40px"
+        p={{ base: '', xl: '0 40px' }}
         gap={4}
-        mt="40px"
+        mt={{ base: '0', xl: '40px' }}
       >
-        <Flex flexDir="column" gap={8} pt="40px" w="100%" display-name="about-us-content">
+        <Flex
+          flexDir="column"
+          gap={{ base: 4, xl: 8 }}
+          pt={{ base: '10px', xl: '40px' }}
+          w="100%"
+          display-name="about-us-content"
+        >
           <Flex display-name="quotation-flex" w="100%" justify="start" align="center">
-            <Image src={quotationMark} alt="quotation mark" w="40px" h="50px" />
+            <Image
+              src={quotationMark}
+              alt="quotation mark"
+              w={{ base: '20px', xl: '40px' }}
+              h={{ base: '20px', xl: '50px' }}
+            />
           </Flex>
           <Flex
             display-name="about-us-content-flex"
@@ -44,23 +55,28 @@ const AboutUs: FC = () => {
             <Image
               src={quotationMark}
               alt="quotation mark"
-              w="40px"
-              h="50px"
+              w={{ base: '20px', xl: '40px' }}
+              h={{ base: '20px', xl: '50px' }}
               transform="rotate(180deg)"
             />
           </Flex>
         </Flex>
-        <Flex display-name="photo-description" w="100%" gap={4}>
-          <Flex display-name="photo" w="50%">
+        <Flex
+          display-name="photo-description"
+          w="100%"
+          gap={4}
+          flexDirection={{ base: 'column', xl: 'row' }}
+        >
+          <Flex display-name="photo" w={{ base: '100%', xl: '50%' }}>
             <Image src={human} h="373px" w="666px" />
           </Flex>
           <Flex
             display-name="description"
             justify="center"
             align="center"
-            p="0 32px"
+            p={{ base: '0 4px', xl: '0 32px' }}
             background="#EEEBE6"
-            w="50%"
+            w={{ base: '100%', xl: '50%' }}
           >
             <Text fontSize="md">
               There are many variations of passages of Lorem Ipsum available, but the majority have
