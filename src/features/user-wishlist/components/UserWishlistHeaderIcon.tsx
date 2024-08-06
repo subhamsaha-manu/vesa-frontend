@@ -31,7 +31,7 @@ export const UserWishlistHeaderIcon: FC = () => {
           style={{
             position: 'absolute',
             top: isMobile ? '15px' : '40px',
-            right: isMobile ? '40px' : '140px',
+            right: isMobile ? '58px' : '140px',
             background: '#a1be28',
             borderRadius: '50%',
             height: isMobile ? '15px' : '25px',

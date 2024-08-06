@@ -29,7 +29,7 @@ export const UserCartHeaderIcon: FC = () => {
           style={{
             position: 'absolute',
             top: isMobile ? '15px' : '40px',
-            right: isMobile ? '5px' : '84px',
+            right: isMobile ? '22px' : '84px',
             background: '#a1be28',
             borderRadius: '50%',
             height: isMobile ? '15px' : '25px',

@@ -77,7 +77,7 @@ export const LandingPageHeader = () => {
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
       >
-        <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }}>
+        <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }} flex={1}>
           <IconButton
             onClick={onToggle}
             icon={
@@ -106,6 +106,7 @@ export const LandingPageHeader = () => {
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-logo-flex"
           display={{ base: 'none', md: 'flex' }}
+          flex={1}
         >
           <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
         </Flex>
@@ -162,6 +163,7 @@ export const LandingPageHeader = () => {
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-icons-flex"
           gap={{ base: 4, md: 8 }}
+          flex={1}
         >
           <Flex
             display-name="user-account-header-icon"
