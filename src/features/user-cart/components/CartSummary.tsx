@@ -10,6 +10,7 @@ import { ModeOfPayment, PlaceOrderInput } from '@/types'
 import { useNavigate } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type CartSummaryProps = {
   orderDetailsRef: RefObject<FieldValues | null>
@@ -118,7 +119,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
                 <Text fontWeight="500">{`x ${cartItem.quantity}`}</Text>
               </Flex>
               <Flex>
-                <Text fontWeight="500">{`₹ ${cartItem.price}`}</Text>
+                <Text fontWeight="500">{`${INR_CURRENCY_SYMBOL} ${cartItem.price}`}</Text>
               </Flex>
             </Flex>
           ))}
@@ -133,7 +134,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
             Subtotal
           </Text>
           <Text fontSize="md" fontWeight="500">
-            {`₹ ${totalCartAmount}`}
+            {`${INR_CURRENCY_SYMBOL} ${totalCartAmount}`}
           </Text>
         </Flex>
         <Flex
@@ -146,7 +147,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
             Total
           </Text>
           <Text fontSize="md" fontWeight="500">
-            {`₹ ${totalCartAmount}`}
+            {`${INR_CURRENCY_SYMBOL} ${totalCartAmount}`}
           </Text>
         </Flex>
       </Flex>

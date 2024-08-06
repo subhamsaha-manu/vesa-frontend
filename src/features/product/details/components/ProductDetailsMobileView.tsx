@@ -6,6 +6,7 @@ import { Product } from '@/types'
 import styled from 'styled-components'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsMobileViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds'>
@@ -47,7 +48,7 @@ export const ProductDetailsMobileView: FC<ProductDetailsMobileViewProps> = ({ pr
         <Flex w="100%" flexDir="column" gap={4}>
           <Text fontSize="md">{productDetail.title}</Text>
           <Text fontSize="md" as="b">
-            ₹ {productDetail.price}
+            {INR_CURRENCY_SYMBOL} {productDetail.price}
           </Text>
           <Text fontSize="md">{productDetail.description}</Text>
         </Flex>

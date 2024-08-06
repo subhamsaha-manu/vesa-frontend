@@ -3,6 +3,7 @@ import { MinifiedOrder } from '@/types'
 import { Button, Flex, Text } from '@chakra-ui/react'
 import formatDate from '@/utils/formatDate'
 import { Link } from 'react-router-dom'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type OrderCardProps = {
   readonly order: MinifiedOrder
@@ -12,7 +13,7 @@ export const OrderCard: FC<OrderCardProps> = ({ order: { orderDate, orderId, ord
     <Flex display-name="order-details-section" gap={4} flexDir="column">
       <Flex gap={2} justify="start" align="end">
         <Text fontSize="md" fontWeight="bold" lineHeight="18px">
-          {`ORD${orderId.substring(0, 8)} . ₹ ${orderTotal}`}
+          {`ORD${orderId.substring(0, 8)} . ${INR_CURRENCY_SYMBOL} ${orderTotal}`}
         </Text>
       </Flex>
       <Flex gap={2} color="#666">

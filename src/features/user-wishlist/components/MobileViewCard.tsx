@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { MinifiedProduct } from '@/types'
 import { MultiplicationSignIcon } from 'hugeicons-react'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type MobileViewCardProps = {
   wishlistItem: Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>
@@ -46,7 +47,7 @@ export const MobileViewCard: FC<MobileViewCardProps> = ({
       </Flex>
 
       <Text display-name="product-price" w="100%" as="b">
-        ₹ {price}
+        {INR_CURRENCY_SYMBOL} {price}
       </Text>
     </Flex>
     <Flex

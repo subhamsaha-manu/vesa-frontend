@@ -3,6 +3,7 @@ import { Order, OrderItem } from '@/types'
 import { Button, Flex, Image, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { capitalize } from 'lodash'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type OrderSummaryProps = {
   order: Order
@@ -37,7 +38,7 @@ export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
             Total
           </Text>
           <Flex flexDir="column">
-            <Text fontSize="sm">{`₹ ${order.orderTotal}`}</Text>
+            <Text fontSize="sm">{`${INR_CURRENCY_SYMBOL} ${order.orderTotal}`}</Text>
           </Flex>
         </Flex>
       </Flex>
@@ -68,7 +69,7 @@ const ProductItem = ({ productId, title, imageUrl, price, quantity }: OrderItem)
           </Text>
         </Flex>
         <Flex gap={2} color="#666">
-          <Text fontSize="md">{`₹ ${price} x ${quantity}`}</Text>
+          <Text fontSize="md">{`${INR_CURRENCY_SYMBOL} ${price} x ${quantity}`}</Text>
         </Flex>
         <Button
           variant="solid"

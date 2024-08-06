@@ -9,3 +9,4 @@ export const USER_TOKEN = 'USER_TOKEN'
 export const CURRENT_USER = 'CURRENT_USER'
 export const INVALID_MOBILE_NUMBER_ERROR_MESSAGE =
   'Invalid mobile number. Please provide a 10-digit number.'
+export const INR_CURRENCY_SYMBOL = '₹'

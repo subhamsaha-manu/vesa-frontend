@@ -3,6 +3,7 @@ import { MinifiedProduct } from '@/types'
 import { Flex, Image } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/layout'
 import { useNavigate } from 'react-router-dom'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductTileProps = {
   product: MinifiedProduct
@@ -40,7 +41,7 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
           {product.title}
         </Text>
         <Text size="md" color="#1E355B">
-          {`₹ ${product.price}`}
+          {`${INR_CURRENCY_SYMBOL} ${product.price}`}
         </Text>
       </Flex>
     </Flex>

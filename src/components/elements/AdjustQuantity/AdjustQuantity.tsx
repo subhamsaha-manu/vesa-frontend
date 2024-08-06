@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import { Add01Icon, MinusSignIcon } from 'hugeicons-react'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 type AdjustQuantityProps = {
   initialQuantity: number
@@ -8,6 +9,12 @@ type AdjustQuantityProps = {
   onDecrement: () => void
 }
 const AdjustQuantity: FC<AdjustQuantityProps> = ({ initialQuantity, onIncrement, onDecrement }) => {
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
+
   const [quantity, setQuantity] = useState<number>(initialQuantity)
 
   const increment = () => {
@@ -31,11 +38,11 @@ const AdjustQuantity: FC<AdjustQuantityProps> = ({ initialQuantity, onIncrement,
       py={2}
     >
       <Flex _hover={{ cursor: 'pointer' }}>
-        <MinusSignIcon size={20} onClick={decrement} />
+        <MinusSignIcon size={isMobile ? 18 : 20} onClick={decrement} />
       </Flex>
       <Text mx={4}>{quantity}</Text>
       <Flex _hover={{ cursor: 'pointer' }}>
-        <Add01Icon size={20} onClick={increment} />
+        <Add01Icon size={isMobile ? 18 : 20} onClick={increment} />
       </Flex>
     </Flex>
   )

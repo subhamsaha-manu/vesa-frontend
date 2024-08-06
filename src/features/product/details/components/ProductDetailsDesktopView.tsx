@@ -4,6 +4,7 @@ import { ContentLayout } from '@/components/Layout'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsDesktopViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds'>
@@ -79,7 +80,7 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
             </Flex>
             <Flex display-name="product-price">
               <Text fontSize="36px" color="#1E355B">
-                {`₹ ${productDetail.price}`}
+                {`${INR_CURRENCY_SYMBOL} ${productDetail.price}`}
               </Text>
             </Flex>
             <Flex display-name="product-description">

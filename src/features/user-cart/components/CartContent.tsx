@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import {
   Button,
   Flex,
@@ -14,52 +14,26 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
-import { useNavigate } from 'react-router-dom'
 import { CartItem } from '@/types'
-import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
-import AdjustQuantity from '@/components/elements/AdjustQuantity'
-import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
-import round from 'lodash/round'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { AdjustCartItemQuantity } from './AdjustCartItemQuantity'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type CartContentProps = {
   cartItems: Array<CartItem>
-  refetchCart: () => void
+  removeProductFromCart: (productId: string, removeAll: boolean) => void
+  onItemClick: (productId: string) => void
+  onCheckout: () => void
+  totalCartAmount: number
+  calculateTotalCartAmount: () => void
 }
-export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) => {
-  const navigate = useNavigate()
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-  
-  const [totalCartAmount, setTotalCartAmount] = useState<number>(0)
-
-  const calculateTotalCartAmount = () => {
-    const totalAmount = cartItems.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
-
-    setTotalCartAmount(round(totalAmount, 2))
-  }
-
-  useEffect(() => {
-    calculateTotalCartAmount()
-  }, [cartItems])
-
-  const [removeProductFromCart] = useRemoveProductFromCartMutation({
-    onCompleted: () => {
-      refetchCart()
-      calculateTotalCartAmount()
-    },
-  })
-
-  const [addProductToCart] = useAddProductToCartMutation({
-    onCompleted: () => {
-      refetchCart()
-      calculateTotalCartAmount()
-    },
-  })
-
+export const CartContent: FC<CartContentProps> = ({
+  cartItems,
+  removeProductFromCart,
+  onItemClick,
+  onCheckout,
+  totalCartAmount,
+  calculateTotalCartAmount,
+}) => {
   return (
     <Flex display-name="main-content" w="100%" h="100%" gap={6} justify="space-between">
       <Flex display-name="cart-items-table" h="100%">
@@ -69,10 +43,18 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
               <Tr>
                 <Th></Th>
                 <Th></Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Product</Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Price</Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Quantity</Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Subtotal</Th>
+                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                  Product
+                </Th>
+                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                  Price
+                </Th>
+                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                  Quantity
+                </Th>
+                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                  Subtotal
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -80,52 +62,31 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
                 <Tr key={productId}>
                   <Td
                     _hover={{ color: '#D9121F', cursor: 'pointer' }}
-                    onClick={() => {
-                      void removeProductFromCart({
-                        variables: {
-                          userId,
-                          productId,
-                          removeAll: true,
-                        },
-                      })
-                    }}
+                    onClick={() => removeProductFromCart(productId, true)}
                   >
                     <MultiplicationSignIcon size={15} />
                   </Td>
-                  <Td>
-                    <Image src={imageUrl} alt={title} h="100px" w="80px" />
+                  <Td pl={0} pr={0}>
+                    <Image src={imageUrl} alt={title} maxW="200px" />
                   </Td>
                   <Td
                     style={{ fontWeight: '400' }}
                     _hover={{ cursor: 'pointer', color: '#00bb00', textDecoration: 'underline' }}
-                    onClick={() => navigate(`/product/${productId}`)}
+                    onClick={() => onItemClick(productId)}
+                    pr={0}
                   >
                     {title}
                   </Td>
-                  <Td>{price}</Td>
-                  <Td>
-                    <AdjustQuantity
+                  <Td pr={0}>{price}</Td>
+                  <Td pr={0}>
+                    <AdjustCartItemQuantity
                       initialQuantity={quantity}
-                      onIncrement={() =>
-                        void addProductToCart({
-                          variables: {
-                            userId,
-                            productId,
-                          },
-                        })
-                      }
-                      onDecrement={() =>
-                        void removeProductFromCart({
-                          variables: {
-                            userId,
-                            productId,
-                            removeAll: false,
-                          },
-                        })
-                      }
+                      productId={productId}
+                      removeProductFromCart={removeProductFromCart}
+                      calculateTotalCartAmount={calculateTotalCartAmount}
                     />
                   </Td>
-                  <Td>{price * quantity}</Td>
+                  <Td pr={0}>{price * quantity}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -151,11 +112,11 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
             borderBottom="1px solid #e6e6e6"
           >
             <Text>Subtotal</Text>
-            <Text>{`₹ ${totalCartAmount}`}</Text>
+            <Text>{`${INR_CURRENCY_SYMBOL} ${totalCartAmount}`}</Text>
           </Flex>
           <Flex display-name="total" justify="space-between" p="15px 0">
             <Text>Total</Text>
-            <Text fontSize="3xl">{`₹ ${totalCartAmount}`}</Text>
+            <Text fontSize="3xl">{`${INR_CURRENCY_SYMBOL} ${totalCartAmount}`}</Text>
           </Flex>
         </Flex>
         <Flex display-name="proceed-to-checkout" justify="center">
@@ -166,7 +127,7 @@ export const CartContent: FC<CartContentProps> = ({ cartItems, refetchCart }) =>
             background="black"
             _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
             borderRadius="40px"
-            onClick={() => navigate('/checkout')}
+            onClick={onCheckout}
             w="100%"
             fontSize="25px"
             fontWeight="300"
