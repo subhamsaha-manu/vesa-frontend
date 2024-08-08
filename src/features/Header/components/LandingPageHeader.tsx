@@ -16,8 +16,6 @@ import {
 
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import logo from '@/assets/logo/vesa-logo.jpg'
 import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { Text } from '@chakra-ui/layout'
@@ -106,9 +104,9 @@ export const LandingPageHeader = () => {
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-logo-flex"
           display={{ base: 'none', md: 'flex' }}
-          flex={1}
+          maxW="200px"
         >
-          <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="200px" />
         </Flex>
         <Flex
           justify="center"
@@ -163,7 +161,7 @@ export const LandingPageHeader = () => {
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-icons-flex"
           gap={{ base: 4, md: 8 }}
-          flex={1}
+          flex={{ base: 1, xl: 0 }}
         >
           <Flex
             display-name="user-account-header-icon"

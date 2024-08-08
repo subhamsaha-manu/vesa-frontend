@@ -82,15 +82,15 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
   return (
     <Flex
       display-name="cart-summary"
-      w="32%"
+      w={{ base: '100%', xl: '32%' }}
       h="fit-content"
       background="#f2f2f2"
-      p={7}
+      p={{ base: '5', xl: '7' }}
       flexDir="column"
-      gap={6}
-      mb="100px"
+      gap={{ base: 4, xl: 6 }}
+      mb={{ base: '0', xl: '100px' }}
     >
-      <Heading>Your Order</Heading>
+      <Heading fontSize={{ base: 'lg', xl: 'xl' }}>Your Order</Heading>
       <Flex flexDir="column">
         <Flex
           display-name="cart-summary-heading-flex"

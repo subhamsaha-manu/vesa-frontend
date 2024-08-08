@@ -75,13 +75,18 @@ const Addresses: FC = () => {
   return (
     <>
       <Flex w="100%" flexDir="column" gap={5}>
-        <Flex display-name="addresses-header-section" justify="space-between" w="100%">
+        <Flex
+          display-name="addresses-header-section"
+          p={{ base: '10px', xl: '0' }}
+          justify="space-between"
+          w="100%"
+        >
           <Text fontSize="md" as="b" color="gray">
             Addresses
           </Text>
           <Button
             variant="solid"
-            size="sm"
+            size={{ base: 'xs', xl: 'sm' }}
             color="white"
             background="black"
             onClick={onOpen}

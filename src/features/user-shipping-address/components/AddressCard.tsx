@@ -56,9 +56,9 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
       <Flex
         display-name="address-card"
         w="100%"
-        p="20px"
+        p={{ base: '10px', xl: '20px' }}
         bg="white"
-        borderRadius="8px"
+        borderRadius={{ base: '0', xl: '8px' }}
         boxShadow="0 2px 4px 0 rgba(0,0,0,.05)"
       >
         <Flex flexDir="column" w="100%">

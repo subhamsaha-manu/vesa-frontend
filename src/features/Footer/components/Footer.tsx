@@ -1,8 +1,15 @@
 import { Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 import { Mail01Icon, WhatsappIcon } from 'hugeicons-react'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const Footer = () => {
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
+
   return (
     <Flex
       w="100%"
@@ -19,16 +26,22 @@ export const Footer = () => {
         display-name="customer-care-flex"
         maxW="1230px"
         margin="auto"
-        p="40px 0 20px 0"
+        p={{ base: '20px 0 10px 0', xl: '40px 0 20px 0' }}
       >
-        <Flex align="flex-start" w="100%" flexDir="column" gap={4}>
-          <Heading size="md">Customer Care</Heading>
+        <Flex
+          align="flex-start"
+          w="100%"
+          flexDir="column"
+          gap={4}
+          p={{ base: '0 10px', xl: '0 20px' }}
+        >
+          <Heading fontSize={{ base: 'sm', xl: 'md' }}>Customer Care</Heading>
           <Flex display-name="mobile" gap={2}>
-            <WhatsappIcon size={24} color="#25d366" />
+            <WhatsappIcon size={isMobile ? 18 : 24} color="#25d366" />
             <Text fontSize="sm">+91 9876543210</Text>
           </Flex>
           <Flex display-name="mobile" gap={2}>
-            <Mail01Icon size={24} color="#25d366" />
+            <Mail01Icon size={isMobile ? 18 : 24} color="#25d366" />
             <Text fontSize="sm">myvesa@gmail.com</Text>
           </Flex>
         </Flex>

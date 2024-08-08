@@ -10,9 +10,9 @@ type OrderSummaryProps = {
 }
 export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
   return (
-    <Flex w="100%" flexDir="column" gap={4} p={4}>
-      <Flex w="100%" gap={6} justify="space-evenly">
-        <Flex flex="1" flexDirection="column" gap={4}>
+    <Flex w="100%" flexDir="column" gap={4} p={{ base: 0, xl: 4 }}>
+      <Flex w="100%" gap={{ base: 2, xl: 6 }} justify="space-evenly">
+        <Flex flex="1" flexDirection="column" gap={{ base: 2, xl: 4 }}>
           <Text fontSize="sm" as="b">
             Shipping Address
           </Text>
@@ -58,7 +58,13 @@ const ProductItem = ({ productId, title, imageUrl, price, quantity }: OrderItem)
   const navigate = useNavigate()
 
   return (
-    <Flex display="flex" bg="white" p={4} borderBottom="1px solid #eee" gap={6}>
+    <Flex
+      display="flex"
+      bg="white"
+      p={{ base: '5px 0', xl: 4 }}
+      borderBottom="1px solid #eee"
+      gap={6}
+    >
       <Flex>
         <Image src={imageUrl} alt={title} width="100px" height="100px" />
       </Flex>

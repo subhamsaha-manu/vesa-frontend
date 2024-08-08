@@ -19,7 +19,12 @@ export const Orders: FC = () => {
 
   return (
     <Flex w="100%" flexDir="column">
-      <Flex display-name="orders-header-section" justify="space-between" w="100%">
+      <Flex
+        display-name="orders-header-section"
+        justify="space-between"
+        w="100%"
+        p={{ base: '10px', xl: '0' }}
+      >
         <Text fontSize="md" as="b" color="gray">
           Your Order History
         </Text>
@@ -27,7 +32,13 @@ export const Orders: FC = () => {
       {fetchingOrders || !data ? (
         <SpinnerContainer height="60vh" />
       ) : (
-        <Flex display-name="orders-section" w="100%" gap={6} pt="30px" flexDir="column">
+        <Flex
+          display-name="orders-section"
+          w="100%"
+          gap={6}
+          pt={{ base: '10px', xl: '30px' }}
+          flexDir="column"
+        >
           {data.userOrderHistory.map((order) => (
             <OrderCard key={order.orderId} order={order} />
           ))}

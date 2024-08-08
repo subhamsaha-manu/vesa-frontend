@@ -34,9 +34,12 @@ export const MobileViewCartListItem: FC<MobileViewCartListItemProps> = ({
             {title}
           </Text>
         </Flex>
-        <Flex color="#121212">
+        <Flex color="#121212" gap={2}>
           <Text fontSize="sm" fontWeight="500">
             {INR_CURRENCY_SYMBOL} {price}
+          </Text>
+          <Text fontSize="sm" fontWeight="500">
+            x {quantity}
           </Text>
         </Flex>
       </Flex>
@@ -59,7 +62,7 @@ export const MobileViewCartListItem: FC<MobileViewCartListItemProps> = ({
       <Flex
         display-name="remove-from-cart"
         onClick={() => removeProductFromCart(productId, true)}
-        _hover={{ cursor: 'pointer', transform: 'scale(1.1)' }}
+        _hover={{ cursor: 'pointer', transform: 'scale(1.1)', color: 'red' }}
       >
         <Delete04Icon size={18} />
       </Flex>
