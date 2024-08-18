@@ -53,9 +53,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
       })
       navigate('/')
     },
-    refetchQueries: [
-      { query: userCart, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
-    ],
+    refetchQueries: [{ query: userCart, variables: { userId } }],
   })
 
   const handlePlaceOrderClick = () => {

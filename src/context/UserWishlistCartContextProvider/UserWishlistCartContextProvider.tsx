@@ -1,28 +1,35 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 
-import { UserCartContextType } from './types'
+import { UserWishlistCartContextType } from './types'
 import { useUserCartOperationQuery } from './api/userCart.generated'
 import { useUserWishlistOperationQuery } from './api/userWishlist.generated'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
-const UserCartContext = createContext<UserCartContextType>({} as UserCartContextType)
+const UserWishlistCartContext = createContext<UserWishlistCartContextType>(
+  {} as UserWishlistCartContextType
+)
 
-export const UserCartContextProvider: FC<{
-  value?: UserCartContextType
+export const UserWishlistCartContextProvider: FC<{
+  value?: UserWishlistCartContextType
   children: ReactNode
 }> = (props) => {
+  const {
+    currentUser: { userId },
+  } = useCurrentUserContext()
+
   const [numberOfCartItems, setNumberOfCartItems] = useState<number>(0)
   const [wishlistItems, setWishlistItems] = useState<Array<string>>([])
 
   const { data } = useUserCartOperationQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })
 
   const { data: userWishlistData } = useUserWishlistOperationQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })
@@ -52,9 +59,13 @@ export const UserCartContextProvider: FC<{
     [numberOfCartItems, setNumberOfCartItems, wishlistItems, setWishlistItems]
   )
 
-  return <UserCartContext.Provider value={context}>{props.children}</UserCartContext.Provider>
+  return (
+    <UserWishlistCartContext.Provider value={context}>
+      {props.children}
+    </UserWishlistCartContext.Provider>
+  )
 }
 
-const useUserCartContextProvider = () => useContext(UserCartContext)
+const useUserWishlistCartContextProvider = () => useContext(UserWishlistCartContext)
 
-export default useUserCartContextProvider
+export default useUserWishlistCartContextProvider

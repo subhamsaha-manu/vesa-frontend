@@ -47,9 +47,7 @@ const Addresses: FC = () => {
       })
       onClose()
     },
-    refetchQueries: [
-      { query: shippingAddresses, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
-    ],
+    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
   })
 
   const [updateShippingAddress, { loading: updatingAddress }] = useUpdateShippingAddressMutation({
@@ -63,9 +61,7 @@ const Addresses: FC = () => {
       })
       onClose()
     },
-    refetchQueries: [
-      { query: shippingAddresses, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
-    ],
+    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
   })
 
   if (fetchingAllAddresses || !data) {

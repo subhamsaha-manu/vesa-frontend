@@ -16,9 +16,9 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
       flexDir="column"
       borderRadius={8}
       gap={8}
-      flex="1 1 calc(25% - 20px)"
+      flex={{ base: '1 1 47%', xl: '1 1 20%' }}
       boxSizing="border-box"
-      m="10px"
+      m={{ base: '4px', xl: '10px' }}
       _hover={{ cursor: 'pointer' }}
       onClick={() => navigate(`/product/${product.productId}`)}
     >

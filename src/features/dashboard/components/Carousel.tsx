@@ -43,7 +43,13 @@ export const Carousel: FC = () => {
   ]
 
   return (
-    <Box position="relative" height="600px" width="full" overflow="hidden">
+    <Box
+      position="relative"
+      height={{ base: '98vh', xl: '600px' }}
+      width="full"
+      overflow="hidden"
+      display-name="carousel-box-container"
+    >
       <IconButton
         aria-label="left-arrow"
         borderRadius="full"

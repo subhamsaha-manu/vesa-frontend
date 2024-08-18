@@ -3,6 +3,7 @@ import React, { FC, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Home01Icon } from 'hugeicons-react'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { capitalize } from 'lodash'
 
 type ContentLayoutProps = {
   pageTitle: string
@@ -47,7 +48,7 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
           {`>`}
         </Text>
         <Text fontSize={isMobile ? 'xs' : 'md'} as="b" color="gray">
-          {`${pageTitle}`}
+          {`${capitalize(pageTitle)}`}
         </Text>
       </Flex>
       <Flex

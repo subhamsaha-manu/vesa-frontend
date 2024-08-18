@@ -8,7 +8,7 @@ import { getClient } from '@/apollo/client'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { AuthenticationProvider } from '@/features/auth/components/AuthenticationProvider'
 import theme from '@/utils/theme'
-import { CategoriesContextProvider, UserCartContextProvider } from '@/context'
+import { CategoriesContextProvider } from '@/context'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { ErrorFallback } from '@/components/Layout'
@@ -21,13 +21,11 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   return (
     <ChakraProvider theme={theme}>
       <Suspense fallback={<SpinnerContainer height="60vh" />}>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorBoundary fallback={<ErrorFallback />}>
           <BrowserRouter>
             <ApolloProvider client={getClient()}>
               <AuthenticationProvider>
-                <CategoriesContextProvider>
-                  <UserCartContextProvider>{children}</UserCartContextProvider>
-                </CategoriesContextProvider>
+                <CategoriesContextProvider>{children}</CategoriesContextProvider>
               </AuthenticationProvider>
             </ApolloProvider>
           </BrowserRouter>

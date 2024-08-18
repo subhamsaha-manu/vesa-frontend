@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Flex } from '@chakra-ui/react'
 import { FavouriteIcon, HeartAddIcon } from 'hugeicons-react'
-import useUserCartContextProvider from '@/context/UserCartContextProvider'
+import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { useAddProductToWishlistMutation } from '../apis/addProductToWishlist.generated'
 import { Text } from '@chakra-ui/layout'
 import { userWishlist } from '../apis/userWishlist'
@@ -14,7 +14,7 @@ type AddToWishlistProps = {
   mobileView?: boolean
 }
 export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView }) => {
-  const { wishlistItems } = useUserCartContextProvider()
+  const { wishlistItems } = useUserWishlistCartContextProvider()
   const {
     currentUser: { userId },
   } = useCurrentUserContext()
@@ -24,9 +24,7 @@ export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView })
       userId,
       productId,
     },
-    refetchQueries: [
-      { query: userWishlist, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
-    ],
+    refetchQueries: [{ query: userWishlist, variables: { userId } }],
   })
 
   const isProductInWishlist = wishlistItems.some((item) => item === productId)

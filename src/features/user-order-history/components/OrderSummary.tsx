@@ -33,7 +33,7 @@ export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
             <Text fontSize="sm">{capitalize(order.modeOfPayment).replace('_', '-')}</Text>
           </Flex>
         </Flex>
-        <Flex flex="1" flexDirection="column" gap={4}>
+        <Flex flex=".5" flexDirection="column" gap={4}>
           <Text fontSize="sm" as="b">
             Total
           </Text>

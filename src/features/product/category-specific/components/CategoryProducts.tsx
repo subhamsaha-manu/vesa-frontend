@@ -9,6 +9,7 @@ import { ContentLayout } from '@/components/Layout'
 type CategoryParams = {
   categoryName: string
 }
+
 export const CategoryProducts: FC = () => {
   const { categories } = useCategoriesContextProvider()
 
@@ -18,14 +19,13 @@ export const CategoryProducts: FC = () => {
 
   const categoryId =
     categories.find((category) => category.name === transformedCategoryName)?.categoryId ?? ''
-
+  
   return (
     <ContentLayout pageTitle={`${transformedCategoryName}`}>
       <Flex
         flexDir="column"
-        p={{ base: '8px', xl: '0' }}
         pb={{ base: '150px', xl: '80px' }}
-        gap={8}
+        gap={{ base: 4, xl: 8 }}
         display-name={`${transformedCategoryName}-content-layout-container`}
         w="100%"
         h="auto"
@@ -35,7 +35,12 @@ export const CategoryProducts: FC = () => {
           borderRadius: '8px',
         }}
       >
-        <Flex display-name="content-layout-heading-flex" w="100%" justify="start" mt={8}>
+        <Flex
+          display-name="content-layout-heading-flex"
+          w="100%"
+          justify="start"
+          mt={{ base: 0, xl: 8 }}
+        >
           <Heading size="lg" color="#1E355B" fontWeight="500">
             {upperCase(transformedCategoryName)}
           </Heading>

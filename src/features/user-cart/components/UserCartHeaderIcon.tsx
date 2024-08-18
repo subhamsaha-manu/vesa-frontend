@@ -2,13 +2,13 @@ import React, { FC } from 'react'
 import { Flex } from '@chakra-ui/react'
 import { ShoppingBasket01Icon } from 'hugeicons-react'
 import { useNavigate } from 'react-router-dom'
-import useUserCartContextProvider from '@/context/UserCartContextProvider'
+import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { Text } from '@chakra-ui/layout'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const UserCartHeaderIcon: FC = () => {
   const navigate = useNavigate()
-  const { numberOfCartItems } = useUserCartContextProvider()
+  const { numberOfCartItems } = useUserWishlistCartContextProvider()
   const size = useWindowSize()
 
   const { width } = size

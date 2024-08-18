@@ -54,7 +54,7 @@
     "zod": "^3.23.8"
   },
   "scripts": {
-    "start": "HTTPS=true REACT_APP_API_MOCKING=false craco start",
+    "start": "craco start",
     "clean": "rm -rf build/* ",
     "build": "craco build",
     "test": "jest --forceExit --maxWorkers=2 --silent --testTimeout=180000",

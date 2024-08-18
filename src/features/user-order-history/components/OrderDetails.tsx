@@ -44,7 +44,7 @@ export const OrderDetails: FC = () => {
           <IconButton
             aria-label="Back"
             variant="outline"
-            size={{ base: 'sm', xl: 'lg' }}
+            size={{ base: 'sm', xl: 'md' }}
             icon={<ArrowBackIcon fontSize={isMobile ? 18 : 22} />}
           />
         </Link>

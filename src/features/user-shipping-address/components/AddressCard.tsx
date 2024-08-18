@@ -46,9 +46,7 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
       })
       onClose()
     },
-    refetchQueries: [
-      { query: shippingAddresses, variables: { userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e' } },
-    ],
+    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
   })
 
   return (

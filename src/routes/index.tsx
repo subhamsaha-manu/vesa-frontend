@@ -7,15 +7,14 @@ import { publicRoutes } from './public'
 import { useAuthenticationContext } from '@/features/auth'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { ErrorFallback, MainLayout } from '@/components/Layout'
+import { ErrorFallback, MainLayout, ScrollToTop } from '@/components/Layout'
 
 import { Dashboard } from '@/features/dashboard'
 
 import { CategoryProducts, ProductDetailsContainer } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
-import { CurrentUserContextProvider } from '@/context'
+import { CurrentUserContextProvider, UserWishlistCartContextProvider } from '@/context'
 import { ErrorBoundary } from 'react-error-boundary'
-//import OrderDetails from '@/features/user-order-history/components/OrderDetails'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
 const ContactUs = lazy(() => import('@/features/contact-us'))
@@ -34,13 +33,15 @@ const Addresses = lazy(() => import('@/features/user-shipping-address'))
 const App = () => {
   return (
     <CurrentUserContextProvider>
-      <MainLayout>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<SpinnerContainer />}>
-            <Outlet />
-          </Suspense>
-        </ErrorBoundary>
-      </MainLayout>
+      <UserWishlistCartContextProvider>
+        <MainLayout>
+          <ErrorBoundary fallback={<ErrorFallback />}>
+            <Suspense fallback={<SpinnerContainer />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
+        </MainLayout>
+      </UserWishlistCartContextProvider>
     </CurrentUserContextProvider>
   )
 }
@@ -48,10 +49,10 @@ const App = () => {
 export const AppRoutes = () => {
   const { isAuthenticated } = useAuthenticationContext()
 
-  const accountRoutes = {
+  const userAccountRoutes = {
     path: 'account',
     element: (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ErrorBoundary fallback={<ErrorFallback />}>
         <UserAccount />
       </ErrorBoundary>
     ),
@@ -65,7 +66,12 @@ export const AppRoutes = () => {
   const commonRoutes = [
     {
       path: '/',
-      element: <App />,
+      element: (
+        <>
+          <ScrollToTop />
+          <App />
+        </>
+      ),
       children: [
         { path: '/', element: <Dashboard /> },
         { path: 'product-category/:categoryName', element: <CategoryProducts /> },
@@ -75,7 +81,7 @@ export const AppRoutes = () => {
         { path: 'checkout', element: <Checkout /> },
         { path: 'about-us', element: <AboutUs /> },
         { path: 'contact-us', element: <ContactUs /> },
-        accountRoutes,
+        userAccountRoutes,
       ],
     },
   ]
