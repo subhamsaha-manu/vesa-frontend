@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { getClient } from '@/apollo/client'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { AuthenticationProvider } from '@/features/auth/components/AuthenticationProvider'
+
 import theme from '@/utils/theme'
 import { CategoriesContextProvider } from '@/context'
 import 'slick-carousel/slick/slick.css'
@@ -24,9 +24,7 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
         <ErrorBoundary fallback={<ErrorFallback />}>
           <BrowserRouter>
             <ApolloProvider client={getClient()}>
-              <AuthenticationProvider>
-                <CategoriesContextProvider>{children}</CategoriesContextProvider>
-              </AuthenticationProvider>
+              <CategoriesContextProvider>{children}</CategoriesContextProvider>
             </ApolloProvider>
           </BrowserRouter>
         </ErrorBoundary>

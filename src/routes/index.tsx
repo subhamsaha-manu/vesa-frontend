@@ -1,10 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-
-import { protectedRoutes } from './protected'
 import { publicRoutes } from './public'
-
-import { useAuthenticationContext } from '@/features/auth'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ErrorFallback, MainLayout, ScrollToTop } from '@/components/Layout'
@@ -22,6 +18,7 @@ const UserCart = lazy(() => import('@/features/user-cart'))
 
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
 const UserAccount = lazy(() => import('@/features/account'))
+const AuthModal = lazy(() => import('@/features/auth'))
 const Orders = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.Orders }))
 )
@@ -47,13 +44,12 @@ const App = () => {
 }
 
 export const AppRoutes = () => {
-  const { isAuthenticated } = useAuthenticationContext()
-
   const userAccountRoutes = {
     path: 'account',
     element: (
       <ErrorBoundary fallback={<ErrorFallback />}>
-        <UserAccount />
+        {/*<UserAccount />*/}
+        <AuthModal />
       </ErrorBoundary>
     ),
     children: [
@@ -88,9 +84,7 @@ export const AppRoutes = () => {
 
   const fallbackRoute = { path: '*', element: <Navigate to="/" replace /> }
 
-  const routes = isAuthenticated
-    ? [...commonRoutes, ...protectedRoutes]
-    : [...commonRoutes, ...publicRoutes]
+  const routes = [...commonRoutes, ...publicRoutes]
 
   return useRoutes(routes)
 }

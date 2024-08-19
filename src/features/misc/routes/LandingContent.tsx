@@ -2,7 +2,6 @@ import { Flex } from '@chakra-ui/react'
 import React, { FC, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useAuthenticationContext } from '@/features/auth'
 import { storage } from '@/utils/storage'
 import { Dashboard } from '@/features/dashboard'
 
@@ -11,7 +10,6 @@ export const LandingContent: FC = () => {
 
   const navigate = useNavigate()
   const incomingPath: string = location.pathname
-  const { isAuthenticated } = useAuthenticationContext()
 
   useEffect(() => {
     if (incomingPath.includes('/challenge/')) {

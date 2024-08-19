@@ -1,3 +1,1 @@
-export * from './RegisterForm'
-export * from './LoginForm'
-export * from './AuthenticationProvider'
+export { default } from './AuthModal'
