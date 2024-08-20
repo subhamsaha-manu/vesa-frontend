@@ -18,7 +18,7 @@ const UserCart = lazy(() => import('@/features/user-cart'))
 
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
 const UserAccount = lazy(() => import('@/features/account'))
-const AuthModal = lazy(() => import('@/features/auth'))
+const AuthContainer = lazy(() => import('@/features/auth/components/AuthContainer'))
 const Orders = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.Orders }))
 )
@@ -49,7 +49,7 @@ export const AppRoutes = () => {
     element: (
       <ErrorBoundary fallback={<ErrorFallback />}>
         {/*<UserAccount />*/}
-        <AuthModal />
+        <AuthContainer />
       </ErrorBoundary>
     ),
     children: [

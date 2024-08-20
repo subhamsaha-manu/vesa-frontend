@@ -1,20 +1,25 @@
 import React, { FC, useState } from 'react'
 import { Button, Center, Flex, Heading, Text } from '@chakra-ui/react'
-import { AuthByPhone } from '@/features/auth/components/AuthByPhone'
+import { AuthByPhone } from './AuthByPhone'
 import { FieldValues } from 'react-hook-form'
-import { AuthByEmail } from '@/features/auth/components/AuthByEmail'
+import { AuthByEmail } from './AuthByEmail'
+import { useRequestOtpMutation } from '../apis/requestOtp.generated'
+import { AuthByType } from '@/types'
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
-enum AuthByType {
-  EMAIL,
-  PHONE,
-}
-
-const AuthModal: FC = () => {
-  const [authBy, setAuthBy] = useState<AuthByType>(AuthByType.PHONE)
+const AuthContainer: FC = () => {
+  const [authBy, setAuthBy] = useState<AuthByType>(AuthByType.Phone)
+  const [requestOtp, { loading }] = useRequestOtpMutation()
 
   const onRequestOTP = (values: FieldValues) => {
-    const value = authBy === AuthByType.PHONE ? values['phoneNumber'] : values['email']
-    console.log('Requesting OTP for:', value)
+    const value = authBy === AuthByType.Phone ? values['phoneNumber'] : values['email']
+
+    void requestOtp({
+      variables: {
+        sendTo: value,
+        contactMethod: authBy,
+      },
+    })
   }
 
   return (
@@ -38,7 +43,7 @@ const AuthModal: FC = () => {
             Please enter your mobile number or registered email ID to receive a verification code.
           </Text>
         </Flex>
-        {authBy === AuthByType.PHONE ? (
+        {authBy === AuthByType.Phone ? (
           <AuthByPhone onSubmit={onRequestOTP} showSpinner={false} />
         ) : (
           <AuthByEmail onSubmit={onRequestOTP} showSpinner={false} />
@@ -61,6 +66,8 @@ const AuthModal: FC = () => {
             }
             fontSize="25px"
             fontWeight="400"
+            disabled={loading}
+            leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
           >
             Request OTP
           </Button>
@@ -71,10 +78,10 @@ const AuthModal: FC = () => {
             color="black"
             _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
             onClick={() =>
-              setAuthBy(authBy === AuthByType.PHONE ? AuthByType.EMAIL : AuthByType.PHONE)
+              setAuthBy(authBy === AuthByType.Phone ? AuthByType.Email : AuthByType.Phone)
             }
           >
-            {authBy === AuthByType.PHONE ? 'Email' : 'Phone'}
+            {authBy === AuthByType.Phone ? 'Email' : 'Phone'}
           </Button>
         </Flex>
         <Text fontSize={{ base: 'xs', xl: 'md' }} textAlign="center" fontWeight="500">
@@ -86,4 +93,4 @@ const AuthModal: FC = () => {
   )
 }
 
-export default AuthModal
+export default AuthContainer

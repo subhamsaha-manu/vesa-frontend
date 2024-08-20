@@ -1,5 +1,4 @@
 type Query {
-    login(email: String!, password: String!): Boolean!
     products(productFilter: ProductFilter!): [MinifiedProduct!]!
     product(productId: ID!): Product!
     categories: [Category!]!
@@ -14,7 +13,6 @@ type Query {
 }
 
 type Mutation {
-    register(registerUserInput: RegisterUserInput!): Boolean!
     addProduct(addProductInput: AddProductInput!): Boolean!
     addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
     addProductToCart(userId:ID!, productId: ID!): Boolean!
@@ -27,6 +25,8 @@ type Mutation {
     addShippingAddress(userId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
     updateShippingAddress(userId: ID!, addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
     removeShippingAddress(userId: ID!, addressId: ID!): Boolean!
+    requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
+    verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): Boolean!
 }
 
 input ProductFilter {
@@ -211,6 +211,11 @@ type MinifiedShippingAddress {
     addressId: ID!
     name: String!
     isDefault: Boolean!
+}
+
+enum AuthByType {
+    EMAIL
+    PHONE
 }
 
 schema {
