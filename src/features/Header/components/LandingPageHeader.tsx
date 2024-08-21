@@ -23,10 +23,14 @@ import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { storage } from '@/utils/storage'
+import { USER_ID } from '@/utils/constants'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
   const { categories } = useCategoriesContextProvider()
+
+  const userId = storage.getItem(USER_ID)
 
   const size = useWindowSize()
 
@@ -36,8 +40,12 @@ export const LandingPageHeader = () => {
 
   const navigate = useNavigate()
 
-  const handleSignUpClick = () => {
-    navigate('/auth/register')
+  const handleUserIconClick = () => {
+    if (userId) {
+      navigate('/account/orders')
+    } else {
+      navigate('/auth')
+    }
   }
 
   const categoryMenuOptions = categories.map(({ name }) => ({
@@ -171,7 +179,7 @@ export const LandingPageHeader = () => {
             <UserIcon
               size={isMobile ? 18 : 22}
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/account/orders')}
+              onClick={handleUserIconClick}
             />
           </Flex>
           <UserWishlistHeaderIcon />

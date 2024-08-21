@@ -1,8 +1,10 @@
 import React, { FC, useEffect } from 'react'
 import {
+  INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
+  NAME_IS_MANDATORY,
 } from '@/utils/constants'
 import * as z from 'zod'
 import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
@@ -16,14 +18,10 @@ import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 
 const schema = z.object({
-  email: z.string().email('Invalid email address'),
-  name: z
-    .string()
-    .min(1, 'Name is mandatory')
-    .max(50)
-    .regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
-      message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-    }),
+  email: z.string().email(INVALID_EMAIL_ERROR_MESSAGE),
+  name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
+    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  }),
   addressLine1: z.string().min(1, 'Street Address is mandatory'),
   addressLine2: z.string().optional(),
   city: z.string().min(1, 'Town is mandatory'),

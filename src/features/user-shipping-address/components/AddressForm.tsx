@@ -3,6 +3,7 @@ import * as z from 'zod'
 import {
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
+  NAME_IS_MANDATORY,
 } from '@/utils/constants'
 import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -28,13 +29,9 @@ import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/ap
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const schema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is mandatory')
-    .max(50)
-    .regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
-      message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-    }),
+  name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
+    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  }),
   addressLine1: z.string().min(1, 'Street Address is mandatory'),
   addressLine2: z.string().optional(),
   city: z.string().min(1, 'City/Town is mandatory'),

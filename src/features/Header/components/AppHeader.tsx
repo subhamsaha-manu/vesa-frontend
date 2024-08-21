@@ -3,11 +3,11 @@ import React from 'react'
 import { IoMdLogOut } from 'react-icons/io'
 import { MdPassword } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-
-import { noop } from 'lodash'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { storage } from '@/utils/storage'
+import { USER_ID } from '@/utils/constants'
 
 const MenuItemWrapper = styled.div`
   margin: 10px 0 10px 11px;
@@ -34,7 +34,13 @@ export const AppHeader = () => {
         >
           Change Password
         </MenuItem>
-        <MenuItem icon={<IoMdLogOut fontSize="20px" />} onClick={noop}>
+        <MenuItem
+          icon={<IoMdLogOut fontSize="20px" />}
+          onClick={() => {
+            storage.clearItem(USER_ID)
+            navigate('/')
+          }}
+        >
           Logout
         </MenuItem>
       </MenuList>

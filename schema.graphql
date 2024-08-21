@@ -26,7 +26,8 @@ type Mutation {
     updateShippingAddress(userId: ID!, addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
     removeShippingAddress(userId: ID!, addressId: ID!): Boolean!
     requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
-    verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): Boolean!
+    verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
+    register(registerUserInput: RegisterUserInput!): ID!
 }
 
 input ProductFilter {
@@ -59,7 +60,6 @@ input RegisterUserInput {
     name: String!
     email: String!
     phoneNumber: String!
-    password: String!
     userRole: UserRole
 }
 
@@ -197,7 +197,6 @@ type User {
     email: String
     phoneNumber: String
     isAdmin: Boolean!
-    state: String!
 }
 
 type MinifiedOrder {
@@ -216,6 +215,11 @@ type MinifiedShippingAddress {
 enum AuthByType {
     EMAIL
     PHONE
+}
+
+type VerifyOtpResponse {
+    isVerified: Boolean!
+    userId: ID
 }
 
 schema {

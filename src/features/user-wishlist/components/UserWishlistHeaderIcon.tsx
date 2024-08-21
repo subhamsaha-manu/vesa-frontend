@@ -25,7 +25,7 @@ export const UserWishlistHeaderIcon: FC = () => {
       >
         <FavouriteIcon size={isMobile ? 18 : 22} onClick={() => navigate('/wishlist')} />
       </Flex>
-      {wishlistItems.length > 0 && (
+      {wishlistItems?.length > 0 && (
         <Flex
           display-name="wishlist-items-count"
           style={{
@@ -41,7 +41,7 @@ export const UserWishlistHeaderIcon: FC = () => {
           }}
         >
           <Text fontSize={{ base: 'xs', xl: 'md' }} fontWeight={{ base: '300', xl: '700' }}>
-            {wishlistItems.length}
+            {wishlistItems?.length}
           </Text>
         </Flex>
       )}

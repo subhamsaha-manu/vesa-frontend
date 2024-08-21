@@ -2,16 +2,16 @@ import { faker } from '@faker-js/faker'
 
 import { AddProductInput } from '@/types'
 
-const categories = [
-  '6e3a139d-24ac-4a0e-bf66-3af46ea97c53',
-  '60cffe75-6f74-4145-856d-054fa81c908e',
-  '3298e0f0-89b1-439e-8b7a-c58686e6644d',
-  'ff4e6fb9-9a12-4719-92e2-14d373344eb2',
+const categoryIds = [
+  'a73047b6-a146-4ff1-8435-2a2b66a06ecd',
+  '8848777f-481c-4127-aba7-6d4beaa80886',
+  'e00eaa5d-95f3-469b-ac73-c66af8e88a00',
+  'ca91d2c6-2efa-4ca3-9aea-843b5cb9b132',
 ]
 
 function getRandomCategoryIds(): Array<string> {
   const numberOfCategories = faker.number.int({ min: 1, max: 3 })
-  const shuffled = faker.helpers.shuffle(categories)
+  const shuffled = faker.helpers.shuffle(categoryIds)
   return shuffled.slice(0, numberOfCategories)
 }
 
@@ -26,5 +26,4 @@ export const aProductFactory = makeFactory<AddProductInput>(() => ({
   imageUrl: faker.image.url(),
   thumbnailUrl: faker.image.url(),
   categoryIds: getRandomCategoryIds(),
-  __typename: 'AddProductInput',
 }))

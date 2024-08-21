@@ -2,6 +2,8 @@ import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState 
 import { CurrentUserContextType } from './types'
 import { User } from '@/types'
 import { useUserDetailQuery } from './apis/getCurrentUserDetails.generated'
+import { storage } from '@/utils/storage'
+import { USER_ID } from '@/utils/constants'
 
 const CurrentUserContext = createContext<CurrentUserContextType>({} as CurrentUserContextType)
 
@@ -10,10 +12,11 @@ export const CurrentUserContextProvider: FC<{
   children: ReactNode
 }> = (props) => {
   const [currentUser, setCurrentUser] = useState<User>({} as User)
+  const userId = storage.getItem(USER_ID)
 
   const { data } = useUserDetailQuery({
     variables: {
-      userId: 'ba99f941-347a-4d86-87ae-aa20fae0e30e',
+      userId,
     },
     fetchPolicy: 'network-only',
   })

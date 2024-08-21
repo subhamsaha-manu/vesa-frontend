@@ -2,9 +2,11 @@ import React, { FC } from 'react'
 import { useContactUsMutation } from '../apis/contactUs.generated'
 import * as z from 'zod'
 import {
+  INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
+  NAME_IS_MANDATORY,
 } from '@/utils/constants'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,14 +17,10 @@ import { Text } from '@chakra-ui/layout'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 
 const schema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is mandatory')
-    .max(50)
-    .regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
-      message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-    }),
-  email: z.string().email('Invalid email address'),
+  name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
+    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  }),
+  email: z.string().email(INVALID_EMAIL_ERROR_MESSAGE),
   phoneNumber: z.string().refine((value) => /^\d{10}$/.test(value), {
     message: INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
   }),

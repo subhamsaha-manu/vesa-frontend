@@ -7,7 +7,6 @@ export const userDetail = gql`
       name
       email
       phoneNumber
-      state
       isAdmin
     }
   }

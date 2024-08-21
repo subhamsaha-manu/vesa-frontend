@@ -48,8 +48,7 @@ export const AppRoutes = () => {
     path: 'account',
     element: (
       <ErrorBoundary fallback={<ErrorFallback />}>
-        {/*<UserAccount />*/}
-        <AuthContainer />
+        <UserAccount />
       </ErrorBoundary>
     ),
     children: [
@@ -82,9 +81,19 @@ export const AppRoutes = () => {
     },
   ]
 
+  const authenticateRoute = {
+    path: 'auth',
+    element: (
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <MainLayout>
+          <AuthContainer />
+        </MainLayout>
+      </ErrorBoundary>
+    ),
+  }
   const fallbackRoute = { path: '*', element: <Navigate to="/" replace /> }
 
-  const routes = [...commonRoutes, ...publicRoutes]
+  const routes = [...commonRoutes, ...publicRoutes, authenticateRoute, fallbackRoute]
 
   return useRoutes(routes)
 }
