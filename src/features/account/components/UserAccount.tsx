@@ -25,8 +25,8 @@ const UserAccount: FC = () => {
         >
           <Sidebar />
         </Flex>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Flex display-name="account-right-section" flex="1" p={{ base: '0', xl: '20px' }}>
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <Flex display-name="account-right-section" flex="1" p={{ base: '0', xl: '10px' }}>
             <Outlet />
           </Flex>
         </ErrorBoundary>

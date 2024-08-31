@@ -115,7 +115,7 @@ export const UserBasicDetails: FC<UserBasicDetailsProps> = ({ sendTo, authBy }) 
             borderRadius="40px"
             fontSize="25px"
             fontWeight="400"
-            disabled={loading}
+            isDisabled={loading}
             type="submit"
             leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
           >

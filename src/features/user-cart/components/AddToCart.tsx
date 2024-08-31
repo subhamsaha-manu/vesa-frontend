@@ -13,9 +13,11 @@ type AddToCartProps = {
 }
 export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
   const [addedToCart, setAddedToCart] = useState<boolean>(false)
+
   const {
     currentUser: { userId },
   } = useCurrentUserContext()
+
   const navigate = useNavigate()
 
   const [addToCart, { loading }] = useAddProductToCartMutation({
@@ -59,8 +61,14 @@ export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
           }
           _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           borderRadius="40px"
-          onClick={() => addToCart()}
-          disabled={loading}
+          onClick={() => {
+            if (userId) {
+              void addToCart()
+            } else {
+              navigate('/auth')
+            }
+          }}
+          isDisabled={loading}
           width="100%"
         >
           Add to Cart

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useOrderDetailsQuery } from '@/features/user-order-history/apis/orderDetails.generated'
+import { useOrderDetailsQuery } from '../apis/orderDetails.generated'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { SpinnerContainer } from '@/components/elements/Spinner'
@@ -10,8 +10,7 @@ import { useWindowSize } from '@/hooks/useWindowSize'
 type OrderParamType = {
   orderId: string
 }
-
-export const OrderDetails: FC = () => {
+export const AdminOrderDetails: FC = () => {
   const { orderId } = useParams<keyof OrderParamType>() as OrderParamType
 
   const { data, loading } = useOrderDetailsQuery({
@@ -41,7 +40,7 @@ export const OrderDetails: FC = () => {
         justify="space-between"
         p={{ base: '5px', xl: 0 }}
       >
-        <Link to="/account/orders">
+        <Link to="/admin">
           <IconButton
             aria-label="Back"
             variant="outline"
@@ -54,7 +53,7 @@ export const OrderDetails: FC = () => {
         <SpinnerContainer height="60vh" />
       ) : (
         <Flex w="100%" flexDir="column" gap={4} p={{ base: '5px', xl: 0 }}>
-          <Heading fontSize={{ base: 'sm', xl: 'md' }} color="#1E355B" fontWeight="700">
+          <Heading fontSize={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="700">
             Order Summary
           </Heading>
           <OrderSummary order={data.orderDetails} />

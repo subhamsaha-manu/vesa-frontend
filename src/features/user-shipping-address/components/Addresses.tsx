@@ -93,6 +93,11 @@ const Addresses: FC = () => {
         </Flex>
 
         <Flex display-name="addresses-section" w="100%" gap={6} pt="30px" flexDir="column">
+          {data.shippingAddresses.length === 0 && (
+            <Text fontSize="md" color="gray">
+              No addresses found
+            </Text>
+          )}
           {data.shippingAddresses.map((address) => (
             <AddressCard
               key={address.addressId}

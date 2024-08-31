@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { Text } from '@chakra-ui/layout'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const UserWishlistHeaderIcon: FC = () => {
   const navigate = useNavigate()
+
+  const { currentUser } = useCurrentUserContext()
+
   const { wishlistItems } = useUserWishlistCartContextProvider()
 
   const size = useWindowSize()
@@ -23,7 +27,16 @@ export const UserWishlistHeaderIcon: FC = () => {
         gap={2}
         _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
       >
-        <FavouriteIcon size={isMobile ? 18 : 22} onClick={() => navigate('/wishlist')} />
+        <FavouriteIcon
+          size={isMobile ? 18 : 22}
+          onClick={() => {
+            if (currentUser?.userId) {
+              navigate('/wishlist')
+            } else {
+              navigate('/auth')
+            }
+          }}
+        />
       </Flex>
       {wishlistItems?.length > 0 && (
         <Flex

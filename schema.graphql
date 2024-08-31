@@ -10,6 +10,7 @@ type Query {
     userDetail(userId: ID!): User!
     userAddressesMinified(userId: ID!): [MinifiedShippingAddress!]!
     orderDetails(orderId: ID!): Order!
+    orders(pageNumber: Int!, pageSize: Int!):OrdersResponse!
 }
 
 type Mutation {
@@ -116,6 +117,7 @@ input PlaceOrderInput {
 input OrderItemInput {
     productId: ID!
     quantity: Int!
+    price: Float!
 }
 
 enum ModeOfPayment {
@@ -221,6 +223,28 @@ type VerifyOtpResponse {
     isVerified: Boolean!
     userId: ID
 }
+
+type OrdersResponse {
+    orders: [MinifiedReceivedOrder!]!
+    pageInfo: PageInfo!
+}
+
+type MinifiedReceivedOrder {
+    orderId: ID!
+    name: String!
+    orderDate: String!
+    orderStatus: OrderStatus!
+    orderTotal: Float!
+    modeOfPayment: ModeOfPayment!
+}
+
+type PageInfo {
+    totalPages: Int!
+    currentPage: Int!
+    pageSize: Int!
+    totalElements: Int!
+}
+
 
 schema {
     query: Query

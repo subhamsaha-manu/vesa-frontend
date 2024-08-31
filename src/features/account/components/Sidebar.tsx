@@ -2,18 +2,13 @@ import { Flex, Text } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CheckListIcon, Logout04Icon, MapsEditingIcon } from 'hugeicons-react'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
-import { useWindowSize } from '@/hooks/useWindowSize'
 import { storage } from '@/utils/storage'
 import { USER_ID } from '@/utils/constants'
 
 export const Sidebar = () => {
   const {
-    currentUser: { name },
+    currentUser: { name, isAdmin },
   } = useCurrentUserContext()
-
-  const size = useWindowSize()
-
-  const { width } = size
 
   const navigate = useNavigate()
 
@@ -25,36 +20,58 @@ export const Sidebar = () => {
         </Text>
       </Flex>
       <Flex flexDir="column" align="stretch">
-        <Link to="addresses">
-          <Flex
-            display-name="account-nav-item"
-            align="center"
-            gap={4}
-            p={{ base: '0 10px', xl: '0 20px' }}
-            cursor="pointer"
-            h="53px"
-            borderTop="1px solid #f6f6f6"
-            _hover={{ bg: 'gray.200' }}
-          >
-            <MapsEditingIcon size={20} color="#000000" />
-            <Text fontSize="md">Addresses</Text>
-          </Flex>
-        </Link>
-        <Link to="orders">
-          <Flex
-            display-name="account-nav-item"
-            align="center"
-            gap={4}
-            p={{ base: '0 10px', xl: '0 20px' }}
-            cursor="pointer"
-            h="53px"
-            borderTop="1px solid #f6f6f6"
-            _hover={{ bg: 'gray.200' }}
-          >
-            <CheckListIcon size={20} color="#000000" />
-            <Text fontSize="md">Orders</Text>
-          </Flex>
-        </Link>
+        {!isAdmin && (
+          <>
+            <Link to="addresses">
+              <Flex
+                display-name="account-nav-item"
+                align="center"
+                gap={4}
+                p={{ base: '0 10px', xl: '0 20px' }}
+                cursor="pointer"
+                h="53px"
+                borderTop="1px solid #f6f6f6"
+                _hover={{ bg: 'gray.200' }}
+              >
+                <MapsEditingIcon size={20} color="#000000" />
+                <Text fontSize="md">Addresses</Text>
+              </Flex>
+            </Link>
+            <Link to="orders">
+              <Flex
+                display-name="account-nav-item"
+                align="center"
+                gap={4}
+                p={{ base: '0 10px', xl: '0 20px' }}
+                cursor="pointer"
+                h="53px"
+                borderTop="1px solid #f6f6f6"
+                _hover={{ bg: 'gray.200' }}
+              >
+                <CheckListIcon size={20} color="#000000" />
+                <Text fontSize="md">Orders</Text>
+              </Flex>
+            </Link>
+          </>
+        )}
+
+        {isAdmin && (
+          <Link to="">
+            <Flex
+              display-name="account-nav-item"
+              align="center"
+              gap={4}
+              p={{ base: '0 10px', xl: '0 20px' }}
+              cursor="pointer"
+              h="53px"
+              borderTop="1px solid #f6f6f6"
+              _hover={{ bg: 'gray.200' }}
+            >
+              <CheckListIcon size={20} color="#000000" />
+              <Text fontSize="md">All Orders</Text>
+            </Flex>
+          </Link>
+        )}
 
         <Flex
           display-name="account-nav-item"

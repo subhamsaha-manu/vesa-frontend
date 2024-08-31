@@ -37,15 +37,21 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
         display-name="category-name-flex"
         position="absolute"
         h="100%"
+        w="50px"
         p="0 10px"
-        align="center"
+        alignItems="center"
+        justifyContent="center"
         background="blackAlpha.700"
+        overflow="hidden"
       >
         <Heading
-          size={{ base: 'xl', xl: 'lg' }}
+          fontSize={{ base: 'lg', xl: '2xl' }}
           color="#FFFFFF"
           fontWeight="700"
           style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}
+          lineHeight="1.2"
+          textAlign="center"
+          isTruncated
         >
           {upperCase(category.name)}
         </Heading>

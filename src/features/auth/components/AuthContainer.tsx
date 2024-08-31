@@ -16,7 +16,7 @@ const AuthContainer: FC = () => {
     AuthContainerStepEnum.REQUEST_OTP
   )
   const [sendTo, setSendTo] = useState<string>('')
-  const [authBy, setAuthBy] = useState<AuthByType>(AuthByType.Phone)
+  const [authBy, setAuthBy] = useState<AuthByType>(AuthByType.Email)
 
   return (
     <Center>

@@ -80,7 +80,7 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
           }
           fontSize="25px"
           fontWeight="400"
-          disabled={loading}
+          isDisabled={loading}
           leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
         >
           Request OTP
@@ -94,6 +94,7 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
           onClick={() =>
             setAuthBy(authBy === AuthByType.Phone ? AuthByType.Email : AuthByType.Phone)
           }
+          isDisabled
         >
           {authBy === AuthByType.Phone ? 'Email' : 'Phone'}
         </Button>

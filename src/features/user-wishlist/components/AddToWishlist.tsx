@@ -8,6 +8,7 @@ import { userWishlist } from '../apis/userWishlist'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import noop from 'lodash/noop'
+import { useNavigate } from 'react-router-dom'
 
 type AddToWishlistProps = {
   productId: string
@@ -15,9 +16,12 @@ type AddToWishlistProps = {
 }
 export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView }) => {
   const { wishlistItems } = useUserWishlistCartContextProvider()
+
   const {
     currentUser: { userId },
   } = useCurrentUserContext()
+
+  const navigate = useNavigate()
 
   const [addToWishlist, { loading }] = useAddProductToWishlistMutation({
     variables: {
@@ -36,7 +40,13 @@ export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView })
       gap={{ base: 1, xl: 3 }}
       _hover={{ color: '#D9121F', cursor: isProductInWishlist ? 'default' : 'pointer' }}
       opacity={1}
-      onClick={() => (isProductInWishlist ? noop() : addToWishlist())}
+      onClick={() => {
+        if (userId) {
+          isProductInWishlist ? noop() : addToWishlist()
+        } else {
+          navigate('/auth')
+        }
+      }}
       align="center"
       flex={1}
     >

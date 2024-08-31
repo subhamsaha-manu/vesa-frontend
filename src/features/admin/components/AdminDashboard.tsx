@@ -1,18 +1,17 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import { useOrdersQuery } from '../apis/orders.generated'
 import { Flex, Text } from '@chakra-ui/react'
-import { useUserOrderHistoryQuery } from '../apis/userOrderHistory.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { OrderCard } from './OrderCard'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { ReceivedOrders } from './ReceivedOrders'
+import { Pagination } from './Pagination'
 
-export const Orders: FC = () => {
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
+const AdminDashboard: FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(0)
 
-  const { data, loading: fetchingOrders } = useUserOrderHistoryQuery({
+  const { data, loading } = useOrdersQuery({
     variables: {
-      userId,
+      pageNumber: 0,
+      pageSize: 10,
     },
     fetchPolicy: 'network-only',
   })
@@ -26,10 +25,10 @@ export const Orders: FC = () => {
         p={{ base: '10px', xl: '0' }}
       >
         <Text fontSize="md" as="b" color="gray">
-          Your Order History
+          All Received Orders
         </Text>
       </Flex>
-      {fetchingOrders || !data ? (
+      {loading || !data ? (
         <SpinnerContainer height="60vh" />
       ) : (
         <Flex
@@ -39,16 +38,21 @@ export const Orders: FC = () => {
           pt={{ base: '10px', xl: '30px' }}
           flexDir="column"
         >
-          {data.userOrderHistory.length === 0 && (
+          {data.orders.orders.length === 0 && (
             <Text fontSize="md" color="gray">
-              No orders found
+              No orders have been placed yet!!
             </Text>
           )}
-          {data.userOrderHistory.map((order) => (
-            <OrderCard key={order.orderId} order={order} />
-          ))}
+          <ReceivedOrders data={data.orders.orders} />
+          <Pagination
+            totalPages={data.orders.pageInfo.totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </Flex>
       )}
     </Flex>
   )
 }
+
+export default AdminDashboard

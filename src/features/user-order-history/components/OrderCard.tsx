@@ -8,6 +8,7 @@ import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 type OrderCardProps = {
   readonly order: MinifiedOrder
 }
+
 export const OrderCard: FC<OrderCardProps> = ({ order: { orderDate, orderId, orderTotal } }) => (
   <Flex display="flex" bg="white" p={4} borderBottom="1px solid #eee" justify="space-between">
     <Flex display-name="order-details-section" gap={4} flexDir="column">

@@ -5,6 +5,7 @@ import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type ProductDetailsDesktopViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds'>
@@ -13,6 +14,7 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
   productDetail,
 }) => {
   const [mainImageURL, setMainImageURL] = useState<string>()
+  const { currentUser } = useCurrentUserContext()
 
   useEffect(() => {
     setMainImageURL(productDetail.imageUrl)
@@ -89,17 +91,19 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
               </Text>
             </Flex>
           </Flex>
-          <Flex
-            display-name="user-action-button-wrapper"
-            w="100%"
-            gap={6}
-            flexDir="row"
-            align="center"
-            mt="20px"
-          >
-            <AddToCart productId={productDetail.productId} />
-            <AddToWishlist productId={productDetail.productId} />
-          </Flex>
+          {!currentUser?.isAdmin && (
+            <Flex
+              display-name="user-action-button-wrapper"
+              w="100%"
+              gap={6}
+              flexDir="row"
+              align="center"
+              mt="20px"
+            >
+              <AddToCart productId={productDetail.productId} />
+              <AddToWishlist productId={productDetail.productId} />
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </ContentLayout>

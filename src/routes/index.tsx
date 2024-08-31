@@ -19,11 +19,15 @@ const UserCart = lazy(() => import('@/features/user-cart'))
 const UserWishlist = lazy(() => import('@/features/user-wishlist'))
 const UserAccount = lazy(() => import('@/features/account'))
 const AuthContainer = lazy(() => import('@/features/auth/components/AuthContainer'))
+const AdminDashboard = lazy(() => import('@/features/admin'))
 const Orders = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.Orders }))
 )
 const OrderDetails = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.OrderDetails }))
+)
+const AdminOrderDetails = lazy(() =>
+  import('@/features/admin/components').then((module) => ({ default: module.AdminOrderDetails }))
 )
 const Addresses = lazy(() => import('@/features/user-shipping-address'))
 
@@ -58,6 +62,19 @@ export const AppRoutes = () => {
     ],
   }
 
+  const adminRoutes = {
+    path: 'admin',
+    element: (
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <UserAccount />
+      </ErrorBoundary>
+    ),
+    children: [
+      { path: '', element: <AdminDashboard /> },
+      { path: 'order/:orderId', element: <AdminOrderDetails /> },
+    ],
+  }
+
   const commonRoutes = [
     {
       path: '/',
@@ -77,6 +94,7 @@ export const AppRoutes = () => {
         { path: 'about-us', element: <AboutUs /> },
         { path: 'contact-us', element: <ContactUs /> },
         userAccountRoutes,
+        adminRoutes,
       ],
     },
   ]

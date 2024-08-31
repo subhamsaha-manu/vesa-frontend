@@ -78,7 +78,7 @@ export const InputField = (props: InputFieldProps) => {
                 onBlurAction(inputRef.current?.value)
               }
             }}
-            disabled={disabled}
+            isDisabled={disabled}
             style={{
               background: `${disabled ? '#ecedef' : 'white'}`,
               borderRadius: '40px',

@@ -25,10 +25,13 @@ import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { storage } from '@/utils/storage'
 import { USER_ID } from '@/utils/constants'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
   const { categories } = useCategoriesContextProvider()
+
+  const { currentUser } = useCurrentUserContext()
 
   const userId = storage.getItem(USER_ID)
 
@@ -42,7 +45,11 @@ export const LandingPageHeader = () => {
 
   const handleUserIconClick = () => {
     if (userId) {
-      navigate('/account/orders')
+      if (currentUser?.isAdmin) {
+        navigate('/admin')
+      } else {
+        navigate('/account/orders')
+      }
     } else {
       navigate('/auth')
     }
@@ -110,18 +117,22 @@ export const LandingPageHeader = () => {
         <Flex
           justify={{ base: 'center', md: 'start' }}
           alignItems={{ base: 'center', md: 'center' }}
-          display-name="landing-page-header-logo-flex"
+          display-name="landing-page-header-logo-flex-for-larger-screen"
           display={{ base: 'none', md: 'flex' }}
           maxW="200px"
+          cursor="pointer"
+          onClick={() => navigate('/')}
         >
           <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="200px" />
         </Flex>
         <Flex
           justify="center"
           alignItems="center"
-          display-name="landing-page-header-logo-flex"
+          display-name="landing-page-header-logo-flex-for-smaller-screen"
           display={{ base: 'flex', md: 'none' }}
           flex={1}
+          cursor="pointer"
+          onClick={() => navigate('/')}
         >
           <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="120px" />
         </Flex>
@@ -182,8 +193,12 @@ export const LandingPageHeader = () => {
               onClick={handleUserIconClick}
             />
           </Flex>
-          <UserWishlistHeaderIcon />
-          <UserCartHeaderIcon />
+          {!currentUser?.isAdmin && (
+            <>
+              <UserWishlistHeaderIcon />
+              <UserCartHeaderIcon />
+            </>
+          )}
         </Flex>
       </Flex>
 

@@ -82,7 +82,7 @@ export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigate
           onClick={onVerifyOtp}
           fontSize="25px"
           fontWeight="400"
-          disabled={loading}
+          isDisabled={loading}
           leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
         >
           Verify OTP

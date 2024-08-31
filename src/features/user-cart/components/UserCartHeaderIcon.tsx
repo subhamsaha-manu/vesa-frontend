@@ -5,15 +5,18 @@ import { useNavigate } from 'react-router-dom'
 import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { Text } from '@chakra-ui/layout'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const UserCartHeaderIcon: FC = () => {
   const navigate = useNavigate()
+  const { currentUser } = useCurrentUserContext()
+
   const { numberOfCartItems } = useUserWishlistCartContextProvider()
+
   const size = useWindowSize()
-
   const { width } = size
-
   const isMobile = width && width < 768
+  
   return (
     <>
       <Flex
@@ -21,7 +24,16 @@ export const UserCartHeaderIcon: FC = () => {
         gap={2}
         _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
       >
-        <ShoppingBasket01Icon size={isMobile ? 18 : 22} onClick={() => navigate('/cart')} />
+        <ShoppingBasket01Icon
+          size={isMobile ? 18 : 22}
+          onClick={() => {
+            if (currentUser?.userId) {
+              navigate('/cart')
+            } else {
+              navigate('/auth')
+            }
+          }}
+        />
       </Flex>
       {numberOfCartItems > 0 && (
         <Flex

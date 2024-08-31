@@ -6,7 +6,7 @@ import { usePlaceOrderMutation } from '../apis/placeOrder.generated'
 import { userCart } from '../apis/userCart'
 import { FieldValues } from 'react-hook-form'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { ModeOfPayment, PlaceOrderInput } from '@/types'
+import { CartItem, ModeOfPayment, PlaceOrderInput } from '@/types'
 import { useNavigate } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
@@ -60,9 +60,10 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
     setTimeout(() => {
       const input: PlaceOrderInput = {
         userId,
-        orderItems: data!.userCart.map((cartItem) => ({
+        orderItems: data!.userCart.map((cartItem: CartItem) => ({
           productId: cartItem.productId,
           quantity: cartItem.quantity,
+          price: cartItem.price,
         })),
         modeOfPayment: ModeOfPayment.CreditCard,
         country: 'India',

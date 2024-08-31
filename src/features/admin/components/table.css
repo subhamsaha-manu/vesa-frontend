@@ -1,0 +1,31 @@
+/*tr:nth-child(odd) .fixed-cell {*/
+/*    background-color: #EDF2F7;*/
+/*}*/
+
+/*tr:nth-child(even) .fixed-cell {*/
+/*    background-color: white;*/
+/*}*/
+
+.fixed-cell {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.fixed-header {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: "gray.50";
+}
+
+tr {
+    border-bottom: 1px solid #E2E8F0;
+}
+
+th {
+    background-color: #EDF2F7;
+    border-bottom: 1px solid #E2E8F0;
+    /* first letter uppercase */
+    text-transform: capitalize !important;
+}
