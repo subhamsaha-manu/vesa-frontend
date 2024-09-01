@@ -1,2 +1,2 @@
 export { default } from './AdminDashboard'
-export * from './AdminOrderDetails'
+export * from './OrderDetails'

@@ -29,6 +29,7 @@ type Mutation {
     requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
     verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
     register(registerUserInput: RegisterUserInput!): ID!
+    updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
 }
 
 input ProductFilter {

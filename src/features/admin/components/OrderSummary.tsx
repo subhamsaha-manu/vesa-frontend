@@ -65,7 +65,7 @@ export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
       <Text fontSize="lg" color="#666" as="b">
         {order.orderItems.length} item(s) in this order
       </Text>
-      <Flex flexDir="column" gap={4}>
+      <Flex flexDir="column" gap={4} display-name="ordered-items" h="400px" overflowY="scroll">
         {order.orderItems.map((item) => (
           <ProductItem key={item.productId} {...item} />
         ))}

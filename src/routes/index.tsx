@@ -27,7 +27,7 @@ const OrderDetails = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.OrderDetails }))
 )
 const AdminOrderDetails = lazy(() =>
-  import('@/features/admin/components').then((module) => ({ default: module.AdminOrderDetails }))
+  import('@/features/admin/components').then((module) => ({ default: module.OrderDetails }))
 )
 const Addresses = lazy(() => import('@/features/user-shipping-address'))
 

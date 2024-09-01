@@ -12,6 +12,7 @@ import { CategoriesContextProvider } from '@/context'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { ErrorFallback } from '@/components/Layout'
+import { NextUIProvider } from '@nextui-org/react'
 
 type AppProviderProps = {
   children: ReactNode
@@ -19,16 +20,18 @@ type AppProviderProps = {
 
 export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   return (
-    <ChakraProvider theme={theme}>
-      <Suspense fallback={<SpinnerContainer height="60vh" />}>
-        <ErrorBoundary fallback={<ErrorFallback />}>
-          <BrowserRouter>
-            <ApolloProvider client={getClient()}>
-              <CategoriesContextProvider>{children}</CategoriesContextProvider>
-            </ApolloProvider>
-          </BrowserRouter>
-        </ErrorBoundary>
-      </Suspense>
-    </ChakraProvider>
+    <NextUIProvider>
+      <ChakraProvider theme={theme}>
+        <Suspense fallback={<SpinnerContainer height="60vh" />}>
+          <ErrorBoundary fallback={<ErrorFallback />}>
+            <BrowserRouter>
+              <ApolloProvider client={getClient()}>
+                <CategoriesContextProvider>{children}</CategoriesContextProvider>
+              </ApolloProvider>
+            </BrowserRouter>
+          </ErrorBoundary>
+        </Suspense>
+      </ChakraProvider>
+    </NextUIProvider>
   )
 }
