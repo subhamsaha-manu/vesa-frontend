@@ -7,8 +7,14 @@ type AdjustQuantityProps = {
   initialQuantity: number
   onIncrement: () => void
   onDecrement: () => void
+  maxQuantity?: number
 }
-const AdjustQuantity: FC<AdjustQuantityProps> = ({ initialQuantity, onIncrement, onDecrement }) => {
+const AdjustQuantity: FC<AdjustQuantityProps> = ({
+  initialQuantity,
+  onIncrement,
+  onDecrement,
+  maxQuantity,
+}) => {
   const size = useWindowSize()
 
   const { width } = size
@@ -42,7 +48,13 @@ const AdjustQuantity: FC<AdjustQuantityProps> = ({ initialQuantity, onIncrement,
       </Flex>
       <Text mx={4}>{quantity}</Text>
       <Flex _hover={{ cursor: 'pointer' }}>
-        <Add01Icon size={isMobile ? 18 : 20} onClick={increment} />
+        <Add01Icon
+          size={isMobile ? 18 : 20}
+          onClick={() => {
+            if (maxQuantity && quantity >= maxQuantity) return
+            increment()
+          }}
+        />
       </Flex>
     </Flex>
   )

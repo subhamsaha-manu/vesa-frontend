@@ -7,6 +7,8 @@ export const userWishlist = gql`
       title
       imageUrl
       price
+      quantity
+      isOutOfStock
     }
   }
 `

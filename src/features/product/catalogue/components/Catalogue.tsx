@@ -26,7 +26,7 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
   return (
     <Flex display-name="products-dashboard-flex" w="100%" h="auto" flexDir="column">
       <Flex display-name="products-container" flexWrap="wrap" justifyContent="space-between">
-        {data.products.map((product: MinifiedProduct) => (
+        {data.products.map((product: Omit<MinifiedProduct, 'quantity' | 'isOutOfStock'>) => (
           <ProductTile product={product} />
         ))}
       </Flex>

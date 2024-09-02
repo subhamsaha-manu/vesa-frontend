@@ -14,9 +14,10 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
-import { CartItem } from '@/types'
+import { CartItem, MinifiedProduct } from '@/types'
 import { AdjustCartItemQuantity } from './AdjustCartItemQuantity'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
+import round from 'lodash/round'
 
 type CartContentProps = {
   cartItems: Array<CartItem>
@@ -25,6 +26,7 @@ type CartContentProps = {
   onCheckout: () => void
   totalCartAmount: number
   calculateTotalCartAmount: () => void
+  minifiedProductDetails?: Array<Pick<MinifiedProduct, 'productId' | 'quantity' | 'isOutOfStock'>>
 }
 export const CartContent: FC<CartContentProps> = ({
   cartItems,
@@ -33,6 +35,7 @@ export const CartContent: FC<CartContentProps> = ({
   onCheckout,
   totalCartAmount,
   calculateTotalCartAmount,
+  minifiedProductDetails,
 }) => {
   return (
     <Flex display-name="main-content" w="100%" h="100%" gap={6} justify="space-between">
@@ -77,16 +80,20 @@ export const CartContent: FC<CartContentProps> = ({
                   >
                     {title}
                   </Td>
-                  <Td pr={0}>{price}</Td>
+                  <Td pr={0}>{round(price, 2)}</Td>
                   <Td pr={0}>
                     <AdjustCartItemQuantity
                       initialQuantity={quantity}
                       productId={productId}
                       removeProductFromCart={removeProductFromCart}
                       calculateTotalCartAmount={calculateTotalCartAmount}
+                      maxQuantity={
+                        minifiedProductDetails?.find((product) => product.productId === productId)
+                          ?.quantity
+                      }
                     />
                   </Td>
-                  <Td pr={0}>{price * quantity}</Td>
+                  <Td pr={0}>{round(price * quantity, 2)}</Td>
                 </Tr>
               ))}
             </Tbody>

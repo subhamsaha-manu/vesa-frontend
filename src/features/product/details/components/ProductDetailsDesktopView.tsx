@@ -66,7 +66,7 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
             </Heading>
             <Flex
               display-name="meta-content"
-              background="#77a464"
+              background={productDetail.isOutOfStock ? '#FF0000' : '#77a464'}
               p={4}
               gap={4}
               align="center"
@@ -77,7 +77,7 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
                 Availability
               </Heading>
               <Text size="sm" color="white">
-                In Stock
+                {productDetail.isOutOfStock ? 'Out of Stock' : 'In Stock'}
               </Text>
             </Flex>
             <Flex display-name="product-price">

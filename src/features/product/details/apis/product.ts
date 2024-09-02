@@ -9,6 +9,8 @@ export const product = gql`
       thumbnailUrl
       imageUrl
       description
+      quantity
+      isOutOfStock
     }
   }
 `

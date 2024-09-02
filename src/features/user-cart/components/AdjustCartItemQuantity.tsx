@@ -9,6 +9,7 @@ type AdjustCartItemQuantityProps = {
   productId: string
   removeProductFromCart: (productId: string, removeAll: boolean) => void
   calculateTotalCartAmount: () => void
+  maxQuantity?: number
 }
 
 export const AdjustCartItemQuantity: FC<AdjustCartItemQuantityProps> = ({
@@ -16,6 +17,7 @@ export const AdjustCartItemQuantity: FC<AdjustCartItemQuantityProps> = ({
   productId,
   removeProductFromCart,
   calculateTotalCartAmount,
+  maxQuantity,
 }) => {
   const {
     currentUser: { userId },
@@ -31,6 +33,7 @@ export const AdjustCartItemQuantity: FC<AdjustCartItemQuantityProps> = ({
   return (
     <AdjustQuantity
       initialQuantity={initialQuantity}
+      maxQuantity={maxQuantity}
       onIncrement={() =>
         void addProductToCart({
           variables: {

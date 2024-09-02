@@ -30,10 +30,11 @@ type Mutation {
     verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
     register(registerUserInput: RegisterUserInput!): ID!
     updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
+    updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
 }
 
 input ProductFilter {
-    productIds: [ID!]
+    ids: [ID!]
     categoryIds: [ID!]
     text: String
 }
@@ -47,6 +48,8 @@ type Product {
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
+    quantity: Int!
+    isOutOfStock: Boolean!
 }
 
 type MinifiedProduct {
@@ -56,6 +59,8 @@ type MinifiedProduct {
     price: Float!
     imageUrl: String!
     thumbnailUrl: String!
+    quantity: Int!
+    isOutOfStock: Boolean!
 }
 
 input RegisterUserInput {
@@ -72,6 +77,7 @@ input AddProductInput {
     categoryIds: [ID!]!
     thumbnailUrl: String!
     imageUrl: String!
+    quantity: Int!
 }
 
 enum UserRole {
@@ -246,6 +252,15 @@ type PageInfo {
     totalElements: Int!
 }
 
+input UpdateProductInput {
+    title: String
+    description: String
+    price: Float
+    categoryIds: [ID!]!
+    thumbnailUrl: String
+    imageUrl: String
+    quantity: Int
+}
 
 schema {
     query: Query

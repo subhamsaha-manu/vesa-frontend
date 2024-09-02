@@ -1,4 +1,4 @@
-import { CartItem } from '@/types'
+import { CartItem, MinifiedProduct } from '@/types'
 import React, { FC } from 'react'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { Delete04Icon } from 'hugeicons-react'
@@ -10,6 +10,7 @@ type MobileViewCartListItemProps = {
   onItemClick: (productId: string) => void
   removeProductFromCart: (productId: string, removeAll: boolean) => void
   calculateTotalCartAmount: () => void
+  minifiedProductDetails?: Array<Pick<MinifiedProduct, 'productId' | 'quantity' | 'isOutOfStock'>>
 }
 
 export const MobileViewCartListItem: FC<MobileViewCartListItemProps> = ({
@@ -17,6 +18,7 @@ export const MobileViewCartListItem: FC<MobileViewCartListItemProps> = ({
   removeProductFromCart,
   onItemClick,
   calculateTotalCartAmount,
+  minifiedProductDetails,
 }) => (
   <Flex display-name="cart-item-flex" w="100%" h="auto" flexDir="column" gap={6} mb="40px">
     <Flex display-name="product-details-section" w="100%" h="auto" gap={4}>
@@ -58,6 +60,9 @@ export const MobileViewCartListItem: FC<MobileViewCartListItemProps> = ({
         productId={productId}
         removeProductFromCart={removeProductFromCart}
         calculateTotalCartAmount={calculateTotalCartAmount}
+        maxQuantity={
+          minifiedProductDetails?.find((product) => product.productId === productId)?.quantity
+        }
       />
       <Flex
         display-name="remove-from-cart"

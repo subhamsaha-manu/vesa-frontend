@@ -1,4 +1,4 @@
-import { CartItem } from '@/types'
+import { CartItem, MinifiedProduct } from '@/types'
 import React, { FC } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import { EmptyCart } from '@/features/user-cart/components/EmptyCart'
@@ -13,6 +13,7 @@ type UserCartDesktopViewProps = {
   onCheckout: () => void
   totalCartAmount: number
   calculateTotalCartAmount: () => void
+  minifiedProductDetails?: Array<Pick<MinifiedProduct, 'productId' | 'quantity' | 'isOutOfStock'>>
 }
 export const UserCartDesktopView: FC<UserCartDesktopViewProps> = ({
   cartItems,
@@ -23,6 +24,7 @@ export const UserCartDesktopView: FC<UserCartDesktopViewProps> = ({
   onCheckout,
   totalCartAmount,
   calculateTotalCartAmount,
+  minifiedProductDetails,
 }) => {
   return (
     <Flex display-name="main-cart-section" w="100%" gap={6} pt="30px" flexDir="column">
@@ -49,6 +51,7 @@ export const UserCartDesktopView: FC<UserCartDesktopViewProps> = ({
           onCheckout={onCheckout}
           totalCartAmount={totalCartAmount}
           calculateTotalCartAmount={calculateTotalCartAmount}
+          minifiedProductDetails={minifiedProductDetails}
         />
       )}
     </Flex>

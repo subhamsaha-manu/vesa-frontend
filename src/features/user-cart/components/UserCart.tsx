@@ -13,11 +13,14 @@ import round from 'lodash/round'
 import { UserCartMobileView } from '@/features/user-cart/components/UserCartMobileView'
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import { Delete02Icon } from 'hugeicons-react'
+import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
+import { useMinifiedProductDetailsQuery } from '@/features/user-cart/apis/minifiedProductDetails.generated'
 
 const UserCart: FC = () => {
   const navigate = useNavigate()
   const size = useWindowSize()
 
+  useUserWishlistCartContextProvider()
   const { width } = size
 
   const isMobile = width && width < 768
@@ -34,6 +37,15 @@ const UserCart: FC = () => {
       userId,
     },
     fetchPolicy: 'network-only',
+  })
+
+  const { data: minifiedProductDetails } = useMinifiedProductDetailsQuery({
+    variables: {
+      productFilter: {
+        ids: data?.userCart.map((item) => item.productId),
+      },
+    },
+    skip: !data?.userCart || loading,
   })
 
   const [emptyCart, { loading: emptyingCart }] = useEmptyCartMutation({
@@ -158,6 +170,7 @@ const UserCart: FC = () => {
             totalCartAmount={totalCartAmount}
             onItemClick={(productId) => navigate(`/product/${productId}`)}
             calculateTotalCartAmount={calculateTotalCartAmount}
+            minifiedProductDetails={minifiedProductDetails?.products}
           />
         ) : (
           <UserCartDesktopView
@@ -177,6 +190,7 @@ const UserCart: FC = () => {
             totalCartAmount={totalCartAmount}
             onItemClick={(productId) => navigate(`/product/${productId}`)}
             calculateTotalCartAmount={calculateTotalCartAmount}
+            minifiedProductDetails={minifiedProductDetails?.products}
           />
         )}
       </Flex>

@@ -26,4 +26,5 @@ export const aProductFactory = makeFactory<AddProductInput>(() => ({
   imageUrl: faker.image.url(),
   thumbnailUrl: faker.image.url(),
   categoryIds: getRandomCategoryIds(),
+  quantity: faker.number.int({ min: 1, max: 5 }),
 }))

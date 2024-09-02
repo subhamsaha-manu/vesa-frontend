@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { CartItem } from '@/types'
+import { CartItem, MinifiedProduct } from '@/types'
 import { Button, Flex, Text } from '@chakra-ui/react'
 import { MobileViewCartListItem } from './MobileViewCartListItem'
 import { EmptyCart } from '@/features/user-cart/components/EmptyCart'
@@ -16,17 +16,17 @@ type UserCartMobileViewProps = {
   onCheckout: () => void
   totalCartAmount: number
   calculateTotalCartAmount: () => void
+  minifiedProductDetails?: Array<Pick<MinifiedProduct, 'productId' | 'quantity' | 'isOutOfStock'>>
 }
 export const UserCartMobileView: FC<UserCartMobileViewProps> = ({
   cartItems,
   removeProductFromCart,
   onItemClick,
   totalCartItems,
-  onEmptyCart,
-  showSpinner,
   onCheckout,
   totalCartAmount,
   calculateTotalCartAmount,
+  minifiedProductDetails,
 }) => {
   return (
     <Flex display-name="mobile-view-main-content" w="100%" h="auto" flexDir="column" gap={10}>
@@ -48,6 +48,7 @@ export const UserCartMobileView: FC<UserCartMobileViewProps> = ({
                 removeProductFromCart={removeProductFromCart}
                 onItemClick={onItemClick}
                 calculateTotalCartAmount={calculateTotalCartAmount}
+                minifiedProductDetails={minifiedProductDetails}
               />
             ))}
           </Flex>

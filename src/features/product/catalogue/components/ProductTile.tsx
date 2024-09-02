@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductTileProps = {
-  product: MinifiedProduct
+  product: Omit<MinifiedProduct, 'quantity' | 'isOutOfStock'>
 }
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {
   const navigate = useNavigate()
