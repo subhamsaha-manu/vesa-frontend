@@ -10,12 +10,12 @@ import {
   User,
 } from '@nextui-org/react'
 import { FC, Key, useCallback } from 'react'
-import './table.css'
+import '../table.css'
 import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 import round from 'lodash/round'
 import { EditIcon } from '@chakra-ui/icons'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 type MinifiedProductType = Pick<
   MinifiedProduct,
@@ -37,8 +37,6 @@ const columns = [
 ]
 
 export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
-  const navigate = useNavigate()
-
   const renderCell = useCallback(
     ({ price, productId, quantity, thumbnailUrl, title }: MinifiedProductType, columnKey: Key) => {
       switch (columnKey) {

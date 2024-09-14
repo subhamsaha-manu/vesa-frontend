@@ -27,13 +27,16 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 import { InputField, TextAreaField } from '@/components/form'
 import { Category, Product, UpdateProductInput } from '@/types'
 import { Chip, Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
-import { useUpdateProductMutation } from '../apis/updateProduct.generated'
+import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import { allProductsForAdmin } from '../../apis/products'
+import { useNavigate } from 'react-router-dom'
 
 const schema = z.object({
   title: z
@@ -66,6 +69,8 @@ type EditContainerFormProps = {
 }
 
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
+  const navigate = useNavigate()
+
   const { productId, title, description, price, quantity, categoryIds, thumbnailUrl } =
     productDetail
   const {
@@ -86,7 +91,26 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     )
   }
 
-  const [updateProduct, { loading }] = useUpdateProductMutation()
+  const toast = useToast()
+
+  const goBackToProducts = () => {
+    navigate('/admin/products')
+  }
+
+  const [updateProduct, { loading }] = useUpdateProductMutation({
+    onCompleted: () => {
+      toast({
+        title: 'Product updated successfully',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      })
+      goBackToProducts()
+    },
+    refetchQueries: [
+      { query: allProductsForAdmin, variables: { productFilter: {}, pageNumber: 0, pageSize: 20 } },
+    ],
+  })
 
   useEffect(() => {
     setProductCategories(
@@ -256,7 +280,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
           <Divider />
           <CardFooter justify="end">
             <ButtonGroup spacing="2">
-              <Button variant="ghost" colorScheme="blue">
+              <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
                 Cancel
               </Button>
               <Button

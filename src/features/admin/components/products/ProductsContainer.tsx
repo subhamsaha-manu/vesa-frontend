@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { useAllProductsForAdminQuery } from '../apis/products.generated'
+import { useAllProductsForAdminQuery } from '../../apis/products.generated'
 import { Flex, Text } from '@chakra-ui/react'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Products } from './Products'

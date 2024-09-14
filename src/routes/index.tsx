@@ -27,20 +27,28 @@ const OrderDetails = lazy(() =>
   import('@/features/user-order-history').then((module) => ({ default: module.OrderDetails }))
 )
 const Addresses = lazy(() => import('@/features/user-shipping-address'))
-const AdminContainer = lazy(() => import('@/features/admin'))
+const AdminDashboard = lazy(() => import('@/features/admin'))
 
-const AdminDashboard = lazy(() =>
-  import('@/features/admin/components').then((module) => ({ default: module.AdminDashboard }))
+const ReceivedOrdersContainer = lazy(() =>
+  import('@/features/admin/components').then((module) => ({
+    default: module.ReceivedOrdersContainer,
+  }))
 )
 
 const AdminOrderDetails = lazy(() =>
-  import('@/features/admin/components').then((module) => ({ default: module.OrderDetails }))
+  import('@/features/admin/components').then((module) => ({
+    default: module.OrderDetails,
+  }))
 )
 const ProductsContainer = lazy(() =>
-  import('@/features/admin/components').then((module) => ({ default: module.ProductsContainer }))
+  import('@/features/admin/components').then((module) => ({
+    default: module.ProductsContainer,
+  }))
 )
 const EditProductContainer = lazy(() =>
-  import('@/features/admin/components').then((module) => ({ default: module.EditProductContainer }))
+  import('@/features/admin/components').then((module) => ({
+    default: module.EditProductContainer,
+  }))
 )
 
 const App = () => {
@@ -78,11 +86,11 @@ export const AppRoutes = () => {
     path: 'admin',
     element: (
       <ErrorBoundary fallback={<ErrorFallback />}>
-        <AdminContainer />
+        <AdminDashboard />
       </ErrorBoundary>
     ),
     children: [
-      { path: '', element: <AdminDashboard /> },
+      { path: '', element: <ReceivedOrdersContainer /> },
       { path: 'order/:orderId', element: <AdminOrderDetails /> },
       { path: 'products', element: <ProductsContainer /> },
       { path: 'product/:productId', element: <EditProductContainer /> },

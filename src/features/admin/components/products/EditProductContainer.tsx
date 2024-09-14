@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
-import { useProductDetailQuery } from '../apis/productDetail.generated'
+import { useProductDetailQuery } from '../../apis/productDetail.generated'
 import { Flex, Text } from '@chakra-ui/react'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { EditContainerForm } from './EditContainerForm'

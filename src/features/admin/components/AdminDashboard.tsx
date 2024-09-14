@@ -1,56 +1,36 @@
-import React, { FC, useState } from 'react'
-import { useOrdersQuery } from '../apis/orders.generated'
-import { Flex, Text } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { ReceivedOrders } from './ReceivedOrders'
-import { Pagination } from './Pagination'
+import { FC } from 'react'
+import { ErrorFallback } from '@/components/Layout'
+import { Flex } from '@chakra-ui/react'
+import { Sidebar } from './Sidebar'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Outlet } from 'react-router-dom'
 
-export const AdminDashboard: FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(0)
-
-  const { data, loading } = useOrdersQuery({
-    variables: {
-      pageNumber: 0,
-      pageSize: 10,
-    },
-    fetchPolicy: 'network-only',
-  })
-
+const AdminDashboard: FC = () => {
   return (
-    <Flex w="100%" flexDir="column">
+    <Flex display-name="admin-container-flex" w="100%" p={{ base: '0', xl: '0' }}>
       <Flex
-        display-name="orders-header-section"
-        justify="space-between"
-        w="100%"
-        p={{ base: '10px', xl: '0' }}
+        display-name="admin-sidebar"
+        w={{ base: '100%', xl: '250px' }}
+        flexDir="column"
+        gap={6}
+        minH={{ base: 'auto', xl: '567px' }}
+        borderRight="1px solid #f6f6f6"
       >
-        <Text fontSize="md" as="b" color="gray">
-          All Received Orders
-        </Text>
+        <Sidebar />
       </Flex>
-      {loading || !data ? (
-        <SpinnerContainer height="60vh" />
-      ) : (
+      <ErrorBoundary fallback={<ErrorFallback />}>
         <Flex
-          display-name="admin-orders-section"
-          w="100%"
-          gap={6}
-          pt={{ base: '10px', xl: '30px' }}
-          flexDir="column"
+          display-name="admin-account-right-section"
+          flex="1"
+          background="#f9f7f7"
+          h="900px"
+          overflowY="scroll"
         >
-          {data.orders.orders.length === 0 && (
-            <Text fontSize="md" color="gray">
-              No orders have been placed yet!!
-            </Text>
-          )}
-          <ReceivedOrders data={data.orders.orders} />
-          <Pagination
-            totalPages={data.orders.pageInfo.totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          <Outlet />
         </Flex>
-      )}
+      </ErrorBoundary>
     </Flex>
   )
 }
+
+export default AdminDashboard

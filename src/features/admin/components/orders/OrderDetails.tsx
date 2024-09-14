@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useOrderDetailsQuery } from '../apis/orderDetails.generated'
+import { useOrderDetailsQuery } from '../../apis/orderDetails.generated'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { SpinnerContainer } from '@/components/elements/Spinner'
@@ -10,9 +10,9 @@ import { OrderStatusDropdown } from './OrderStatusDropdown'
 import { OrderStatus } from '@/types'
 import { CheckmarkCircle02Icon } from 'hugeicons-react'
 import { Button } from '@nextui-org/react'
-import { useUpdateOrderStatusMutation } from '../apis/updateOrderStatus.generated'
-import { orders } from '../apis/orders'
-import { orderDetails } from '../apis/orderDetails'
+import { useUpdateOrderStatusMutation } from '../../apis/updateOrderStatus.generated'
+import { orders } from '../../apis/orders'
+import { orderDetails } from '../../apis/orderDetails'
 
 type OrderParamType = {
   orderId: string
@@ -53,7 +53,7 @@ export const OrderDetails: FC = () => {
       display-name="oder-details-section"
       w="100%"
       gap={{ base: 4, xl: 6 }}
-      pt={{ base: '10px', xl: '30px' }}
+      p={{ base: '10px', xl: '30px' }}
       flexDir="column"
     >
       <Flex
