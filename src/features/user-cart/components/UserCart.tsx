@@ -44,6 +44,8 @@ const UserCart: FC = () => {
       productFilter: {
         ids: data?.userCart.map((item) => item.productId),
       },
+      pageNumber: 0,
+      pageSize: 100,
     },
     skip: !data?.userCart || loading,
   })
@@ -170,7 +172,7 @@ const UserCart: FC = () => {
             totalCartAmount={totalCartAmount}
             onItemClick={(productId) => navigate(`/product/${productId}`)}
             calculateTotalCartAmount={calculateTotalCartAmount}
-            minifiedProductDetails={minifiedProductDetails?.products}
+            minifiedProductDetails={minifiedProductDetails?.products.products}
           />
         ) : (
           <UserCartDesktopView
@@ -190,7 +192,7 @@ const UserCart: FC = () => {
             totalCartAmount={totalCartAmount}
             onItemClick={(productId) => navigate(`/product/${productId}`)}
             calculateTotalCartAmount={calculateTotalCartAmount}
-            minifiedProductDetails={minifiedProductDetails?.products}
+            minifiedProductDetails={minifiedProductDetails?.products.products}
           />
         )}
       </Flex>

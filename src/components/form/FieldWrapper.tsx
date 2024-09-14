@@ -42,7 +42,7 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
         <FormLabel>
           <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
             <Flex display-name="field-wrapper-label">
-              <Text fontSize="16px" fontWeight="400" color="#191919">
+              <Text fontSize="14px" fontWeight="500" color="#191919">
                 {label}
               </Text>
             </Flex>

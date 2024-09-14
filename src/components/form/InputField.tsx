@@ -9,13 +9,14 @@ type InputFieldProps = FieldWrapperPassThroughProps & {
   type?: HTMLInputTypeAttribute | undefined
   fieldName: string
   placeholder?: string
-  value?: string | undefined
+  value?: string | number | undefined
   onBlurAction?: (params: any) => void
   onKeyUpAction?: (params: any, key: string) => void
   setFocus?: boolean
   disabled?: boolean
   endAdornment?: ReactElement
   startAdornment?: ReactElement
+  withRoundBorders?: boolean
 }
 
 export const InputField = (props: InputFieldProps) => {
@@ -37,6 +38,7 @@ export const InputField = (props: InputFieldProps) => {
     endAdornment,
     startAdornment,
     isRequired,
+    withRoundBorders = true,
   } = props
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -81,7 +83,7 @@ export const InputField = (props: InputFieldProps) => {
             isDisabled={disabled}
             style={{
               background: `${disabled ? '#ecedef' : 'white'}`,
-              borderRadius: '40px',
+              borderRadius: withRoundBorders ? '40px' : '8px',
               height: '48px',
             }}
           />

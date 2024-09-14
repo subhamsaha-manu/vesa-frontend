@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { ContentLayout, ErrorFallback } from '@/components/Layout'
 import { Flex } from '@chakra-ui/react'
-import { Sidebar } from '@/features/account/components/Sidebar'
+import { Sidebar } from './Sidebar'
 import { Outlet } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 

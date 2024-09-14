@@ -5,7 +5,7 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ReceivedOrders } from './ReceivedOrders'
 import { Pagination } from './Pagination'
 
-const AdminDashboard: FC = () => {
+export const AdminDashboard: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0)
 
   const { data, loading } = useOrdersQuery({
@@ -32,7 +32,7 @@ const AdminDashboard: FC = () => {
         <SpinnerContainer height="60vh" />
       ) : (
         <Flex
-          display-name="orders-section"
+          display-name="admin-orders-section"
           w="100%"
           gap={6}
           pt={{ base: '10px', xl: '30px' }}
@@ -54,5 +54,3 @@ const AdminDashboard: FC = () => {
     </Flex>
   )
 }
-
-export default AdminDashboard

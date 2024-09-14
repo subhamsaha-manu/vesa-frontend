@@ -1,5 +1,5 @@
 type Query {
-    products(productFilter: ProductFilter!): [MinifiedProduct!]!
+    products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
     product(productId: ID!): Product!
     categories: [Category!]!
     userCart(userId: ID!): [CartItem!]!
@@ -260,6 +260,11 @@ input UpdateProductInput {
     thumbnailUrl: String
     imageUrl: String
     quantity: Int
+}
+
+type ProductsResponse {
+    products: [MinifiedProduct!]!
+    pageInfo: PageInfo!
 }
 
 schema {
