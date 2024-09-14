@@ -20,7 +20,6 @@ import {
   Flex,
   FormLabel,
   Heading,
-  Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -142,24 +141,27 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   return (
     <form
       data-testid="edit-product-form"
-      style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '20px' }}
+      style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '32px' }}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <Flex flexDir="column" w="30%" gap="24px">
+      <Flex flexDir="column" w="20%" gap="24px">
         <Card variant="elevated" size="md" p="20px">
           <CardHeader>
             <Heading size="md">Thumbnail</Heading>
           </CardHeader>
-          <CardBody
-            boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
-            borderRadius="8px"
-            border="3px solid white"
-          >
-            <Image
-              alt="Card background"
-              className="object-cover rounded-xl"
-              src={thumbnailUrl}
-              width={270}
+          <CardBody style={{ display: 'flex', justifyContent: 'center' }}>
+            <Flex
+              boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
+              borderRadius="8px"
+              border="3px solid white"
+              height="200px"
+              width="200px"
+              backgroundImage={`url(${thumbnailUrl})`}
+              padding={0}
+              backgroundSize="cover"
+              backgroundPosition="center"
+              backgroundRepeat="no-repeat"
+              justifyContent="center"
             />
           </CardBody>
         </Card>
