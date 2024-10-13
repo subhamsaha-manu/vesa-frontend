@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { CheckListIcon, Logout04Icon, MapsEditingIcon } from 'hugeicons-react'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { storage } from '@/utils/storage'
-import { USER_ID } from '@/utils/constants'
+import { TOKEN, USER_ID } from '@/utils/constants'
 
 export const Sidebar = () => {
   const {
@@ -62,6 +62,7 @@ export const Sidebar = () => {
           _hover={{ bg: 'gray.200' }}
           onClick={() => {
             storage.clearItem(USER_ID)
+            storage.clearItem(TOKEN)
             navigate('/')
           }}
         >

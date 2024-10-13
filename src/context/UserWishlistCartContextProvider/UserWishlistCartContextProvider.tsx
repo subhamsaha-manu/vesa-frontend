@@ -24,6 +24,7 @@ export const UserWishlistCartContextProvider: FC<{
     variables: {
       userId,
     },
+    skip: !userId,
     fetchPolicy: 'network-only',
   })
 
@@ -31,6 +32,7 @@ export const UserWishlistCartContextProvider: FC<{
     variables: {
       userId,
     },
+    skip: !userId,
     fetchPolicy: 'network-only',
   })
 

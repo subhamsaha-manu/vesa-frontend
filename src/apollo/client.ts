@@ -1,9 +1,10 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
+import { TOKEN } from '@/utils/constants'
 import { storage } from '@/utils/storage'
 
-const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === 'production'
 
 const url = isProduction
   ? process.env.REACT_APP_VESA_BACKEND_PRODUCTION_URL
@@ -14,11 +15,11 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const bearerToken = storage.getItem('AUTH_TOKEN')
+  const authToken = storage.getItem(TOKEN)
   return {
     headers: {
       ...headers,
-      authorization: bearerToken ? `Bearer ${bearerToken}` : '',
+      authorization: authToken ? `Bearer ${authToken}` : '',
     },
   }
 })

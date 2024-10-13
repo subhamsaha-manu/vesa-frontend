@@ -5,6 +5,7 @@ export const verifyOtp = gql`
     verifyOtp(sendTo: $sendTo, contactMethod: $contactMethod, otp: $otp) {
       isVerified
       userId
+      token
     }
   }
 `

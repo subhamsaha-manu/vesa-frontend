@@ -7,7 +7,7 @@ import { PencilEdit01Icon } from 'hugeicons-react'
 import { OtpInputField } from './OtpInputField'
 import { useVerifyOtpMutation } from '../apis/verifyOtp.generated'
 import { storage } from '@/utils/storage'
-import { USER_ID } from '@/utils/constants'
+import { TOKEN, USER_ID } from '@/utils/constants'
 import { useNavigate } from 'react-router-dom'
 
 type VerifyOtpStepProps = {
@@ -15,6 +15,7 @@ type VerifyOtpStepProps = {
   authBy: AuthByType
   navigateToStep: (step: AuthContainerStepEnum) => void
 }
+
 export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigateToStep }) => {
   const [otp, setOtp] = useState<string>('')
   const toast = useToast()
@@ -40,12 +41,17 @@ export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigate
           duration: 2000,
           isClosable: true,
         })
-        if (responseData.userId) {
-          storage.setItem(USER_ID, responseData.userId)
-          navigate('/')
-        } else {
-          navigateToStep(AuthContainerStepEnum.BASIC_INFO)
-        }
+        storage.setItem(USER_ID, responseData.userId)
+        storage.setItem(TOKEN, responseData.token)
+        navigate('/')
+      } else {
+        toast({
+          title: 'Invalid OTP',
+          description: 'Please try again.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        })
       }
     })
   }

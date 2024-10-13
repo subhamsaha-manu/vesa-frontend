@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { storage } from '@/utils/storage'
-import { USER_ID } from '@/utils/constants'
+import { TOKEN, USER_ID } from '@/utils/constants'
 
 const MenuItemWrapper = styled.div`
   margin: 10px 0 10px 11px;
@@ -38,6 +38,7 @@ export const AppHeader = () => {
           icon={<IoMdLogOut fontSize="20px" />}
           onClick={() => {
             storage.clearItem(USER_ID)
+            storage.clearItem(TOKEN)
             navigate('/')
           }}
         >
