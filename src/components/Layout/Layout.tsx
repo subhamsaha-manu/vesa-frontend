@@ -1,12 +1,12 @@
 import { Box, Flex, Heading, Stack, useColorModeValue } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 
 type LayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
   headerText?: string
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, headerText }: LayoutProps) => {
+export const Layout: FC<LayoutProps> = ({ children, headerText }: LayoutProps) => {
   return (
     <Flex
       minH={{ base: '100vh', md: '85vh' }}

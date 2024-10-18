@@ -1,24 +1,13 @@
-import {
-  Avatar,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Popover,
-  PopoverTrigger,
-} from '@chakra-ui/react'
+import { Avatar, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import React from 'react'
-import { FcSettings } from 'react-icons/fc'
 import { IoMdLogOut } from 'react-icons/io'
 import { MdPassword } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-
-import { SettingsMenu as AdminSettingsMenu } from '@/features/admin'
-import { logoutFn, useCurrentUserContext } from '@/features/auth'
-import { useLogoutMutation } from '@/features/auth/apis/logoutUser.generated'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { storage } from '@/utils/storage'
+import { TOKEN, USER_ID } from '@/utils/constants'
 
 const MenuItemWrapper = styled.div`
   margin: 10px 0 10px 11px;
@@ -27,20 +16,13 @@ const MenuItemWrapper = styled.div`
 
 export const AppHeader = () => {
   const { currentUser } = useCurrentUserContext()
-  const { name, roles } = currentUser!
+
   const navigate = useNavigate()
 
-  const [logout] = useLogoutMutation({
-    onCompleted: (data) => {
-      if (data.logout) {
-        logoutFn()
-      }
-    },
-  })
   return (
     <Menu>
       <MenuButton as={IconButton} isRound _focus={{ boxShadow: 'none' }}>
-        <Avatar size="md" name={name} bg="cyan.400" />
+        <Avatar size="md" name={currentUser?.name} bg="#025a8f" />
       </MenuButton>
       <MenuList zIndex="10">
         <MenuItem icon={<VscAccount fontSize="20px" />} onClick={() => navigate('/app/my-account')}>
@@ -52,17 +34,14 @@ export const AppHeader = () => {
         >
           Change Password
         </MenuItem>
-        {roles.includes('ADMIN') && (
-          <Popover trigger="hover" placement="left" closeOnBlur={false}>
-            <PopoverTrigger>
-              <MenuItemWrapper display-name="admin-settings-menu-item-wrapper">
-                <MenuItem icon={<FcSettings fontSize="20px" />}>Admin Settings</MenuItem>
-              </MenuItemWrapper>
-            </PopoverTrigger>
-            <AdminSettingsMenu />
-          </Popover>
-        )}
-        <MenuItem icon={<IoMdLogOut fontSize="20px" />} onClick={() => logout()}>
+        <MenuItem
+          icon={<IoMdLogOut fontSize="20px" />}
+          onClick={() => {
+            storage.clearItem(USER_ID)
+            storage.clearItem(TOKEN)
+            navigate('/')
+          }}
+        >
           Logout
         </MenuItem>
       </MenuList>

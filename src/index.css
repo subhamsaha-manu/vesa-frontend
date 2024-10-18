@@ -1,17 +1,26 @@
-@import url("https://fonts.googleapis.com/css?family=Signika:wght@300;400,700");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
     margin: 0;
     overflow: hidden;
-    font-family: 'Signika', sans-serif;
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: 'Signika', sans-serif;
+
+h1, h2, h3, h4, h5, h6 {
+
+    font-style: normal;
 }
 
 #root {
-    min-height: 98vh;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow-x: clip;
+    overflow-y: scroll;
 }

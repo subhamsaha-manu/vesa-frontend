@@ -1,178 +1,270 @@
 type Query {
-    currentUser: User
-    mainTopics: [MainTopic!]!
-    subtopics(topicId: ID!): [Subtopic!]!
-    questions(subtopicId: ID):[Question!]!
-    challenges:[Challenge!]!
-    questionIdsForChallenge(challengeId: ID!):[String!]!
-    getQuestion(questionId: ID!):Question!
-    getAnotherLoggedInUser: User
-    getAllOtherLoggedInUsers: [User!]!
-    getChallengeResult(challengeId:ID!):Result
-    isChallengeActive(challengeId: ID!): Boolean!
-    getUserInfo(userId: ID!):User
-    isChallengeAccepted(challengeId: ID!,challengedUserUuid:ID!):ChallengeStatus!
-    isLoginViaSocialAppSuccessful(email: String!):AuthPayload!
-    isOldPasswordValid(oldPassword: String!):Boolean!
-    isOTPValid(email:String!,otp: String!):Boolean!
-    isInviteAccepted(challengeId: String!):Boolean!
+    products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
+    product(productId: ID!): Product!
+    categories: [Category!]!
+    userCart: [CartItem!]!
+    userWishlist: [MinifiedProduct!]!
+    shippingAddresses: [ShippingAddress!]!
+    shippingAddress(addressId: ID!): ShippingAddress!
+    userOrderHistory: [MinifiedOrder!]!
+    userDetail: User!
+    userAddressesMinified: [MinifiedShippingAddress!]!
+    orderDetails(orderId: ID!): Order!
+    orders(pageNumber: Int!, pageSize: Int!):OrdersResponse!
 }
 
 type Mutation {
-    login(input: LoginUserInput!): AuthPayload!
-    signup(input: SignupUserInput!): AuthPayload
-    sendChallenge(input: SendChallengeInput!):Boolean!
-    updateChallenge(challengeId: ID!, status: ChallengeStatus!):Boolean!
-    saveResult(saveResultInput: SaveResultInput!):Boolean!
-    startOneVOneChallenge(input: StartOneVOneChallengeInput!):ID!
-    logout:Boolean!
-    addQuestion(input: AddQuestionInput!):Boolean!
-    deleteQuestions(questionIds: [ID!]!):Boolean!
-    updateQuestion(questionId: ID!,input: UpdateQuestionInput!):Boolean!
-    bulkUploadQuestions(input: [AddQuestionInput!]!): Boolean!
-    updatePassword(newPassword: String!,userEmail: String): Boolean!
-    forgotPassword(email: String!):Boolean!
-    sendChallengeAndInvite(email: String!,host: String!):ID!
-    createChallengeEntry(challengeId: ID!):Boolean!
+    addProduct(addProductInput: AddProductInput!): Boolean!
+    addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
+    addProductToCart(productId: ID!): Boolean!
+    removeProductFromCart(productId: ID, removeAll: Boolean): Boolean!
+    addProductToWishlist(productId: ID!): Boolean!
+    removeProductFromWishlist(productId: ID!): Boolean!
+    emptyCart: Boolean!
+    placeOrder(placeOrderInput: PlaceOrderInput!): Boolean!
+    contactUs(name: String!, email: String!, phoneNumber: String!): Boolean!
+    addShippingAddress(addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
+    updateShippingAddress(addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
+    removeShippingAddress(addressId: ID!): Boolean!
+    requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
+    verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
+    register(registerUserInput: RegisterUserInput!): ID!
+    updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
+    updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
 }
+
+input ProductFilter {
+    ids: [ID!]
+    categoryIds: [ID!]
+    text: String
+}
+
+type Product {
+    id: ID!
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    thumbnailUrl: String!
+    description: String!
+    categoryIds: [ID!]!
+    quantity: Int!
+    isOutOfStock: Boolean!
+}
+
+type MinifiedProduct {
+    id: ID!
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    thumbnailUrl: String!
+    quantity: Int!
+    isOutOfStock: Boolean!
+}
+
+input RegisterUserInput {
+    name: String!
+    email: String!
+    phoneNumber: String!
+    userRole: UserRole
+}
+
+input AddProductInput {
+    title: String!
+    description: String!
+    price: Float!
+    categoryIds: [ID!]!
+    thumbnailUrl: String!
+    imageUrl: String!
+    quantity: Int!
+}
+
+enum UserRole {
+    ADMIN
+    USER
+}
+
+type Category {
+    categoryId: ID!
+    name: String!
+    description: String!
+    imageUrl: String!
+}
+
+input AddCategoryInput {
+    name: String!
+    description: String!
+    imageUrl: String!
+}
+
+type CartItem {
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    quantity: Int!
+}
+
+input PlaceOrderInput {
+    email: String!
+    phoneNumber: String!
+    name: String!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String!
+    country: String!
+    pincode: String!
+    orderItems: [OrderItemInput!]!
+    modeOfPayment: ModeOfPayment!
+}
+
+input OrderItemInput {
+    productId: ID!
+    quantity: Int!
+    price: Float!
+}
+
+enum ModeOfPayment {
+    CREDIT_CARD,
+    DEBIT_CARD,
+    NET_BANKING,
+    UPI,
+    COD
+}
+
+type Order {
+    orderId: ID!
+    name: String!
+    email: String!
+    phone: String!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String!
+    country: String!
+    pincode: String!
+    orderItems: [OrderItem!]!
+    modeOfPayment: ModeOfPayment!
+    orderDate: String!
+    orderStatus: OrderStatus!
+    orderTotal: Float!
+}
+
+type OrderItem {
+    productId: ID!
+    title: String!
+    price: Float!
+    imageUrl: String!
+    quantity: Int!
+}
+
+enum OrderStatus {
+    PENDING,
+    CONFIRMED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
+}
+
+input AddUpdateShippingAddressInput {
+    name: String!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String!
+    country: String!
+    pincode: String!
+    addressType: AddressType!
+    isDefault: Boolean!
+}
+
+enum AddressType {
+    HOME
+    WORK
+    OTHER
+}
+
+type ShippingAddress {
+    addressId: ID!
+    name: String!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String!
+    country: String!
+    pincode: String!
+    addressType: AddressType!
+    isDefault: Boolean!
+}
+
 type User {
-    uuid: ID!
+    userId: ID!
     name: String!
-    email: String!
-    mobileNumber: String
-    isLoggedIn: Boolean!
-    stars: Int!
-    score: Int!
-    roles: [String!]!
+    email: String
+    phoneNumber: String
+    isAdmin: Boolean!
 }
 
-interface Topic {
-    uuid: ID!
+type MinifiedOrder {
+    orderId: ID!
+    orderDate: String!
+    orderStatus: OrderStatus!
+    orderTotal: Float!
+}
+
+type MinifiedShippingAddress {
+    addressId: ID!
     name: String!
+    isDefault: Boolean!
 }
 
-type MainTopic implements Topic{
-    uuid: ID!
+enum AuthByType {
+    EMAIL
+    PHONE
+}
+
+type VerifyOtpResponse {
+    isVerified: Boolean!
+    userId: ID
+    token: String
+}
+
+type OrdersResponse {
+    orders: [MinifiedReceivedOrder!]!
+    pageInfo: PageInfo!
+}
+
+type MinifiedReceivedOrder {
+    orderId: ID!
     name: String!
-    description: String!
-    type: TopicType!
+    orderDate: String!
+    orderStatus: OrderStatus!
+    orderTotal: Float!
+    modeOfPayment: ModeOfPayment!
 }
 
-type Subtopic implements Topic {
-    uuid: ID!
-    topicId: ID!
-    name: String!
-    difficulty: DifficultyLevel!
-    description: String!
-    type: TopicType!
+type PageInfo {
+    totalPages: Int!
+    currentPage: Int!
+    pageSize: Int!
+    totalElements: Int!
 }
 
-enum TopicType {
-    MAIN_TOPIC
-    SUB_TOPIC
+input UpdateProductInput {
+    title: String
+    description: String
+    price: Float
+    categoryIds: [ID!]!
+    thumbnailUrl: String
+    imageUrl: String
+    quantity: Int
 }
 
-enum DifficultyLevel {
-    EASY,
-    MEDIUM,
-    HARD
-}
-
-type Question {
-    uuid: ID!
-    title: String!
-    choices: [Choice!]!
-    weight: Int!
-}
-
-type Choice {
-    uuid: ID!
-    title: String!
-    isCorrect: Boolean!
-}
-
-input SendChallengeInput {
-    name: String!
-    email: String!
-    questionIds: [String!]!
-}
-
-type Challenge {
-    uuid: ID!
-    userUuid:ID!
-    questionIds: [String!]!
-    title: String!
-    type: ChallengeType!
-    status: ChallengeStatus!
-}
-
-enum ChallengeType{
-    SENT,
-    RECEIVED,
-}
-
-enum ChallengeStatus {
-    STARTED,
-    ACTIVE,
-    COMPLETED,
-    CANCELLED,
-    PENDING
-}
-
-input SaveResultInput {
-    challengeId:ID!
-    totalScore: Int!
-    totalRemainingTime: Int!
-}
-
-input StartOneVOneChallengeInput {
-    toUserUuid: ID!
-}
-
-type Result {
-    score: Int!
-    outcome: OutcomeType!
-    basedOnTime: Boolean!
-}
-
-enum OutcomeType {
-    WIN,
-    LOST,
-    DRAW
-}
-
-input LoginUserInput {
-    email: String!
-    password: String!
-}
-
-input SignupUserInput {
-    email: String!
-    password: String!
-    name: String!
-    mobileNumber: String
-}
-
-type AuthPayload {
-    token: String!
-    code: Int
-    message: String
-    name: String
-}
-
-input AddQuestionInput {
-    questionTitle: String!
-    questionChoices:[QuestionChoice!]!
-}
-
-input QuestionChoice{
-    choiceTitle: String!
-    isCorrect: Boolean!
-}
-
-input UpdateQuestionInput {
-    questionTitle: String!
-    questionChoices:[QuestionChoice!]!
+type ProductsResponse {
+    products: [MinifiedProduct!]!
+    pageInfo: PageInfo!
 }
 
 schema {

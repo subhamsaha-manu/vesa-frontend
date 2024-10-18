@@ -1,2 +1,1 @@
-export * from './settings-menu'
-export * from './routes'
+export { default } from './components'

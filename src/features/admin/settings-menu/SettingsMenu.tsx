@@ -1,10 +1,10 @@
 import { Flex, PopoverArrow, PopoverBody, PopoverContent, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC } from 'react'
 import { BiAddToQueue } from 'react-icons/bi'
 import { HiOutlineUsers } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 
-export const SettingsMenu: React.FC = () => {
+export const SettingsMenu: FC = () => {
   const menuOptions = [
     {
       testId: 'upload-question',
