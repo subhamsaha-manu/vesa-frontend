@@ -7,11 +7,12 @@ import { motion } from 'framer-motion'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductTileProps = {
-  product: Omit<MinifiedProduct, 'quantity' | 'isOutOfStock'>
+  product: Omit<MinifiedProduct, 'quantity'>
 }
 
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {
   const navigate = useNavigate()
+  const { imageUrl, price, productId, title, isOutOfStock } = product
 
   const hoverAnimation = {
     scale: 1.05,
@@ -28,13 +29,14 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
         cursor: 'pointer',
         overflow: 'hidden',
         backgroundColor: '#fff',
+        position: 'relative',
       }}
-      onClick={() => navigate(`/product/${product.productId}`)}
+      onClick={() => navigate(`/product/${productId}`)}
     >
       <Flex flexDir="column" borderRadius={2}>
         <Image
-          src={product.imageUrl}
-          alt={product.title}
+          src={imageUrl}
+          alt={title}
           borderRadius="4px"
           borderBottomRadius={0}
           loading="lazy"
@@ -42,6 +44,35 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
           aspectRatio="3/4"
           style={{ transition: 'transform 0.3s ease-in-out' }}
         />
+        {isOutOfStock && (
+          <Flex
+            position="absolute"
+            top="0"
+            left="0"
+            w="100%"
+            h="100%"
+            bg="rgba(0, 0, 0, 0.6)"
+            alignItems="center"
+            justifyContent="center"
+            borderRadius="12px"
+            zIndex="1"
+          >
+            <Text
+              color="white"
+              fontSize="xl"
+              fontWeight="bold"
+              textTransform="uppercase"
+              textAlign="center"
+              bg="rgba(255, 0, 0, 0.8)"
+              px="10px"
+              py="5px"
+              borderRadius="8px"
+              boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+            >
+              Out of Stock
+            </Text>
+          </Flex>
+        )}
         <Flex
           flexDir="column"
           p="15px"
@@ -51,7 +82,6 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
           boxShadow="0px 4px 12px rgba(0, 0, 0, 0.05)"
           position="relative"
         >
-          {/* Product Title */}
           <Text
             fontSize="lg"
             fontWeight="bold"
@@ -65,10 +95,9 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
               transition: 'color 0.3s',
             }}
           >
-            {product.title}
+            {title}
           </Text>
 
-          {/* Product Price */}
           <Flex alignItems="center" justifyContent="center" mt="8px">
             <Text
               fontSize="md"
@@ -80,7 +109,7 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
                 transition: 'color 0.3s',
               }}
             >
-              {INR_CURRENCY_SYMBOL} {product.price.toFixed(2)}
+              {INR_CURRENCY_SYMBOL} {price.toFixed(2)}
             </Text>
           </Flex>
         </Flex>

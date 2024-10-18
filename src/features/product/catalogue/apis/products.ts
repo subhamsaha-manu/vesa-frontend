@@ -10,6 +10,7 @@ export const products = gql`
         price
         thumbnailUrl
         imageUrl
+        isOutOfStock
       }
     }
   }
