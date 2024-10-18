@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const userWishlist = gql`
-  query userWishlist($userId: ID!) {
-    userWishlist(userId: $userId) {
+  query userWishlist {
+    userWishlist {
       productId
       title
       imageUrl

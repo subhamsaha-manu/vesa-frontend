@@ -39,7 +39,7 @@ type CheckoutFormProps = {
 
 export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressId }) => {
   const {
-    currentUser: { userId, email, phoneNumber, name },
+    currentUser: { email, phoneNumber, name },
   } = useCurrentUserContext()
 
   const {
@@ -54,7 +54,6 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressI
 
   const [getShippingAddress] = useShippingAddressLazyQuery({
     variables: {
-      userId,
       addressId: selectedAddressId!,
     },
     onCompleted: (data) => {

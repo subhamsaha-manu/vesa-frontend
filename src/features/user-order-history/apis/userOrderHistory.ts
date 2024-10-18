@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const userOrderHistory = gql`
-  query userOrderHistory($userId: ID!) {
-    userOrderHistory(userId: $userId) {
+  query userOrderHistory {
+    userOrderHistory {
       orderId
       orderDate
       orderStatus

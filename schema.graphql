@@ -2,13 +2,13 @@ type Query {
     products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
     product(productId: ID!): Product!
     categories: [Category!]!
-    userCart(userId: ID!): [CartItem!]!
-    userWishlist(userId: ID!): [MinifiedProduct!]!
-    shippingAddresses(userId: ID!): [ShippingAddress!]!
-    shippingAddress(userId: ID!, addressId: ID!): ShippingAddress!
-    userOrderHistory(userId: ID!): [MinifiedOrder!]!
+    userCart: [CartItem!]!
+    userWishlist: [MinifiedProduct!]!
+    shippingAddresses: [ShippingAddress!]!
+    shippingAddress(addressId: ID!): ShippingAddress!
+    userOrderHistory: [MinifiedOrder!]!
     userDetail: User!
-    userAddressesMinified(userId: ID!): [MinifiedShippingAddress!]!
+    userAddressesMinified: [MinifiedShippingAddress!]!
     orderDetails(orderId: ID!): Order!
     orders(pageNumber: Int!, pageSize: Int!):OrdersResponse!
 }
@@ -16,16 +16,16 @@ type Query {
 type Mutation {
     addProduct(addProductInput: AddProductInput!): Boolean!
     addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
-    addProductToCart(userId:ID!, productId: ID!): Boolean!
-    removeProductFromCart(userId:ID!, productId: ID, removeAll: Boolean): Boolean!
-    addProductToWishlist(userId:ID!, productId: ID!): Boolean!
-    removeProductFromWishlist(userId:ID!, productId: ID!): Boolean!
-    emptyCart(userId: ID!): Boolean!
+    addProductToCart(productId: ID!): Boolean!
+    removeProductFromCart(productId: ID, removeAll: Boolean): Boolean!
+    addProductToWishlist(productId: ID!): Boolean!
+    removeProductFromWishlist(productId: ID!): Boolean!
+    emptyCart: Boolean!
     placeOrder(placeOrderInput: PlaceOrderInput!): Boolean!
     contactUs(name: String!, email: String!, phoneNumber: String!): Boolean!
-    addShippingAddress(userId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
-    updateShippingAddress(userId: ID!, addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
-    removeShippingAddress(userId: ID!, addressId: ID!): Boolean!
+    addShippingAddress(addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
+    updateShippingAddress(addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
+    removeShippingAddress(addressId: ID!): Boolean!
     requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
     verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
     register(registerUserInput: RegisterUserInput!): ID!
@@ -107,7 +107,6 @@ type CartItem {
 }
 
 input PlaceOrderInput {
-    userId: ID!
     email: String!
     phoneNumber: String!
     name: String!

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const userCart = gql`
-  query userCart($userId: ID!) {
-    userCart(userId: $userId) {
+  query userCart {
+    userCart {
       productId
       title
       price

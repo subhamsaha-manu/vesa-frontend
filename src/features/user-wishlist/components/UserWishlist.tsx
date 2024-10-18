@@ -5,7 +5,6 @@ import { useUserWishlistQuery } from '../apis/userWishlist.generated'
 import { WishlistContent } from './WishlistContent'
 import { EmptyWishlist } from './EmptyWishlist'
 import { ContentLayout } from '@/components/Layout'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { WishlistMobileView } from './WishlistMobileView'
 import { useNavigate } from 'react-router-dom'
@@ -13,9 +12,6 @@ import { useRemoveProductFromWishlistMutation } from '../apis/removeProductFromW
 import { userWishlist } from '../apis/userWishlist'
 
 const UserWishlist: FC = () => {
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
   const navigate = useNavigate()
 
   const size = useWindowSize()
@@ -24,15 +20,12 @@ const UserWishlist: FC = () => {
 
   const isMobile = width && width < 768
 
-  const { data, loading, refetch } = useUserWishlistQuery({
-    variables: {
-      userId,
-    },
+  const { data, loading } = useUserWishlistQuery({
     fetchPolicy: 'network-only',
   })
 
   const [removeProductFromWishlist] = useRemoveProductFromWishlistMutation({
-    refetchQueries: [{ query: userWishlist, variables: { userId } }],
+    refetchQueries: [{ query: userWishlist }],
   })
 
   if (loading || !data) {
@@ -63,7 +56,6 @@ const UserWishlist: FC = () => {
                 onRemoveClick={(productId) => {
                   void removeProductFromWishlist({
                     variables: {
-                      userId,
                       productId,
                     },
                   })
@@ -76,7 +68,6 @@ const UserWishlist: FC = () => {
                 onRemoveClick={(productId) => {
                   void removeProductFromWishlist({
                     variables: {
-                      userId,
                       productId,
                     },
                   })

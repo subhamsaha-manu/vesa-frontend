@@ -4,7 +4,6 @@ import { Button, Flex, useDisclosure, useToast } from '@chakra-ui/react'
 import { useRemoveShippingAddressMutation } from '../apis/removeShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
 import { RemoveAddressWarningModal } from './RemoveAddressWarningModal'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type AddressCardProps = {
   address: ShippingAddress
@@ -27,13 +26,9 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
   } = address
 
   const toast = useToast()
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
 
   const [removeShippingAddress, { loading }] = useRemoveShippingAddressMutation({
     variables: {
-      userId,
       addressId,
     },
     onCompleted: () => {
@@ -46,7 +41,7 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
       })
       onClose()
     },
-    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
+    refetchQueries: [{ query: shippingAddresses }],
   })
 
   return (

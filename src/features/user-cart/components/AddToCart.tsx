@@ -5,27 +5,25 @@ import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useNavigate } from 'react-router-dom'
 import { userCart } from '../apis/userCart'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { storage } from '@/utils/storage'
+import { TOKEN } from '@/utils/constants'
 
 type AddToCartProps = {
   productId: string
   mobileView?: boolean
 }
 export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
-  const [addedToCart, setAddedToCart] = useState<boolean>(false)
+  const authToken = storage.getItem(TOKEN)
 
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
+  const [addedToCart, setAddedToCart] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
   const [addToCart, { loading }] = useAddProductToCartMutation({
     variables: {
-      userId,
       productId,
     },
-    refetchQueries: [{ query: userCart, variables: { userId } }],
+    refetchQueries: [{ query: userCart }],
     onCompleted: () => {
       setAddedToCart(true)
     },
@@ -62,7 +60,7 @@ export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
           _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           borderRadius="40px"
           onClick={() => {
-            if (userId) {
+            if (authToken) {
               void addToCart()
             } else {
               navigate('/auth')

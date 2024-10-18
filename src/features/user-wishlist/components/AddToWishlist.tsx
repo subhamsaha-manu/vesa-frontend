@@ -6,29 +6,27 @@ import { useAddProductToWishlistMutation } from '../apis/addProductToWishlist.ge
 import { Text } from '@chakra-ui/layout'
 import { userWishlist } from '../apis/userWishlist'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import noop from 'lodash/noop'
 import { useNavigate } from 'react-router-dom'
+import { storage } from '@/utils/storage'
+import { TOKEN } from '@/utils/constants'
 
 type AddToWishlistProps = {
   productId: string
   mobileView?: boolean
 }
 export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView }) => {
-  const { wishlistItems } = useUserWishlistCartContextProvider()
+  const authToken = storage.getItem(TOKEN)
 
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
+  const { wishlistItems } = useUserWishlistCartContextProvider()
 
   const navigate = useNavigate()
 
   const [addToWishlist, { loading }] = useAddProductToWishlistMutation({
     variables: {
-      userId,
       productId,
     },
-    refetchQueries: [{ query: userWishlist, variables: { userId } }],
+    refetchQueries: [{ query: userWishlist }],
   })
 
   const isProductInWishlist = wishlistItems.some((item) => item === productId)
@@ -41,7 +39,7 @@ export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView })
       _hover={{ color: '#D9121F', cursor: isProductInWishlist ? 'default' : 'pointer' }}
       opacity={1}
       onClick={() => {
-        if (userId) {
+        if (authToken) {
           isProductInWishlist ? noop() : addToWishlist()
         } else {
           navigate('/auth')

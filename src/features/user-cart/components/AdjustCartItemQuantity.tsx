@@ -2,7 +2,6 @@ import React, { FC } from 'react'
 import AdjustQuantity from '@/components/elements/AdjustQuantity'
 import { useAddProductToCartMutation } from '@/features/user-cart/apis/addProductToCart.generated'
 import { userCart } from '@/features/user-cart/apis/userCart'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type AdjustCartItemQuantityProps = {
   initialQuantity: number
@@ -19,15 +18,11 @@ export const AdjustCartItemQuantity: FC<AdjustCartItemQuantityProps> = ({
   calculateTotalCartAmount,
   maxQuantity,
 }) => {
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-
   const [addProductToCart] = useAddProductToCartMutation({
     onCompleted: () => {
       calculateTotalCartAmount()
     },
-    refetchQueries: [{ query: userCart, variables: { userId } }],
+    refetchQueries: [{ query: userCart }],
   })
 
   return (
@@ -37,7 +32,6 @@ export const AdjustCartItemQuantity: FC<AdjustCartItemQuantityProps> = ({
       onIncrement={() =>
         void addProductToCart({
           variables: {
-            userId,
             productId,
           },
         })

@@ -26,7 +26,6 @@ import { stateOptions } from '@/features/user-cart/utils/IndianStates'
 import { AddressType } from '@/types'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const schema = z.object({
   name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
@@ -49,10 +48,6 @@ type AddressFormProps = {
 }
 export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addressId }) => {
   const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-
-  const {
     handleSubmit,
     formState: { errors },
     control,
@@ -73,9 +68,8 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
     control,
   })
 
-  const [fetchAddress, { loading }] = useShippingAddressLazyQuery({
+  const [fetchAddress] = useShippingAddressLazyQuery({
     variables: {
-      userId,
       addressId: addressId!,
     },
     onCompleted: (data) => {

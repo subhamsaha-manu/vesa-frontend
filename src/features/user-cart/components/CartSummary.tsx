@@ -9,7 +9,6 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { CartItem, ModeOfPayment, PlaceOrderInput } from '@/types'
 import { useNavigate } from 'react-router-dom'
 import { isEmpty } from 'lodash'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type CartSummaryProps = {
@@ -20,14 +19,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
 
   const navigate = useNavigate()
 
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-
   const { data } = useUserCartQuery({
-    variables: {
-      userId,
-    },
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (isEmpty(data.userCart)) {
@@ -53,13 +45,12 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
       })
       navigate('/')
     },
-    refetchQueries: [{ query: userCart, variables: { userId } }],
+    refetchQueries: [{ query: userCart }],
   })
 
   const handlePlaceOrderClick = () => {
     setTimeout(() => {
       const input: PlaceOrderInput = {
-        userId,
         orderItems: data!.userCart.map((cartItem: CartItem) => ({
           productId: cartItem.productId,
           quantity: cartItem.quantity,

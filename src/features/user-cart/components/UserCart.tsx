@@ -4,7 +4,6 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useNavigate } from 'react-router-dom'
 import { useEmptyCartMutation } from '../apis/emptyCart.generated'
 import { ContentLayout } from '@/components/Layout'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { UserCartDesktopView } from './UserCartDesktopView'
 import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
@@ -28,14 +27,7 @@ const UserCart: FC = () => {
   const [totalCartItems, setTotalCartItems] = useState<number>(0)
   const [totalCartAmount, setTotalCartAmount] = useState<number>(0)
 
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-
   const { data, loading, refetch } = useUserCartQuery({
-    variables: {
-      userId,
-    },
     fetchPolicy: 'network-only',
   })
 
@@ -51,9 +43,6 @@ const UserCart: FC = () => {
   })
 
   const [emptyCart, { loading: emptyingCart }] = useEmptyCartMutation({
-    variables: {
-      userId,
-    },
     onCompleted: () => refetch(),
   })
 
@@ -61,7 +50,7 @@ const UserCart: FC = () => {
     onCompleted: () => {
       calculateTotalCartAmount()
     },
-    refetchQueries: [{ query: userCart, variables: { userId } }],
+    refetchQueries: [{ query: userCart }],
   })
 
   const calculateTotalCartAmount = useCallback(() => {
@@ -162,7 +151,6 @@ const UserCart: FC = () => {
             removeProductFromCart={(productId, removeAll) => {
               void removeProductFromCart({
                 variables: {
-                  userId,
                   productId,
                   removeAll,
                 },
@@ -182,7 +170,6 @@ const UserCart: FC = () => {
             removeProductFromCart={(productId, removeAll) => {
               void removeProductFromCart({
                 variables: {
-                  userId,
                   productId,
                   removeAll,
                 },

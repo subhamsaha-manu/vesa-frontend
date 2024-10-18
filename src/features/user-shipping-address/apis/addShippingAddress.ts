@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const addShippingAddress = gql`
-  mutation addShippingAddress($userId: ID!, $input: AddUpdateShippingAddressInput!) {
-    addShippingAddress(userId: $userId, addUpdateShippingAddressInput: $input)
+  mutation addShippingAddress($input: AddUpdateShippingAddressInput!) {
+    addShippingAddress(addUpdateShippingAddressInput: $input)
   }
 `

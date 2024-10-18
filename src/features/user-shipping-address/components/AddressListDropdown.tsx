@@ -1,20 +1,12 @@
 import { FC } from 'react'
 import { useUserAddressesMinifiedQuery } from '../apis/userAddressesMinified.generated'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { Flex, Select } from '@chakra-ui/react'
 
 type AddressListDropdownProps = {
   onSelect: (addressId: string) => void
 }
 export const AddressListDropdown: FC<AddressListDropdownProps> = ({ onSelect }) => {
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
-
-  const { data, loading } = useUserAddressesMinifiedQuery({
-    variables: {
-      userId,
-    },
+  const { data } = useUserAddressesMinifiedQuery({
     fetchPolicy: 'network-only',
   })
 

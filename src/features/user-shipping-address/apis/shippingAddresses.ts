@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const shippingAddresses = gql`
-  query shippingAddresses($userId: ID!) {
-    shippingAddresses(userId: $userId) {
+  query shippingAddresses {
+    shippingAddresses {
       addressId
       name
       addressLine1

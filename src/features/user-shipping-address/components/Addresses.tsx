@@ -19,20 +19,14 @@ import { AddressForm } from './AddressForm'
 import { useAddShippingAddressMutation } from '../apis/addShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
 import { useUpdateShippingAddressMutation } from '@/features/user-shipping-address/apis/updateShippingAddress.generated'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 const Addresses: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
-  const {
-    currentUser: { userId },
-  } = useCurrentUserContext()
+
   const [addressId, setAddressId] = useState<string>()
 
   const { data, loading: fetchingAllAddresses } = useShippingAddressesQuery({
-    variables: {
-      userId,
-    },
     fetchPolicy: 'network-only',
   })
 
@@ -47,7 +41,7 @@ const Addresses: FC = () => {
       })
       onClose()
     },
-    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
+    refetchQueries: [{ query: shippingAddresses }],
   })
 
   const [updateShippingAddress, { loading: updatingAddress }] = useUpdateShippingAddressMutation({
@@ -61,7 +55,7 @@ const Addresses: FC = () => {
       })
       onClose()
     },
-    refetchQueries: [{ query: shippingAddresses, variables: { userId } }],
+    refetchQueries: [{ query: shippingAddresses }],
   })
 
   if (fetchingAllAddresses || !data) {
@@ -134,7 +128,6 @@ const Addresses: FC = () => {
                 if (name && !addressId) {
                   void addShippingAddress({
                     variables: {
-                      userId,
                       input: {
                         name,
                         addressLine1,
@@ -152,7 +145,6 @@ const Addresses: FC = () => {
                 if (name && addressId) {
                   void updateShippingAddress({
                     variables: {
-                      userId,
                       addressId,
                       input: {
                         name,
