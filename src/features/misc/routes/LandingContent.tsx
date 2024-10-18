@@ -1,24 +1,22 @@
-import { Flex, Image } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import { Flex } from '@chakra-ui/react'
+import React, { FC, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import img from '@/assets/illustrations/ComingSoon.svg'
-import { useAuthenticationContext } from '@/features/auth'
 import { storage } from '@/utils/storage'
+import { Dashboard } from '@/features/dashboard'
 
-export const LandingContent: React.FC = () => {
+export const LandingContent: FC = () => {
   const location = useLocation()
 
   const navigate = useNavigate()
   const incomingPath: string = location.pathname
-  const { isAuthenticated } = useAuthenticationContext()
 
   useEffect(() => {
     if (incomingPath.includes('/challenge/')) {
       const url = `${incomingPath}${location.search}`
 
       navigate('/auth/login')
-      storage.setToken('INCOMING_PATH', url)
+      storage.setItem('INCOMING_PATH', url)
     }
   }, [incomingPath, location.search, navigate])
 
@@ -35,7 +33,7 @@ export const LandingContent: React.FC = () => {
       h={{ base: 'calc(100vh - 60px)', md: 'calc(100vh - 120px)' }}
       overflow="scroll"
     >
-      <Image src={img} />
+      <Dashboard />
     </Flex>
   )
 }

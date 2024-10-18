@@ -1,113 +1,254 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
-  Collapse,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
   Flex,
   IconButton,
   Image,
-  Stack,
+  Input,
+  InputGroup,
+  InputLeftElement,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
-import logo from '@/assets/logo/vesa-logo.jpg'
+import React, { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
+import { Search01Icon, UserIcon } from 'hugeicons-react'
+import { Text } from '@chakra-ui/layout'
+import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
+import { UserCartHeaderIcon } from '@/features/user-cart'
+import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
+import { useWindowSize } from '@/hooks/useWindowSize'
+import { storage } from '@/utils/storage'
+import { USER_ID } from '@/utils/constants'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()
+  const { categories } = useCategoriesContextProvider()
+
+  const { currentUser } = useCurrentUserContext()
+
+  const userId = storage.getItem(USER_ID)
+
+  const size = useWindowSize()
+
+  const { width } = size
+
+  const isMobile = width && width < 768
+
   const navigate = useNavigate()
 
-  const handleSignUpClick = () => {
-    navigate('/auth/register')
+  const handleUserIconClick = () => {
+    if (userId) {
+      if (currentUser?.isAdmin) {
+        navigate('/admin')
+      } else {
+        navigate('/account/orders')
+      }
+    } else {
+      navigate('/auth')
+    }
   }
+
+  const categoryMenuOptions = categories.map(({ name }) => ({
+    label: name,
+    path: `/product-category/${name.toLowerCase()}`,
+  }))
+
+  const menuOptions = [
+    {
+      label: 'Home',
+      path: '/',
+    },
+    ...categoryMenuOptions,
+    {
+      label: 'About Us',
+      path: '/about-us',
+    },
+    {
+      label: 'Contact Us',
+      path: '/contact-us',
+    },
+  ]
+
   return (
-    <Box>
+    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={1500}>
       <Flex
+        display-name="landing-page-header-flex"
         bg="#e5e2db"
         color={useColorModeValue('gray.600', 'white')}
         minH="60px"
-        h="120px"
-        py={{ base: 2 }}
-        px={{ base: 4 }}
+        h={{ base: '60px', xl: '120px' }}
+        p={{ base: '5px 10px', xl: '15px 100px' }}
         borderBottom={1}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
       >
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}
-        >
+        <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }} flex={1}>
           <IconButton
             onClick={onToggle}
-            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-            variant="ghost"
+            icon={
+              isOpen ? (
+                <CloseIcon
+                  w={5}
+                  h={5}
+                  style={{ transition: 'transform 0.3s', transform: 'rotate(180deg)' }}
+                />
+              ) : (
+                <HamburgerIcon
+                  w={5}
+                  h={5}
+                  style={{ transition: 'transform 0.3s', transform: 'rotate(0deg)' }}
+                />
+              )
+            }
+            variant="outline"
             aria-label="Toggle Navigation"
+            border="none"
+            _hover={{ bg: 'transparent' }}
           />
         </Flex>
         <Flex
-          flex={{ base: 1 }}
           justify={{ base: 'center', md: 'start' }}
           alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-logo-flex-for-larger-screen"
+          display={{ base: 'none', md: 'flex' }}
+          maxW="200px"
+          cursor="pointer"
+          onClick={() => navigate('/')}
         >
-          <Image src={logo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="200px" />
         </Flex>
-
-        {/*<Stack flex={{ base: 1, md: 1 }} justify="flex-end" direction="row" spacing={6}>*/}
-        {/*  <Button*/}
-        {/*    fontSize="md"*/}
-        {/*    fontWeight={400}*/}
-        {/*    variant="link"*/}
-        {/*    onClick={() => navigate('/auth/login')}*/}
-        {/*  >*/}
-        {/*    Sign In*/}
-        {/*  </Button>*/}
-        {/*  <Button*/}
-        {/*    display={{ base: 'none', md: 'inline-flex' }}*/}
-        {/*    fontSize="md"*/}
-        {/*    fontWeight={600}*/}
-        {/*    color="white"*/}
-        {/*    bg="cyan.400"*/}
-        {/*    onClick={() => handleSignUpClick()}*/}
-        {/*    _hover={{*/}
-        {/*      bg: 'cyan.300',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    Sign Up*/}
-        {/*  </Button>*/}
-        {/*</Stack>*/}
+        <Flex
+          justify="center"
+          alignItems="center"
+          display-name="landing-page-header-logo-flex-for-smaller-screen"
+          display={{ base: 'flex', md: 'none' }}
+          flex={1}
+          cursor="pointer"
+          onClick={() => navigate('/')}
+        >
+          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+        </Flex>
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: 'center', md: 'center' }}
+          alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-menu-options-flex"
+          gap={8}
+          flexGrow={1}
+          display={{ base: 'none', md: 'flex' }}
+        >
+          {menuOptions.map(({ label, path }) => (
+            <Flex
+              display-name="landing-page-header-menu-options-flex"
+              key={label}
+              _hover={{ cursor: 'pointer' }}
+              onClick={() => navigate(path)}
+            >
+              <Text fontSize="md" color="subtle">
+                {label}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
+        <Flex
+          display-name="landing-page-header-search-product-flex"
+          mr="70px"
+          display={{ base: 'none', md: 'flex' }}
+        >
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <Search01Icon color="gray.300" size={20} />
+            </InputLeftElement>
+            <Input
+              placeholder="Search for product"
+              size="md"
+              background="white"
+              borderRadius="40px"
+            />
+          </InputGroup>
+        </Flex>
+        <Flex
+          justify={{ base: 'center', md: 'end' }}
+          alignItems={{ base: 'center', md: 'center' }}
+          display-name="landing-page-header-icons-flex"
+          gap={{ base: 4, md: 8 }}
+          flex={{ base: 1, xl: 0 }}
+        >
+          <Flex
+            display-name="user-account-header-icon"
+            gap={2}
+            _hover={{ color: '#FFFFFF', cursor: 'pointer', position: 'relative' }}
+          >
+            <UserIcon
+              size={isMobile ? 18 : 22}
+              style={{ cursor: 'pointer' }}
+              onClick={handleUserIconClick}
+            />
+          </Flex>
+          {!currentUser?.isAdmin && (
+            <>
+              <UserWishlistHeaderIcon />
+              <UserCartHeaderIcon />
+            </>
+          )}
+        </Flex>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav handleSignUpClick={handleSignUpClick} />
-      </Collapse>
+      <Drawer isOpen={isOpen} onClose={onToggle} placement="left" size="xs" preserveScrollBarGap>
+        <DrawerContent
+          sx={{
+            top: '60px !important',
+          }}
+        >
+          <DrawerBody p={0}>
+            <MobileNav menuOptions={menuOptions} onToggle={onToggle} />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   )
 }
 
 type MobileNavProps = {
-  handleSignUpClick: () => void
+  menuOptions: { label: string; path: string }[]
+  onToggle: () => void
 }
-const MobileNav: React.FC<MobileNavProps> = ({ handleSignUpClick }) => {
+const MobileNav: FC<MobileNavProps> = ({ menuOptions, onToggle }) => {
+  const navigate = useNavigate()
+
   return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
-      <Flex justify="center">
-        <Button
-          fontSize="md"
-          fontWeight={600}
-          color="black"
-          border="1px solid black"
-          onClick={() => handleSignUpClick()}
-          _hover={{
-            bg: 'cyan.300',
+    <Flex
+      flexDir="column"
+      bg={useColorModeValue('white', 'gray.800')}
+      p={4}
+      display={{ md: 'none' }}
+    >
+      {menuOptions.map(({ label, path }) => (
+        <Flex
+          display-name="mobile-nav-menu-options-flex"
+          key={label}
+          _hover={{ cursor: 'pointer', background: 'gray.100' }}
+          onClick={() => {
+            onToggle()
+            navigate(path)
           }}
+          h="50px"
+          p={2}
+          align="center"
         >
-          Sign Up
-        </Button>
-      </Flex>
-    </Stack>
+          <Text fontSize="md" color="subtle">
+            {label}
+          </Text>
+        </Flex>
+      ))}
+    </Flex>
   )
 }

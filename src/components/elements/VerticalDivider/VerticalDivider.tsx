@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC } from 'react'
 
-export const VerticalDivider: React.FC = () => {
+export const VerticalDivider: FC = () => {
   return (
     <Box
       width="1px"

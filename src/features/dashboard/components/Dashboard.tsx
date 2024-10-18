@@ -1,27 +1,41 @@
-import { Heading, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Flex, Heading } from '@chakra-ui/react'
+import React, { FC } from 'react'
+import { Catalogue } from '@/features/product'
+import { Categories } from '@/features/category'
+import Carousel from './Carousel'
 
-import { ContentLayout } from '@/components/Layout/ContentLayout'
-import { useCurrentUserContext } from '@/features/auth'
-
-export const Dashboard = () => {
-  const [activeTileId, setActiveTileId] = useState<string>('')
-
-  const { currentUser } = useCurrentUserContext()
-  const { name } = currentUser!
-
+export const Dashboard: FC = () => {
   return (
-    <ContentLayout pageTitle="">
-      <VStack
-        display-name="dashboard-container"
-        h="77vh"
-        overflow="scroll"
+    <Flex flexGrow={1} w="100%" display-name="dashboard-flex" flexDir="column" gap="64px">
+      <Carousel />
+      <Flex
+        display-name="shop-by-category-flex"
+        flexDir="column"
         w="100%"
-        alignItems="start"
-        spacing={8}
+        justify="center"
+        align="center"
+        gap={4}
       >
-        <Heading size="sm">Hi welcome back {name}</Heading>
-      </VStack>
-    </ContentLayout>
+        <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
+          Shop By Category
+        </Heading>
+        <Categories />
+      </Flex>
+
+      <Flex
+        display-name="catalogue-flex"
+        flexDir="column"
+        w="100%"
+        justify="center"
+        align="center"
+        gap={4}
+        p={{ base: '0 2px', xl: '0 32px' }}
+      >
+        <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
+          Our Collection
+        </Heading>
+        <Catalogue />
+      </Flex>
+    </Flex>
   )
 }

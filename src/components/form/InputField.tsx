@@ -1,17 +1,22 @@
 import { Input } from '@chakra-ui/react'
-import React from 'react'
-import { UseFormRegister } from 'react-hook-form/dist/types/form'
+import noop from 'lodash/noop'
+import { HTMLInputTypeAttribute, ReactElement, useEffect, useRef } from 'react'
+import { Controller } from 'react-hook-form'
 
 import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper'
 
 type InputFieldProps = FieldWrapperPassThroughProps & {
-  type?: 'text' | 'email'
+  type?: HTMLInputTypeAttribute | undefined
   fieldName: string
   placeholder?: string
-  value?: string
+  value?: string | number | undefined
+  onBlurAction?: (params: any) => void
+  onKeyUpAction?: (params: any, key: string) => void
+  setFocus?: boolean
   disabled?: boolean
-  register: UseFormRegister<any>
-  styleProps?: { height: number }
+  endAdornment?: ReactElement
+  startAdornment?: ReactElement
+  withRoundBorders?: boolean
 }
 
 export const InputField = (props: InputFieldProps) => {
@@ -19,23 +24,70 @@ export const InputField = (props: InputFieldProps) => {
     type = 'text',
     fieldName,
     label,
+    control,
     error,
     placeholder = '',
+    value,
+    width,
+    onBlurAction = noop,
+    onKeyUpAction = noop,
     showErrorOnRight,
     testid,
-    register,
-    styleProps,
+    setFocus = false,
+    disabled = false,
+    endAdornment,
+    startAdornment,
+    isRequired,
+    withRoundBorders = true,
   } = props
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (setFocus && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [setFocus])
+
   return (
-    <FieldWrapper label={label} error={error} showErrorOnRight={showErrorOnRight}>
-      <Input
-        data-testid={testid}
-        id={fieldName}
-        placeholder={placeholder}
-        type={type}
-        {...styleProps}
-        {...register(fieldName)}
+    <FieldWrapper
+      label={label}
+      error={error}
+      showErrorOnRight={showErrorOnRight}
+      isRequired={isRequired}
+    >
+      <Controller
+        name={fieldName}
+        control={control}
+        defaultValue={value}
+        render={({ field }) => (
+          <Input
+            {...field}
+            type={type}
+            ref={inputRef}
+            placeholder={placeholder}
+            data-testid={testid}
+            width={width}
+            onBlur={(e) => {
+              onBlurAction(e.target.value)
+            }}
+            onKeyUp={(e) => {
+              onKeyUpAction(inputRef.current?.value, e.key)
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                onBlurAction(inputRef.current?.value)
+              }
+            }}
+            isDisabled={disabled}
+            style={{
+              background: `${disabled ? '#ecedef' : 'white'}`,
+              borderRadius: withRoundBorders ? '40px' : '8px',
+              height: '48px',
+            }}
+          />
+        )}
       />
     </FieldWrapper>
   )

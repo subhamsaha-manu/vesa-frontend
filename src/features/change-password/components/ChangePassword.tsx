@@ -16,13 +16,10 @@ import {
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
-
-import { useIsOldPasswordValidLazyQuery } from '../apis/isOldPasswordValid.generated'
-import { useUpdatePasswordMutation } from '../apis/updatePassword.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Layout } from '@/components/Layout'
@@ -31,7 +28,7 @@ const schema = z.object({
   oldPassword: z.string().min(1, 'Required'),
   newPassword: z.string().min(1, 'Required'),
 })
-export const ChangePassword: React.FC = () => {
+export const ChangePassword: FC = () => {
   const {
     handleSubmit,
     register,
@@ -52,55 +49,8 @@ export const ChangePassword: React.FC = () => {
     navigate('/app')
   }
 
-  const [isOldPasswordValid] = useIsOldPasswordValidLazyQuery({
-    onCompleted: (data) => {
-      if (data.isOldPasswordValid) {
-        setOldPasswordValid(true)
-        setError('oldPassword', {})
-      } else {
-        setOldPasswordValid(false)
-        const error = {
-          message: 'Old password is not valid',
-          type: 'unique',
-        }
-        setError('oldPassword', error)
-      }
-    },
-    onError: () => {
-      setOldPasswordValid(false)
-      toast({
-        title: 'Old password validation failed',
-        description: 'Try again later.',
-        status: 'error',
-        duration: 2000,
-        isClosable: true,
-      })
-    },
-    fetchPolicy: 'network-only',
-  })
-
-  const [updatePassword, { loading: updatePasswordInProgress }] = useUpdatePasswordMutation({
-    onCompleted: (data) => {
-      if (data.updatePassword) {
-        toast({
-          title: 'Password updated successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
-        navigateBackToApp()
-      }
-    },
-  })
-
   const onSubmit = (values: any) => {
     const { newPassword } = values
-
-    updatePassword({
-      variables: {
-        newPassword,
-      },
-    })
   }
 
   return (
@@ -124,13 +74,7 @@ export const ChangePassword: React.FC = () => {
                   {...register('oldPassword', {
                     required: 'This is required',
                   })}
-                  onBlur={(event) => {
-                    isOldPasswordValid({
-                      variables: {
-                        oldPassword: event.target.value,
-                      },
-                    })
-                  }}
+                  onBlur={(event) => {}}
                 />
                 <FormErrorMessage>""</FormErrorMessage>
               </FormControl>
@@ -171,11 +115,7 @@ export const ChangePassword: React.FC = () => {
                     type="submit"
                     disabled={!oldPasswordValid}
                   >
-                    {updatePasswordInProgress ? (
-                      <SpinnerContainer size="20px" overflow="unset" />
-                    ) : (
-                      'Change Password'
-                    )}
+                    {false ? <SpinnerContainer size="20px" overflow="unset" /> : 'Change Password'}
                   </Button>
                 </ButtonGroup>
               </HStack>

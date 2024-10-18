@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { FC } from 'react'
 import FacebookLogin, {
   ReactFacebookFailureResponse,
   ReactFacebookLoginInfo,
@@ -10,7 +10,7 @@ type LoginWithFBProps = {
   buttonText: string
 }
 
-export const LoginWithFB: React.FC<LoginWithFBProps> = ({ onSuccessFn, buttonText }) => {
+export const LoginWithFB: FC<LoginWithFBProps> = ({ onSuccessFn, buttonText }) => {
   const fbAppId = '725633465348035'
 
   return (
