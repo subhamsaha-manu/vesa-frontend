@@ -1,8 +1,9 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 
-import { CategoriesContextType } from './types'
-import { Category } from '@/types'
 import { useCategoriesQuery } from './api/categories.generated'
+import { CategoriesContextType } from './types'
+
+import { Category } from '@/types'
 
 const CategoriesContext = createContext<CategoriesContextType>({} as CategoriesContextType)
 

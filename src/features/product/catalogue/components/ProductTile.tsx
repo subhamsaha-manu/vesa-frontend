@@ -1,9 +1,10 @@
-import { FC } from 'react'
-import { MinifiedProduct } from '@/types'
-import { Flex, Image } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/layout'
-import { useNavigate } from 'react-router-dom'
+import { Flex, Image } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductTileProps = {

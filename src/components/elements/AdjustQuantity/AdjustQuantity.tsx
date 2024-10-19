@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import { Add01Icon, MinusSignIcon } from 'hugeicons-react'
+import { FC, useState } from 'react'
+
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 type AdjustQuantityProps = {

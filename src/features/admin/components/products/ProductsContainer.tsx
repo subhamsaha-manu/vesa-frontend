@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react'
-import { useAllProductsForAdminQuery } from '../../apis/products.generated'
 import { Flex, Text } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC, useState } from 'react'
+
 import { Products } from './Products'
+
+import { useAllProductsForAdminQuery } from '../../apis/products.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
 export const ProductsContainer: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0)

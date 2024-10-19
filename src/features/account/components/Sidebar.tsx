@@ -1,9 +1,10 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { Link, useNavigate } from 'react-router-dom'
 import { CheckListIcon, Logout04Icon, MapsEditingIcon } from 'hugeicons-react'
+import { Link, useNavigate } from 'react-router-dom'
+
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
-import { storage } from '@/utils/storage'
 import { TOKEN, USER_ID } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 export const Sidebar = () => {
   const {

@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react'
-import React, { FC, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { storage } from '@/utils/storage'
 import { Dashboard } from '@/features/dashboard'
+import { storage } from '@/utils/storage'
 
 export const LandingContent: FC = () => {
   const location = useLocation()

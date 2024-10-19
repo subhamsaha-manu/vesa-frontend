@@ -1,8 +1,9 @@
-import { FC } from 'react'
-import { ContentLayout } from '@/components/Layout'
 import { Flex, Image, Text } from '@chakra-ui/react'
-import quotationMark from '@/assets/images/quotation-mark.png'
+import { FC } from 'react'
+
 import human from '@/assets/images/human.jpg'
+import quotationMark from '@/assets/images/quotation-mark.png'
+import { ContentLayout } from '@/components/Layout'
 
 const AboutUs: FC = () => {
   return (
@@ -41,14 +42,15 @@ const AboutUs: FC = () => {
           >
             <Text fontSize="lg">
               There are many variations of passages of Lorem Ipsum available, but the majority have
-              suffered alteration in some form, by injected humour, or randomised words which don't
-              look even slightly believable. If you are going to use a passage of Lorem Ipsum, you
-              need to be sure there isn't anything embarrassing hidden in the middle of text. All
-              the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as
-              necessary, making this the first true generator on the Internet. It uses a dictionary
-              of over 200 Latin words, combined with a handful of model sentence structures, to
-              generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore
-              always free from repetition, injected humour, or non-characteristic words etc.
+              suffered alteration in some form, by injected humour, or randomised words which
+              don&#39;t look even slightly believable. If you are going to use a passage of Lorem
+              Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle
+              of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined
+              chunks as necessary, making this the first true generator on the Internet. It uses a
+              dictionary of over 200 Latin words, combined with a handful of model sentence
+              structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum
+              is therefore always free from repetition, injected humour, or non-characteristic words
+              etc.
             </Text>
           </Flex>
           <Flex display-name="quotation-flex" w="100%" justify="end" align="center">
@@ -80,14 +82,15 @@ const AboutUs: FC = () => {
           >
             <Text fontSize="md">
               There are many variations of passages of Lorem Ipsum available, but the majority have
-              suffered alteration in some form, by injected humour, or randomised words which don't
-              look even slightly believable. If you are going to use a passage of Lorem Ipsum, you
-              need to be sure there isn't anything embarrassing hidden in the middle of text. All
-              the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as
-              necessary, making this the first true generator on the Internet. It uses a dictionary
-              of over 200 Latin words, combined with a handful of model sentence structures, to
-              generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore
-              always free from repetition, injected humour, or non-characteristic words etc.
+              suffered alteration in some form, by injected humour, or randomised words which
+              don&#39;t look even slightly believable. If you are going to use a passage of Lorem
+              Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle
+              of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined
+              chunks as necessary, making this the first true generator on the Internet. It uses a
+              dictionary of over 200 Latin words, combined with a handful of model sentence
+              structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum
+              is therefore always free from repetition, injected humour, or non-characteristic words
+              etc.
             </Text>
           </Flex>
         </Flex>

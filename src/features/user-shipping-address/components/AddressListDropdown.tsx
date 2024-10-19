@@ -1,6 +1,7 @@
-import { FC } from 'react'
-import { useUserAddressesMinifiedQuery } from '../apis/userAddressesMinified.generated'
 import { Flex, Select } from '@chakra-ui/react'
+import { FC } from 'react'
+
+import { useUserAddressesMinifiedQuery } from '../apis/userAddressesMinified.generated'
 
 type AddressListDropdownProps = {
   onSelect: (addressId: string) => void

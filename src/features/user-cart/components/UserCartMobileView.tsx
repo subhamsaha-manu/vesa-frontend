@@ -1,8 +1,10 @@
-import React, { FC } from 'react'
-import { CartItem, MinifiedProduct } from '@/types'
 import { Button, Flex, Text } from '@chakra-ui/react'
+import { FC } from 'react'
+
 import { MobileViewCartListItem } from './MobileViewCartListItem'
+
 import { EmptyCart } from '@/features/user-cart/components/EmptyCart'
+import { CartItem, MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type UserCartMobileViewProps = {
@@ -44,6 +46,7 @@ export const UserCartMobileView: FC<UserCartMobileViewProps> = ({
           >
             {cartItems.map((item) => (
               <MobileViewCartListItem
+                key={item.productId}
                 item={item}
                 removeProductFromCart={removeProductFromCart}
                 onItemClick={onItemClick}

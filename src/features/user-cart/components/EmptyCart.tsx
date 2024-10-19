@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
 import { Button, Flex, Text } from '@chakra-ui/react'
 import { ShoppingCartRemove01Icon } from 'hugeicons-react'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type EmptyCartProps = {

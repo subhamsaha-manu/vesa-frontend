@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from '@chakra-ui/react'
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 type DrawerComponentProps = {
   isOpen: boolean

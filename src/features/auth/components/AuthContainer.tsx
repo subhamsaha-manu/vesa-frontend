@@ -1,9 +1,11 @@
-import React, { FC, useState } from 'react'
 import { Center, Flex } from '@chakra-ui/react'
+import { FC, useState } from 'react'
+
 import { RequestOtpStep } from './RequestOtpStep'
-import { VerifyOtpStep } from './VerifyOtpStep'
-import { AuthByType } from '@/types'
 import { UserBasicDetails } from './UserBasicDetails'
+import { VerifyOtpStep } from './VerifyOtpStep'
+
+import { AuthByType } from '@/types'
 
 export enum AuthContainerStepEnum {
   REQUEST_OTP,

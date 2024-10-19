@@ -1,7 +1,8 @@
-import { FC } from 'react'
 import { Flex, Image, Text } from '@chakra-ui/react'
-import { MinifiedProduct } from '@/types'
 import { MultiplicationSignIcon } from 'hugeicons-react'
+import { FC } from 'react'
+
+import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type MobileViewCardProps = {

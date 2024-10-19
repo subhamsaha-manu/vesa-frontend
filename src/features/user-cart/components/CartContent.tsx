@@ -1,4 +1,3 @@
-import React, { FC } from 'react'
 import {
   Button,
   Flex,
@@ -14,10 +13,13 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
-import { CartItem, MinifiedProduct } from '@/types'
-import { AdjustCartItemQuantity } from './AdjustCartItemQuantity'
-import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 import round from 'lodash/round'
+import { FC } from 'react'
+
+import { AdjustCartItemQuantity } from './AdjustCartItemQuantity'
+
+import { CartItem, MinifiedProduct } from '@/types'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type CartContentProps = {
   cartItems: Array<CartItem>

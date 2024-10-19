@@ -1,9 +1,11 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
-import { CurrentUserContextType } from './types'
-import { User } from '@/types'
+
 import { useUserDetailQuery } from './apis/getCurrentUserDetails.generated'
-import { storage } from '@/utils/storage'
+import { CurrentUserContextType } from './types'
+
+import { User } from '@/types'
 import { TOKEN } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 const CurrentUserContext = createContext<CurrentUserContextType>({} as CurrentUserContextType)
 

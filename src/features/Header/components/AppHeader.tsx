@@ -5,9 +5,10 @@ import { MdPassword } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
-import { storage } from '@/utils/storage'
 import { TOKEN, USER_ID } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 const MenuItemWrapper = styled.div`
   margin: 10px 0 10px 11px;

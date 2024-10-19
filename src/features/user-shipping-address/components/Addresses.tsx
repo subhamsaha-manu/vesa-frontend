@@ -1,5 +1,3 @@
-import React, { FC, useState } from 'react'
-import { useShippingAddressesQuery } from '../apis/shippingAddresses.generated'
 import {
   Button,
   Flex,
@@ -13,11 +11,16 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC, useState } from 'react'
+
 import { AddressCard } from './AddressCard'
 import { AddressForm } from './AddressForm'
+
 import { useAddShippingAddressMutation } from '../apis/addShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
+import { useShippingAddressesQuery } from '../apis/shippingAddresses.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useUpdateShippingAddressMutation } from '@/features/user-shipping-address/apis/updateShippingAddress.generated'
 
 const Addresses: FC = () => {

@@ -1,12 +1,14 @@
-import { FC, useState } from 'react'
 import { Button, Flex } from '@chakra-ui/react'
 import { ShoppingCartCheckIn01Icon } from 'hugeicons-react'
-import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import { userCart } from '../apis/userCart'
-import { storage } from '@/utils/storage'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 import { TOKEN } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 type AddToCartProps = {
   productId: string

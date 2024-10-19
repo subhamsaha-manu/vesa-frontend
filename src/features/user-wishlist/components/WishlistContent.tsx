@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
 import { Flex, Image, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
+import { FC } from 'react'
+
 import { MinifiedProduct } from '@/types'
 
 type WishlistContentProps = {

@@ -1,6 +1,8 @@
-import { FC } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
+import { FC } from 'react'
+
 import { CategoryTile } from './CategoryTile'
+
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 
 export const Categories: FC = () => {
@@ -25,8 +27,8 @@ export const Categories: FC = () => {
         gap="20px"
       >
         {categories.map((category) => (
-          <Box minW={{ base: '330px', xl: '1fr' }}>
-            <CategoryTile category={category} />
+          <Box minW={{ base: '330px', xl: '1fr' }} key={category.categoryId}>
+            <CategoryTile category={category} key={category.categoryId} />
           </Box>
         ))}
       </Flex>

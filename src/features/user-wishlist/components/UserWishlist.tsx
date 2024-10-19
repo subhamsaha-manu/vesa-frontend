@@ -1,15 +1,18 @@
-import React, { FC } from 'react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { Flex, Heading } from '@chakra-ui/react'
-import { useUserWishlistQuery } from '../apis/userWishlist.generated'
-import { WishlistContent } from './WishlistContent'
-import { EmptyWishlist } from './EmptyWishlist'
-import { ContentLayout } from '@/components/Layout'
-import { useWindowSize } from '@/hooks/useWindowSize'
-import { WishlistMobileView } from './WishlistMobileView'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { EmptyWishlist } from './EmptyWishlist'
+import { WishlistContent } from './WishlistContent'
+import { WishlistMobileView } from './WishlistMobileView'
+
 import { useRemoveProductFromWishlistMutation } from '../apis/removeProductFromWishlist.generated'
 import { userWishlist } from '../apis/userWishlist'
+import { useUserWishlistQuery } from '../apis/userWishlist.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { ContentLayout } from '@/components/Layout'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 const UserWishlist: FC = () => {
   const navigate = useNavigate()

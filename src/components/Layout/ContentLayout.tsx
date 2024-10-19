@@ -1,9 +1,10 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
-import React, { FC, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Home01Icon } from 'hugeicons-react'
-import { useWindowSize } from '@/hooks/useWindowSize'
 import { capitalize } from 'lodash'
+import { FC, ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 type ContentLayoutProps = {
   pageTitle: string

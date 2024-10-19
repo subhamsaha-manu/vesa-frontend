@@ -1,4 +1,16 @@
-import React, { FC, useEffect } from 'react'
+import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import isNil from 'lodash/isNil'
+import { FC, useEffect } from 'react'
+import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
+import Select from 'react-select'
+import * as z from 'zod'
+
+import { stateOptions } from '../utils/IndianStates'
+
+import { InputField } from '@/components/form'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 import {
   INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
@@ -6,16 +18,6 @@ import {
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
   NAME_IS_MANDATORY,
 } from '@/utils/constants'
-import * as z from 'zod'
-import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
-import Select from 'react-select'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
-import isNil from 'lodash/isNil'
-import { stateOptions } from '../utils/IndianStates'
-import { InputField } from '@/components/form'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
-import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 
 const schema = z.object({
   email: z.string().email(INVALID_EMAIL_ERROR_MESSAGE),
@@ -86,13 +88,13 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressI
     setValue('email', email)
     setValue('name', name)
     setValue('phoneNumber', phoneNumber)
-  }, [])
+  }, [email, name, phoneNumber, setValue])
 
   useEffect(() => {
     if (selectedAddressId) {
       void getShippingAddress()
     }
-  }, [selectedAddressId])
+  }, [getShippingAddress, selectedAddressId])
 
   const handleFormSubmit = async (values: FieldValues) => {
     onSubmit(values)

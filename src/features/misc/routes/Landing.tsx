@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import { LandingLayout } from '@/components/Layout'
 import { LandingContent } from '@/features/misc'

@@ -1,12 +1,15 @@
-import React, { FC } from 'react'
 import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
-import { AuthByType } from '@/types'
-import { AuthByPhone } from './AuthByPhone'
-import { AuthByEmail } from './AuthByEmail'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { useRequestOtpMutation } from '../apis/requestOtp.generated'
+import { FC } from 'react'
 import { FieldValues } from 'react-hook-form'
+
+import { AuthByEmail } from './AuthByEmail'
+import { AuthByPhone } from './AuthByPhone'
 import { AuthContainerStepEnum } from './AuthContainer'
+
+import { useRequestOtpMutation } from '../apis/requestOtp.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { AuthByType } from '@/types'
 
 type RequestOtpStepProps = {
   onSuccess: (step: AuthContainerStepEnum) => void

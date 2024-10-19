@@ -9,8 +9,8 @@ import mergeWith from 'lodash/mergeWith'
 type DeepPartial<T> = T extends Function
   ? T
   : T extends Record<string, unknown>
-  ? { [P in keyof T]?: DeepPartial<T[P]> }
-  : T
+    ? { [P in keyof T]?: DeepPartial<T[P]> }
+    : T
 
 const mergeVariables = <T>(
   defaultProps: T,
@@ -47,7 +47,7 @@ export function createMock<V, R extends { __typename?: string }>(
       query,
       variables,
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     newData: jest.fn<GraphqlNewData<R>, any>(() => ({
       data: {
         ...data,
@@ -110,7 +110,7 @@ export function createMutationMock<V, R extends { __typename?: string }>(
       query,
       variables,
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     result: jest.fn<GraphqlNewData<R>, any>(() => ({
       data: {
         ...data,
@@ -132,7 +132,7 @@ export const createDefaultMocks = <IM>(initialMocks: () => IM) => {
  */
 export type CreateOverridableMock<
   V extends DeepPartial<unknown>,
-  R extends { __typename?: unknown }
+  R extends { __typename?: unknown },
 > = (overrideVariables?: DeepPartial<V>, overrideData?: R) => CustomMockedResponse<V, R>
 
 export type CustomMockedResponse<V, R> = {

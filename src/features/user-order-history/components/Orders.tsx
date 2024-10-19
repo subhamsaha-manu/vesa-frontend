@@ -1,8 +1,11 @@
-import React, { FC } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-import { useUserOrderHistoryQuery } from '../apis/userOrderHistory.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC } from 'react'
+
 import { OrderCard } from './OrderCard'
+
+import { useUserOrderHistoryQuery } from '../apis/userOrderHistory.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
 export const Orders: FC = () => {
   const { data, loading: fetchingOrders } = useUserOrderHistoryQuery({

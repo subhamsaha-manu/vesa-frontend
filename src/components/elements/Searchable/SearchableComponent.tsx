@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Searchable from 'react-searchable-dropdown'

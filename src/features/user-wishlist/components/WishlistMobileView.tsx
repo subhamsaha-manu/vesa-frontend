@@ -1,7 +1,9 @@
-import { FC } from 'react'
-import { MinifiedProduct } from '@/types'
 import { Flex } from '@chakra-ui/react'
+import { FC } from 'react'
+
 import { MobileViewCard } from './MobileViewCard'
+
+import { MinifiedProduct } from '@/types'
 
 type WishlistMobileViewProps = {
   wishlistItems: Array<Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>>
@@ -18,6 +20,7 @@ export const WishlistMobileView: FC<WishlistMobileViewProps> = ({
       <Flex display-name="products-container" flexWrap="wrap" justifyContent="space-between">
         {wishlistItems.map((wishlistItem) => (
           <MobileViewCard
+            key={wishlistItem.productId}
             wishlistItem={wishlistItem}
             onItemClick={onItemClick}
             onRemoveClick={onRemoveClick}

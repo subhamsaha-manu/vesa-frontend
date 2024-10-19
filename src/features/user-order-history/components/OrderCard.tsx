@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
-import { MinifiedOrder } from '@/types'
 import { Button, Flex, Text } from '@chakra-ui/react'
-import formatDate from '@/utils/formatDate'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
+
+import { MinifiedOrder } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
+import formatDate from '@/utils/formatDate'
 
 type OrderCardProps = {
   readonly order: MinifiedOrder

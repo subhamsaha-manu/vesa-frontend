@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import { Flex } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FC } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { InputField } from '@/components/form'
-import { Flex } from '@chakra-ui/react'
 
 const schema = z.object({
   email: z.string().email('Invalid email').min(1, 'Email is mandatory').max(50),

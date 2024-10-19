@@ -1,14 +1,3 @@
-import React, { FC, useEffect, useState } from 'react'
-import { FieldError, FieldValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import {
-  INR_CURRENCY_SYMBOL,
-  LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-  LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
-  PRODUCT_DESCRIPTION_IS_MANDATORY,
-  PRODUCT_TITLE_IS_MANDATORY,
-} from '@/utils/constants'
 import {
   Button,
   ButtonGroup,
@@ -28,14 +17,27 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import { InputField, TextAreaField } from '@/components/form'
-import { Category, Product, UpdateProductInput } from '@/types'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Chip, Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
-import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { allProductsForAdmin } from '../../apis/products'
+import { FC, useEffect, useState } from 'react'
+import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import * as z from 'zod'
+
+import { allProductsForAdmin } from '../../apis/products'
+import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { InputField, TextAreaField } from '@/components/form'
+import { Category, Product, UpdateProductInput } from '@/types'
+import {
+  INR_CURRENCY_SYMBOL,
+  LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
+  PRODUCT_DESCRIPTION_IS_MANDATORY,
+  PRODUCT_TITLE_IS_MANDATORY,
+} from '@/utils/constants'
 
 const schema = z.object({
   title: z
@@ -55,9 +57,7 @@ const schema = z.object({
   price: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
     message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   }),
-  quantity: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
-    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-  }),
+  quantity: z.number().min(1).max(50),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -76,7 +76,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     handleSubmit,
     formState: { errors },
     control,
-    register,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -118,9 +118,12 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
         return category as CategoryType
       })
     )
-  }, [productDetail])
+  }, [categories, categoryIds, productDetail])
+
+  console.info({ errors })
 
   const handleFormSubmit = (values: FieldValues) => {
+    console.info({ values })
     const { title, description, price, quantity } = values
     const variables: UpdateProductInput = {
       title,
@@ -143,6 +146,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
       data-testid="edit-product-form"
       style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '32px' }}
       onSubmit={handleSubmit(handleFormSubmit)}
+      id="edit-product-form"
     >
       <Flex flexDir="column" w="20%" gap="24px">
         <Card variant="elevated" size="md" p="20px">
@@ -268,8 +272,12 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     </Flex>
                   </Flex>
                 </FormLabel>
-                {/* @ts-ignore */}
-                <NumberInput defaultValue={quantity} {...register('quantity')}>
+                <NumberInput
+                  defaultValue={quantity}
+                  onChange={(_, valueAsNumber) => {
+                    setValue('quantity', valueAsNumber)
+                  }}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -291,6 +299,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 type="submit"
                 leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
                 isDisabled={loading}
+                form="edit-product-form"
               >
                 Save Changes
               </Button>

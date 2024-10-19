@@ -1,12 +1,3 @@
-import React, { FC, useEffect, useState } from 'react'
-import * as z from 'zod'
-import {
-  LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
-  LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
-  NAME_IS_MANDATORY,
-} from '@/utils/constants'
-import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
   Flex,
@@ -19,13 +10,23 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
-import { InputField } from '@/components/form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
+import { FC, useEffect, useState } from 'react'
+import { FieldError, FieldValues, useController, useForm } from 'react-hook-form'
 import Select from 'react-select'
-import { stateOptions } from '@/features/user-cart/utils/IndianStates'
-import { AddressType } from '@/types'
+import * as z from 'zod'
+
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import { InputField } from '@/components/form'
+import { stateOptions } from '@/features/user-cart/utils/IndianStates'
 import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
+import { AddressType } from '@/types'
+import {
+  LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
+  NAME_IS_MANDATORY,
+} from '@/utils/constants'
 
 const schema = z.object({
   name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
@@ -102,7 +103,7 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
     if (addressId) {
       void fetchAddress()
     }
-  }, [])
+  }, [addressId, fetchAddress])
 
   const customStyles = {
     control: (base: any) => ({
