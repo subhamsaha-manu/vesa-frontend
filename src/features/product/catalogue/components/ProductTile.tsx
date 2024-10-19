@@ -24,9 +24,6 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
     <motion.div
       whileHover={hoverAnimation}
       style={{
-        flex: '1 1 20%',
-        margin: '20px 10px',
-        borderRadius: '4px',
         cursor: 'pointer',
         overflow: 'hidden',
         backgroundColor: '#fff',

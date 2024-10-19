@@ -1,5 +1,4 @@
-import { Flex } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
+import { Flex, Grid } from '@chakra-ui/react'
 import { FC } from 'react'
 
 import { ProductTile } from './ProductTile'
@@ -28,24 +27,22 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
     return <SpinnerContainer height="60vh" />
   }
 
-  // Define motion variants for animation on scroll
-  const variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
-
   return (
     <Flex display-name="products-dashboard-flex" w="100%" h="auto" flexDir="column">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={variants}
-        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
+      <Grid
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+          lg: 'repeat(4, 1fr)',
+        }}
+        gap={6}
+        p={4}
       >
         {data.products.products.map((product) => (
-          <ProductTile product={product} key={product.id} />
+          <ProductTile key={product.productId} product={product} />
         ))}
-      </motion.div>
+      </Grid>
     </Flex>
   )
 }
