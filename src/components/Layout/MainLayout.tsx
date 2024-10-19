@@ -10,20 +10,30 @@ type MainLayoutProps = {
 
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
-    <>
+    <Flex direction="column" minH="100vh" display-name="main-layout-flex">
       <LandingPageHeader />
-      <Flex w="100%" flexDir="column" h={{ base: '88vh', xl: '88vh' }}>
+      <Flex
+        flex="1"
+        w="100%"
+        flexDir="column"
+        overflowY="auto"
+        maxH={{ base: 'calc(100vh - 56px)', xl: 'calc(100vh - 120px)' }}
+        display-name="main-layout-flex-2"
+      >
         <Flex
-          display-name="main-layout-flex-container"
-          flexDir="column"
+          w="100%"
           m="0 auto"
-          width={{ base: '100%' }}
-          alignItems="center"
+          flex={1}
+          justify="center"
+          align="flex-start"
+          display-name="main-layout-flex-3"
+          flexDir="column"
+          p="0 4px"
         >
           {children}
         </Flex>
         <Footer />
       </Flex>
-    </>
+    </Flex>
   )
 }

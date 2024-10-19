@@ -14,7 +14,7 @@ export const Categories: FC = () => {
       w="100%"
       h="auto"
       flexDir="column"
-      p={{ base: 2, xl: 10 }}
+      p={{ base: 2, xl: '8px' }}
       pb={{ base: 6, xl: 0 }}
       overflowX={{ base: 'scroll', xl: 'hidden' }}
     >

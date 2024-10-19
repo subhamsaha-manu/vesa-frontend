@@ -31,7 +31,6 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
       <Flex
         display-name="breadcrumb-layout-heading-flex"
         w="100%"
-        maxW="1310px"
         p={{ base: '15px', xl: '40px 15px 5px 15px' }}
         gap={2}
       >
@@ -59,7 +58,6 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
         gap={8}
         display-name={`${pageTitle}-content-layout-container`}
         w="100%"
-        maxW="1310px"
         minH={{ base: 'calc(100vh - 231px)', xl: 'calc(100vh - 231px)' }}
         overflowY={showFullPageScroll ? 'scroll' : 'hidden'}
         style={{

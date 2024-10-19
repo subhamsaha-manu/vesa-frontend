@@ -37,7 +37,6 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
           lg: 'repeat(4, 1fr)',
         }}
         gap={6}
-        p={4}
       >
         {data.products.products.map((product) => (
           <ProductTile key={product.productId} product={product} />
