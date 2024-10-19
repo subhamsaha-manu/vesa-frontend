@@ -9,7 +9,12 @@ import { ErrorFallback } from '@/components/Layout'
 
 const AdminDashboard: FC = () => {
   return (
-    <Flex display-name="admin-container-flex" w="100%" p={{ base: '0', xl: '0' }}>
+    <Flex
+      display-name="admin-container-flex"
+      w="100%"
+      p={{ base: '0', xl: '0' }}
+      flexDir={{ base: 'column', xl: 'row' }}
+    >
       <Flex
         display-name="admin-sidebar"
         w={{ base: '100%', xl: '250px' }}

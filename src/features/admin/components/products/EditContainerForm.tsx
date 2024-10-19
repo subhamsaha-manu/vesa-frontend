@@ -144,168 +144,169 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   return (
     <form
       data-testid="edit-product-form"
-      style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '32px' }}
+      style={{ width: '100%' }}
       onSubmit={handleSubmit(handleFormSubmit)}
       id="edit-product-form"
     >
-      <Flex flexDir="column" w="20%" gap="24px">
-        <Card variant="elevated" size="md" p="20px">
-          <CardHeader>
-            <Heading size="md">Thumbnail</Heading>
-          </CardHeader>
-          <CardBody style={{ display: 'flex', justifyContent: 'center' }}>
-            <Flex
-              boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
-              borderRadius="8px"
-              border="3px solid white"
-              height="200px"
-              width="200px"
-              backgroundImage={`url(${thumbnailUrl})`}
-              padding={0}
-              backgroundSize="cover"
-              backgroundPosition="center"
-              backgroundRepeat="no-repeat"
-              justifyContent="center"
-            />
-          </CardBody>
-        </Card>
-        <Card variant="elevated" size="md" flex="fit-content">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <Heading size="md">Product Details</Heading>
-          </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <Flex flexDir="column" gap={4}>
-              <Text fontSize="18px" fontWeight="600" color="#191919">
-                Categories
-              </Text>
-              <Flex gap={2} flexWrap="wrap">
-                {productCategories.map((category, index) => (
-                  <Chip key={index} onClose={() => handleClose(category)} variant="shadow">
-                    {category.name}
-                  </Chip>
-                ))}
-              </Flex>
-              <Select
-                label="Categories"
-                placeholder="Select a category"
-                selectionMode="multiple"
-                className="max-w-xs"
-                selectedKeys={productCategories.map((category) => category.categoryId)}
-                onSelectionChange={(keys: SharedSelection) => {
-                  const category = categories.find(
-                    (category) => category.categoryId === keys.currentKey
-                  )
-                  if (category) {
-                    setProductCategories([...productCategories, category])
-                  }
-                }}
-              >
-                {categories.map((category) => (
-                  <SelectItem
-                    key={category.categoryId}
-                    isDisabled={productCategories
-                      .map((ele) => ele.categoryId)
-                      .includes(category.categoryId)}
-                  >
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </Select>
-            </Flex>
-          </CardBody>
-        </Card>
-      </Flex>
-
-      <Flex flex="fit-content">
-        <Card w="100%" p="20px">
-          <CardHeader pb={0}>
-            <Heading size="md" fontWeight="600">
-              General
-            </Heading>
-          </CardHeader>
-          <CardBody>
-            <Flex flexDir="column" gap="24px">
-              <InputField
-                fieldName="title"
-                label="Full Name"
-                control={control}
-                error={errors['title'] as FieldError}
-                isRequired
-                value={title}
-                placeholder="Enter the name of the product"
-                withRoundBorders={false}
+      <Flex flexDir={{ base: 'column-reverse', md: 'row' }} w="100%" gap="32px">
+        <Flex flexDir="column" w={{ base: '100%', xl: '20%' }} gap="24px">
+          <Card variant="elevated" size="md" p="20px">
+            <CardHeader>
+              <Heading size="md">Thumbnail</Heading>
+            </CardHeader>
+            <CardBody style={{ display: 'flex', justifyContent: 'center' }}>
+              <Flex
+                boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
+                borderRadius="8px"
+                border="3px solid white"
+                height="200px"
+                width="200px"
+                backgroundImage={`url(${thumbnailUrl})`}
+                padding={0}
+                backgroundSize="cover"
+                backgroundPosition="center"
+                backgroundRepeat="no-repeat"
+                justifyContent="center"
               />
-              <TextAreaField
-                fieldName="description"
-                label="Description"
-                control={control}
-                error={errors['description'] as FieldError}
-                isRequired
-                value={description}
-                placeholder="Enter the description of the product"
-                maxLength={200}
-                showTextLength
-              />
-              <Heading size="md" fontWeight="600">
-                Pricing
-              </Heading>
-              <InputField
-                fieldName="price"
-                label={`Price (in ${INR_CURRENCY_SYMBOL})`}
-                control={control}
-                error={errors['price'] as FieldError}
-                isRequired
-                value={price.toString()}
-                placeholder="Enter the price of the product"
-                withRoundBorders={false}
-              />
-              <Flex flexDir="column">
-                <FormLabel>
-                  <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
-                    <Flex display-name="field-wrapper-label">
-                      <Text fontSize="14px" fontWeight="500" color="#191919">
-                        Quantity
-                      </Text>
-                    </Flex>
-                    <Flex display-name="field-wrapper-required-indicator" color="red">
-                      *
-                    </Flex>
-                  </Flex>
-                </FormLabel>
-                <NumberInput
-                  defaultValue={quantity}
-                  onChange={(_, valueAsNumber) => {
-                    setValue('quantity', valueAsNumber)
+            </CardBody>
+          </Card>
+          <Card variant="elevated" size="md" flex="fit-content">
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <Heading size="md">Product Details</Heading>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2">
+              <Flex flexDir="column" gap={4}>
+                <Text fontSize="18px" fontWeight="600" color="#191919">
+                  Categories
+                </Text>
+                <Flex gap={2} flexWrap="wrap">
+                  {productCategories.map((category, index) => (
+                    <Chip key={index} onClose={() => handleClose(category)} variant="shadow">
+                      {category.name}
+                    </Chip>
+                  ))}
+                </Flex>
+                <Select
+                  label="Categories"
+                  placeholder="Select a category"
+                  selectionMode="multiple"
+                  className="max-w-xs"
+                  selectedKeys={productCategories.map((category) => category.categoryId)}
+                  onSelectionChange={(keys: SharedSelection) => {
+                    const category = categories.find(
+                      (category) => category.categoryId === keys.currentKey
+                    )
+                    if (category) {
+                      setProductCategories([...productCategories, category])
+                    }
                   }}
                 >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
+                  {categories.map((category) => (
+                    <SelectItem
+                      key={category.categoryId}
+                      isDisabled={productCategories
+                        .map((ele) => ele.categoryId)
+                        .includes(category.categoryId)}
+                    >
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </Select>
               </Flex>
-            </Flex>
-          </CardBody>
-          <Divider />
-          <CardFooter justify="end">
-            <ButtonGroup spacing="2">
-              <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
-                Cancel
-              </Button>
-              <Button
-                variant="solid"
-                colorScheme="blue"
-                type="submit"
-                leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                isDisabled={loading}
-                form="edit-product-form"
-              >
-                Save Changes
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
+            </CardBody>
+          </Card>
+        </Flex>
+        <Flex flex="fit-content">
+          <Card w="100%" p={{ base: 0, xl: '20px' }}>
+            <CardHeader p={{ base: '8px', xl: '16px' }}>
+              <Heading size="md" fontWeight="600">
+                General
+              </Heading>
+            </CardHeader>
+            <CardBody p={{ base: '8px', xl: '16px' }}>
+              <Flex flexDir="column" gap="24px">
+                <InputField
+                  fieldName="title"
+                  label="Full Name"
+                  control={control}
+                  error={errors['title'] as FieldError}
+                  isRequired
+                  value={title}
+                  placeholder="Enter the name of the product"
+                  withRoundBorders={false}
+                />
+                <TextAreaField
+                  fieldName="description"
+                  label="Description"
+                  control={control}
+                  error={errors['description'] as FieldError}
+                  isRequired
+                  value={description}
+                  placeholder="Enter the description of the product"
+                  maxLength={200}
+                  showTextLength
+                />
+                <Heading size="md" fontWeight="600">
+                  Pricing
+                </Heading>
+                <InputField
+                  fieldName="price"
+                  label={`Price (in ${INR_CURRENCY_SYMBOL})`}
+                  control={control}
+                  error={errors['price'] as FieldError}
+                  isRequired
+                  value={price.toString()}
+                  placeholder="Enter the price of the product"
+                  withRoundBorders={false}
+                />
+                <Flex flexDir="column">
+                  <FormLabel>
+                    <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
+                      <Flex display-name="field-wrapper-label">
+                        <Text fontSize="14px" fontWeight="500" color="#191919">
+                          Quantity
+                        </Text>
+                      </Flex>
+                      <Flex display-name="field-wrapper-required-indicator" color="red">
+                        *
+                      </Flex>
+                    </Flex>
+                  </FormLabel>
+                  <NumberInput
+                    defaultValue={quantity}
+                    onChange={(_, valueAsNumber) => {
+                      setValue('quantity', valueAsNumber)
+                    }}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Flex>
+              </Flex>
+            </CardBody>
+            <Divider />
+            <CardFooter justify="end">
+              <ButtonGroup spacing="2">
+                <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="solid"
+                  colorScheme="blue"
+                  type="submit"
+                  leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
+                  isDisabled={loading}
+                  form="edit-product-form"
+                >
+                  Save Changes
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+        </Flex>
       </Flex>
     </form>
   )

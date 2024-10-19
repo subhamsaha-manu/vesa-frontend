@@ -17,7 +17,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         w="100%"
         flexDir="column"
         overflowY="auto"
-        maxH={{ base: 'calc(100vh - 56px)', xl: 'calc(100vh - 120px)' }}
+        maxH={{ base: 'calc(100vh - 60px)', xl: 'calc(100vh - 120px)' }}
         display-name="main-layout-flex-2"
       >
         <Flex

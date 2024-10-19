@@ -54,7 +54,7 @@ export const Checkout: FC = () => {
           flexDir="column"
           gap={6}
         >
-          <Flex display-name="billing-form-heading" w="100%" justify="space-between" align="center">
+          <Flex display-name="billing-form-heading" w="100%" gap={8} align="center">
             <Text fontSize={{ base: 'md', xl: '3xl' }}>Billing Details</Text>
             <AddressListDropdown onSelect={(addressId) => setSelectedAddressId(addressId)} />
           </Flex>

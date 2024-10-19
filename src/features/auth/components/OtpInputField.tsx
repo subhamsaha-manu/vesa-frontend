@@ -7,11 +7,10 @@ type OtpInputFieldProps = {
 }
 export const OtpInputField: FC<OtpInputFieldProps> = ({ otpLength = 4, onEntryComplete }) => {
   return (
-    <Flex pl={2} flexDir="column" gap="4px">
-      <Flex justify="space-evenly" w="100%">
+    <Flex flexDir="column">
+      <Flex justify="space-between" w="100%">
         <PinInput
           otp
-          size="lg"
           onChange={(value) => {
             if (value.length === otpLength) {
               onEntryComplete(value)
@@ -19,7 +18,7 @@ export const OtpInputField: FC<OtpInputFieldProps> = ({ otpLength = 4, onEntryCo
           }}
         >
           {Array.from({ length: otpLength }).map((_, index) => (
-            <PinInputField key={index} />
+            <PinInputField key={index} height="50px" width="50px" />
           ))}
         </PinInput>
       </Flex>

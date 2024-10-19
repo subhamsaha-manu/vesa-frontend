@@ -28,7 +28,7 @@ const AuthContainer: FC = () => {
       gap={6}
       borderRadius="15px"
       maxW="460px"
-      p="10px 30px"
+      p={{ base: '10px', xl: '10px 30px' }}
       border="1px solid black"
       m="auto"
     >

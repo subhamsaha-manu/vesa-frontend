@@ -176,7 +176,7 @@ export const LandingPageHeader = () => {
           </InputGroup>
         </Flex>
         <Flex
-          justify={{ base: 'center', md: 'end' }}
+          justify="end"
           alignItems={{ base: 'center', md: 'center' }}
           display-name="landing-page-header-icons-flex"
           gap={{ base: 4, md: 8 }}

@@ -46,7 +46,7 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
         overflow="hidden"
       >
         <Heading
-          fontSize={{ base: 'lg', xl: '2xl' }}
+          fontSize="2xl"
           color="#FFFFFF"
           fontWeight="700"
           style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}

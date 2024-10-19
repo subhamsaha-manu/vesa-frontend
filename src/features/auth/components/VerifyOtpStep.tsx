@@ -62,7 +62,7 @@ export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigate
   return (
     <>
       <Flex display-name="verify-otp-step-heading" justify="center">
-        <Heading fontSize={{ base: 'md', xl: '2xl' }}>Enter OTP</Heading>
+        <Heading fontSize="2xl">Enter OTP</Heading>
       </Flex>
       <Flex display-name="verify-otp-step-description" w="100%" textAlign="center">
         <Text fontSize={{ base: 'sm', xl: 'md' }}>

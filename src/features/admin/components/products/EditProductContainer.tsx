@@ -41,7 +41,7 @@ export const EditProductContainer: FC = () => {
         <SpinnerContainer height="60vh" />
       ) : (
         <Flex
-          display-name="admin-all-products-section"
+          display-name="edit-product-form-wrapper"
           w="100%"
           gap={6}
           p={{ base: '10px', xl: '30px' }}

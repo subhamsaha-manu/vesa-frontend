@@ -24,7 +24,7 @@ const settings = {
 export const Carousel: FC = () => {
   const [slider, setSlider] = useState<Slider | null>(null)
 
-  const top = useBreakpointValue({ base: '90%', md: '50%' })
+  const top = useBreakpointValue({ base: '80%', md: '50%' })
   const side = useBreakpointValue({ base: '30%', md: '10px' })
 
   const galleryImages = [
@@ -100,11 +100,11 @@ export const Carousel: FC = () => {
         flexDir="column"
         gap={4}
       >
-        <Heading size={{ base: '2xl', xl: '4xl' }} fontWeight="700" letterSpacing="20px">
+        <Heading size="4xl" fontWeight="700" letterSpacing="20px">
           VESA
         </Heading>
         <Heading
-          size={{ base: 'lg', xl: '2xl' }}
+          size={{ base: 'xl', xl: '2xl' }}
           color="#FFFFFF"
           fontWeight="500"
           style={{

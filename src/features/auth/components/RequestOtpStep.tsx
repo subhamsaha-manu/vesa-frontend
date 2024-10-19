@@ -53,7 +53,7 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
   return (
     <>
       <Flex display-name="heading" justify="center">
-        <Heading fontSize={{ base: 'md', xl: '2xl' }}>My Account</Heading>
+        <Heading fontSize="2xl">My Account</Heading>
       </Flex>
       <Flex display-name="auth-modal-description" w="100%" textAlign="center">
         <Text fontSize={{ base: 'sm', xl: 'md' }}>

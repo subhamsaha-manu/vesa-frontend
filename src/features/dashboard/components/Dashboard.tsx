@@ -18,7 +18,7 @@ export const Dashboard: FC = () => {
         align="center"
         gap={4}
       >
-        <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
+        <Heading size="lg" color="#1E355B" fontWeight="500">
           Shop By Category
         </Heading>
         <Categories />
@@ -33,7 +33,7 @@ export const Dashboard: FC = () => {
         gap={4}
         p={{ base: '0 2px', xl: '0 8px' }}
       >
-        <Heading size={{ base: 'md', xl: 'lg' }} color="#1E355B" fontWeight="500">
+        <Heading size="lg" color="#1E355B" fontWeight="500">
           Our Collection
         </Heading>
         <Catalogue />
