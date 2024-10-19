@@ -1,8 +1,9 @@
-import { CartItem, MinifiedProduct } from '@/types'
-import React, { FC } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-import { EmptyCart } from '@/features/user-cart/components/EmptyCart'
+import { FC } from 'react'
+
 import { CartContent } from '@/features/user-cart/components/CartContent'
+import { EmptyCart } from '@/features/user-cart/components/EmptyCart'
+import { CartItem, MinifiedProduct } from '@/types'
 
 type UserCartDesktopViewProps = {
   cartItems: Array<CartItem>

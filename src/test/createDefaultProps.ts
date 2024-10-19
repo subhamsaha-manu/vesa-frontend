@@ -5,8 +5,8 @@ import mergeWith from 'lodash/mergeWith'
 type DeepPartial<T> = T extends Function
   ? T
   : T extends Record<string, unknown>
-  ? { [P in keyof T]?: DeepPartial<T[P]> }
-  : T
+    ? { [P in keyof T]?: DeepPartial<T[P]> }
+    : T
 export const createDefaultProps = <T>(initialProps?: () => DeepPartial<T>) => {
   return function defaultProps(otherProps?: DeepPartial<T>) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

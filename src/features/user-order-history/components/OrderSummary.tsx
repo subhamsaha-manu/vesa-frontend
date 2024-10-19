@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
-import { Order, OrderItem } from '@/types'
 import { Button, Flex, Image, Text } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
 import { capitalize } from 'lodash'
-import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 import round from 'lodash/round'
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { Order, OrderItem } from '@/types'
+import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type OrderSummaryProps = {
   order: Order

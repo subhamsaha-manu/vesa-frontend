@@ -1,9 +1,12 @@
-import { FC } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { useProductsQuery } from '../apis/products.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { ProductTile } from './ProductTile'
 import { motion } from 'framer-motion'
+import { FC } from 'react'
+
+import { ProductTile } from './ProductTile'
+
+import { useProductsQuery } from '../apis/products.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
 type CatalogueProps = {
   categoryIds?: Array<string>

@@ -1,9 +1,12 @@
-import { FC } from 'react'
-import { ShippingAddress } from '@/types'
 import { Button, Flex, useDisclosure, useToast } from '@chakra-ui/react'
+import { FC } from 'react'
+
+import { RemoveAddressWarningModal } from './RemoveAddressWarningModal'
+
 import { useRemoveShippingAddressMutation } from '../apis/removeShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
-import { RemoveAddressWarningModal } from './RemoveAddressWarningModal'
+
+import { ShippingAddress } from '@/types'
 
 type AddressCardProps = {
   address: ShippingAddress

@@ -1,3 +1,4 @@
+import { EditIcon } from '@chakra-ui/icons'
 import {
   Pagination,
   Table,
@@ -9,13 +10,13 @@ import {
   Tooltip,
   User,
 } from '@nextui-org/react'
+import round from 'lodash/round'
 import { FC, Key, useCallback } from 'react'
 import '../table.css'
+import { Link } from 'react-router-dom'
+
 import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
-import round from 'lodash/round'
-import { EditIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
 
 type MinifiedProductType = Pick<
   MinifiedProduct,

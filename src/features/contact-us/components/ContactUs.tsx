@@ -1,6 +1,15 @@
-import React, { FC } from 'react'
-import { useContactUsMutation } from '../apis/contactUs.generated'
+import { Text } from '@chakra-ui/layout'
+import { Button, Flex, Heading, useToast } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FC } from 'react'
+import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import * as z from 'zod'
+
+import { useContactUsMutation } from '../apis/contactUs.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { InputField } from '@/components/form'
+import { ContentLayout } from '@/components/Layout'
 import {
   INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
@@ -8,13 +17,6 @@ import {
   LEADING_OR_TRAILING_SPACES_ERROR_REGEX,
   NAME_IS_MANDATORY,
 } from '@/utils/constants'
-import { FieldError, FieldValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Flex, Heading, useToast } from '@chakra-ui/react'
-import { InputField } from '@/components/form'
-import { ContentLayout } from '@/components/Layout'
-import { Text } from '@chakra-ui/layout'
-import { SpinnerContainer } from '@/components/elements/Spinner'
 
 const schema = z.object({
   name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {

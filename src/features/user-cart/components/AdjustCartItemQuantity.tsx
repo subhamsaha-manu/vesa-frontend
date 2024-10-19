@@ -1,4 +1,5 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
+
 import AdjustQuantity from '@/components/elements/AdjustQuantity'
 import { useAddProductToCartMutation } from '@/features/user-cart/apis/addProductToCart.generated'
 import { userCart } from '@/features/user-cart/apis/userCart'

@@ -1,7 +1,8 @@
 import { Flex } from '@chakra-ui/react'
-import React, { FC, ReactNode } from 'react'
-import { LandingPageHeader } from '@/features/Header'
+import { FC, ReactNode } from 'react'
+
 import { Footer } from '@/features/Footer'
+import { LandingPageHeader } from '@/features/Header'
 
 type MainLayoutProps = {
   children: ReactNode

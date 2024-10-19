@@ -1,9 +1,15 @@
-import React, { FC, useEffect } from 'react'
-import { AuthByType } from '@/types'
 import { Button, Flex, Heading, useToast } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { useRegisterMutation } from '../apis/register.generated'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FC, useEffect } from 'react'
+import { FieldError, FieldValues, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
+
+import { useRegisterMutation } from '../apis/register.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { InputField } from '@/components/form'
+import { AuthByType } from '@/types'
 import {
   INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
@@ -12,11 +18,7 @@ import {
   NAME_IS_MANDATORY,
   USER_ID,
 } from '@/utils/constants'
-import { FieldError, FieldValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { InputField } from '@/components/form'
 import { storage } from '@/utils/storage'
-import { useNavigate } from 'react-router-dom'
 
 const schema = z.object({
   name: z.string().min(1, NAME_IS_MANDATORY).max(50).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
@@ -52,7 +54,7 @@ export const UserBasicDetails: FC<UserBasicDetailsProps> = ({ sendTo, authBy }) 
     } else {
       setValue('phoneNumber', sendTo)
     }
-  }, [])
+  }, [authBy, sendTo, setValue])
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {

@@ -1,9 +1,11 @@
-import { FC } from 'react'
-import { ErrorFallback } from '@/components/Layout'
 import { Flex } from '@chakra-ui/react'
-import { Sidebar } from './Sidebar'
+import { FC } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Outlet } from 'react-router-dom'
+
+import { Sidebar } from './Sidebar'
+
+import { ErrorFallback } from '@/components/Layout'
 
 const AdminDashboard: FC = () => {
   return (

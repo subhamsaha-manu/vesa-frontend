@@ -1,6 +1,7 @@
 import { Flex, Heading, Image, VStack } from '@chakra-ui/react'
-import img from '@/assets/illustrations/SomethingWentWrong.png'
 import React from 'react'
+
+import img from '@/assets/illustrations/SomethingWentWrong.png'
 
 const ERROR_HEADING = "Oops! Something's  wrong."
 const ERROR_DESCRIPTION = 'Try refreshing the app.'

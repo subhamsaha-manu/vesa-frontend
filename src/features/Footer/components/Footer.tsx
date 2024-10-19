@@ -1,6 +1,7 @@
 import { Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react'
-import React from 'react'
 import { Mail01Icon, WhatsappIcon } from 'hugeicons-react'
+import React from 'react'
+
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const Footer = () => {

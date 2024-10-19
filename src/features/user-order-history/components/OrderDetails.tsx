@@ -1,10 +1,12 @@
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { FC } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useOrderDetailsQuery } from '@/features/user-order-history/apis/orderDetails.generated'
-import { Flex, Heading, IconButton } from '@chakra-ui/react'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+
 import { OrderSummary } from './OrderSummary'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { useOrderDetailsQuery } from '@/features/user-order-history/apis/orderDetails.generated'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 type OrderParamType = {

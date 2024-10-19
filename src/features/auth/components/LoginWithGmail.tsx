@@ -1,6 +1,6 @@
 import { Flex, useToast } from '@chakra-ui/react'
 import { gapi } from 'gapi-script'
-import React, { FC, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 
 type LoginWithGmailProps = {

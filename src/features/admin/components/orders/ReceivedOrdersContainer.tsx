@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react'
-import { useOrdersQuery } from '../../apis/orders.generated'
 import { Flex, Text } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC, useState } from 'react'
+
 import { ReceivedOrders } from './ReceivedOrders'
+
+import { useOrdersQuery } from '../../apis/orders.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
 export const ReceivedOrdersContainer: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0)

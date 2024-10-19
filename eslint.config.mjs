@@ -24,12 +24,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: [
-      'node_modules/*',
-      '**/*.generated.tsx',
-      'src/types.ts',
-      'src/types/app/index.d.ts',
-    ],
+    ignores: ['node_modules/*', '**/*.generated.tsx', 'src/types.ts', 'src/types/app/index.d.ts'],
   },
   ...compat.extends('eslint:recommended'),
   {
@@ -49,7 +44,7 @@ export default [
       },
       ecmaVersion: 2020,
       sourceType: 'module',
-      parser: tsParser,
+      parser: tsParser, // Ensure TypeScript parser is set correctly
     },
   },
   ...fixupConfigRules(
@@ -57,27 +52,27 @@ export default [
       'eslint:recommended',
       'plugin:import/errors',
       'plugin:import/warnings',
-      'plugin:import/typescript',
+      'plugin:import/typescript', // Make sure TypeScript resolver is added here
       'plugin:@typescript-eslint/recommended',
       'plugin:react/recommended',
       'plugin:react-hooks/recommended',
       'plugin:jsx-a11y/recommended',
       'plugin:prettier/recommended',
       'plugin:testing-library/react',
-      'plugin:jest-dom/recommended',
-    ),
+      'plugin:jest-dom/recommended'
+    )
   ).map((config) => ({
     ...config,
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*.tsx'],
   })),
   {
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
       },
-      parser: tsParser,
+      parser: tsParser, // Ensure TypeScript parser is used for all `.ts` and `.tsx` files
     },
     settings: {
       react: {
@@ -85,20 +80,13 @@ export default [
       },
       'import/resolver': {
         typescript: {
-          alwaysTryTypes: true, // Always try to resolve types under `@types` directory even it doesn't contain any source code, like `@types/unist`
+          alwaysTryTypes: true, // Ensure types under `@types` are always resolved
         },
       },
     },
     rules: {
+      'import/namespace': 'off',
       'no-unsafe-optional-chaining': 'off',
-      'no-restricted-imports': [
-        'error',
-        {
-          name: '@alefeducation/ui-elements-library-core/',
-          message:
-            'Please use Eg: "import { Heading } from \'@alefeducation/ui-elements-library-core/lib/Heading\'" instead.',
-        },
-      ],
       'linebreak-style': ['error', 'unix'],
       'react/prop-types': 'off',
       'import/order': [
@@ -139,6 +127,12 @@ export default [
       'import/no-duplicates': 'off',
       'graphql/template-strings': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+  {
+    files: ['node_modules/@apollo/**/*'],
+    rules: {
+      'import/namespace': 'off', // Turn off this rule for Apollo Client imports
     },
   },
   ...fixupConfigRules(compat.extends('plugin:jest-dom/recommended')).map((config) => ({

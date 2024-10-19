@@ -1,4 +1,5 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { Text } from '@chakra-ui/layout'
 import {
   Box,
   Drawer,
@@ -13,19 +14,18 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-
-import React, { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
-import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import { Search01Icon, UserIcon } from 'hugeicons-react'
-import { Text } from '@chakra-ui/layout'
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
 import { useWindowSize } from '@/hooks/useWindowSize'
-import { storage } from '@/utils/storage'
 import { USER_ID } from '@/utils/constants'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { storage } from '@/utils/storage'
 
 export const LandingPageHeader = () => {
   const { isOpen, onToggle } = useDisclosure()

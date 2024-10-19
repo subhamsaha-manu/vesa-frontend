@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
-import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
-import { useParams } from 'react-router-dom'
-import { startCase, upperCase } from 'lodash'
 import { Flex, Heading } from '@chakra-ui/react'
-import { Catalogue } from '@/features/product'
+import { startCase, upperCase } from 'lodash'
+import { FC } from 'react'
+import { useParams } from 'react-router-dom'
+
 import { ContentLayout } from '@/components/Layout'
+import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
+import { Catalogue } from '@/features/product'
 
 type CategoryParams = {
   categoryName: string
@@ -19,7 +20,7 @@ export const CategoryProducts: FC = () => {
 
   const categoryId =
     categories.find((category) => category.name === transformedCategoryName)?.categoryId ?? ''
-  
+
   return (
     <ContentLayout pageTitle={`${transformedCategoryName}`}>
       <Flex

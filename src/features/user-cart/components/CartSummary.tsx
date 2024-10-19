@@ -1,14 +1,16 @@
-import React, { FC, RefObject, useState } from 'react'
-import { useUserCartQuery } from '../apis/userCart.generated'
 import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
+import { isEmpty } from 'lodash'
 import round from 'lodash/round'
+import { FC, RefObject, useState } from 'react'
+import { FieldValues } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
 import { usePlaceOrderMutation } from '../apis/placeOrder.generated'
 import { userCart } from '../apis/userCart'
-import { FieldValues } from 'react-hook-form'
+import { useUserCartQuery } from '../apis/userCart.generated'
+
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { CartItem, ModeOfPayment, PlaceOrderInput } from '@/types'
-import { useNavigate } from 'react-router-dom'
-import { isEmpty } from 'lodash'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type CartSummaryProps = {
@@ -103,7 +105,7 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
           flexDir="column"
         >
           {data?.userCart.map((cartItem) => (
-            <Flex justify="space-between">
+            <Flex justify="space-between" key={cartItem.productId}>
               <Flex gap={2}>
                 <Text fontSize="lg">{cartItem.title}</Text>
                 <Text fontWeight="500">{`x ${cartItem.quantity}`}</Text>

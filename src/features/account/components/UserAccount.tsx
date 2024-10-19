@@ -1,9 +1,11 @@
-import { FC } from 'react'
-import { ContentLayout, ErrorFallback } from '@/components/Layout'
 import { Flex } from '@chakra-ui/react'
-import { Sidebar } from './Sidebar'
-import { Outlet } from 'react-router-dom'
+import { FC } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Outlet } from 'react-router-dom'
+
+import { Sidebar } from './Sidebar'
+
+import { ContentLayout, ErrorFallback } from '@/components/Layout'
 
 const UserAccount: FC = () => {
   return (

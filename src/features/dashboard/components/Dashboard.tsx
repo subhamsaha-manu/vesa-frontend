@@ -1,8 +1,10 @@
 import { Flex, Heading } from '@chakra-ui/react'
-import React, { FC } from 'react'
-import { Catalogue } from '@/features/product'
-import { Categories } from '@/features/category'
+import { FC } from 'react'
+
 import Carousel from './Carousel'
+
+import { Categories } from '@/features/category'
+import { Catalogue } from '@/features/product'
 
 export const Dashboard: FC = () => {
   return (

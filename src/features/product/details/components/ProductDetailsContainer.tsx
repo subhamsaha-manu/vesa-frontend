@@ -1,10 +1,13 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { ProductDetailsDesktopView } from './ProductDetailsDesktopView'
+import { ProductDetailsMobileView } from './ProductDetailsMobileView'
+
 import { useProductQuery } from '../apis/product.generated'
+
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useWindowSize } from '@/hooks/useWindowSize'
-import { ProductDetailsMobileView } from './ProductDetailsMobileView'
-import { ProductDetailsDesktopView } from './ProductDetailsDesktopView'
 
 type ProductParamType = {
   productId: string

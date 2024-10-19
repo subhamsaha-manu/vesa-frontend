@@ -1,14 +1,17 @@
-import React, { FC, useState } from 'react'
 import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
-import { AuthByType } from '@/types'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { AuthContainerStepEnum } from './AuthContainer'
 import { PencilEdit01Icon } from 'hugeicons-react'
-import { OtpInputField } from './OtpInputField'
-import { useVerifyOtpMutation } from '../apis/verifyOtp.generated'
-import { storage } from '@/utils/storage'
-import { TOKEN, USER_ID } from '@/utils/constants'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { AuthContainerStepEnum } from './AuthContainer'
+import { OtpInputField } from './OtpInputField'
+
+import { useVerifyOtpMutation } from '../apis/verifyOtp.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { AuthByType } from '@/types'
+import { TOKEN, USER_ID } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 type VerifyOtpStepProps = {
   sendTo: string

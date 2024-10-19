@@ -1,8 +1,10 @@
-import React, { FC, useCallback, useRef, useState } from 'react'
 import { Flex, Heading, Text } from '@chakra-ui/react'
-import { CheckoutForm } from './CheckoutForm'
-import { CartSummary } from './CartSummary'
+import { FC, useCallback, useRef, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
+
+import { CartSummary } from './CartSummary'
+import { CheckoutForm } from './CheckoutForm'
+
 import { ContentLayout } from '@/components/Layout'
 import { AddressListDropdown } from '@/features/user-shipping-address'
 import { useWindowSize } from '@/hooks/useWindowSize'

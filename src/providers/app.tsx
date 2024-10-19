@@ -1,18 +1,17 @@
 import { ApolloProvider } from '@apollo/client'
 import { ChakraProvider } from '@chakra-ui/react'
-import React, { FC, ReactNode, Suspense } from 'react'
+import { NextUIProvider } from '@nextui-org/react'
+import { FC, ReactNode, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter } from 'react-router-dom'
 
 import { getClient } from '@/apollo/client'
 import { SpinnerContainer } from '@/components/elements/Spinner'
-
-import theme from '@/utils/theme'
+import { ErrorFallback } from '@/components/Layout'
 import { CategoriesContextProvider } from '@/context'
+import theme from '@/utils/theme'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { ErrorFallback } from '@/components/Layout'
-import { NextUIProvider } from '@nextui-org/react'
 
 type AppProviderProps = {
   children: ReactNode

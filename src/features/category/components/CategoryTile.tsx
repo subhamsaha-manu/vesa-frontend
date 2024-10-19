@@ -1,8 +1,9 @@
-import { Category } from '@/types'
-import { FC } from 'react'
 import { Flex, Heading, Image } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
 import { lowerCase, upperCase } from 'lodash'
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { Category } from '@/types'
 
 type CategoryTileProps = {
   category: Omit<Category, 'description'>

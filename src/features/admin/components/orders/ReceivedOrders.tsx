@@ -8,15 +8,16 @@ import {
   TableRow,
   Tooltip,
 } from '@nextui-org/react'
+import { EyeIcon } from 'hugeicons-react'
+import round from 'lodash/round'
+import startCase from 'lodash/startCase'
 import moment from 'moment'
 import { FC, Key, useCallback } from 'react'
 import '../table.css'
+import { Link } from 'react-router-dom'
+
 import { MinifiedReceivedOrder } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
-import { Link } from 'react-router-dom'
-import round from 'lodash/round'
-import { startCase } from 'lodash'
-import { EyeIcon } from 'hugeicons-react'
 
 type ReceivedOrdersProps = {
   data: Array<MinifiedReceivedOrder>

@@ -1,11 +1,12 @@
-import React, { FC } from 'react'
-import { ContentLayout } from '@/components/Layout'
 import { Box, Flex, Text } from '@chakra-ui/react'
+import { FC } from 'react'
 import Slider from 'react-slick'
-import { Product } from '@/types'
 import styled from 'styled-components'
+
+import { ContentLayout } from '@/components/Layout'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
+import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsMobileViewProps = {

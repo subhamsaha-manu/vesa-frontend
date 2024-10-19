@@ -1,8 +1,9 @@
-import { CartItem, MinifiedProduct } from '@/types'
-import React, { FC } from 'react'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { Delete04Icon } from 'hugeicons-react'
+import { FC } from 'react'
+
 import { AdjustCartItemQuantity } from '@/features/user-cart/components/AdjustCartItemQuantity'
+import { CartItem, MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type MobileViewCartListItemProps = {

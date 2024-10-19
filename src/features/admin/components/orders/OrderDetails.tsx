@@ -1,18 +1,21 @@
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Flex, Heading, IconButton } from '@chakra-ui/react'
+import { Button } from '@nextui-org/react'
+import { CheckmarkCircle02Icon } from 'hugeicons-react'
 import { FC, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useOrderDetailsQuery } from '../../apis/orderDetails.generated'
-import { Flex, Heading, IconButton } from '@chakra-ui/react'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { OrderSummary } from './OrderSummary'
-import { useWindowSize } from '@/hooks/useWindowSize'
+
 import { OrderStatusDropdown } from './OrderStatusDropdown'
-import { OrderStatus } from '@/types'
-import { CheckmarkCircle02Icon } from 'hugeicons-react'
-import { Button } from '@nextui-org/react'
-import { useUpdateOrderStatusMutation } from '../../apis/updateOrderStatus.generated'
-import { orders } from '../../apis/orders'
+import { OrderSummary } from './OrderSummary'
+
 import { orderDetails } from '../../apis/orderDetails'
+import { useOrderDetailsQuery } from '../../apis/orderDetails.generated'
+import { orders } from '../../apis/orders'
+import { useUpdateOrderStatusMutation } from '../../apis/updateOrderStatus.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { useWindowSize } from '@/hooks/useWindowSize'
+import { OrderStatus } from '@/types'
 
 type OrderParamType = {
   orderId: string

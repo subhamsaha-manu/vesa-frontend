@@ -1,16 +1,13 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import { publicRoutes } from './public'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ErrorFallback, MainLayout, ScrollToTop } from '@/components/Layout'
-
+import { CurrentUserContextProvider, UserWishlistCartContextProvider } from '@/context'
 import { Dashboard } from '@/features/dashboard'
-
 import { CategoryProducts, ProductDetailsContainer } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
-import { CurrentUserContextProvider, UserWishlistCartContextProvider } from '@/context'
-import { ErrorBoundary } from 'react-error-boundary'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
 const ContactUs = lazy(() => import('@/features/contact-us'))
@@ -133,7 +130,7 @@ export const AppRoutes = () => {
   }
   const fallbackRoute = { path: '*', element: <Navigate to="/" replace /> }
 
-  const routes = [...commonRoutes, ...publicRoutes, authenticateRoute, fallbackRoute]
+  const routes = [...commonRoutes, authenticateRoute, fallbackRoute]
 
   return useRoutes(routes)
 }

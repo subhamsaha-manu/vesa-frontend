@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/layout'
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { Footer } from '@/features/Footer'
 import { LandingPageHeader } from '@/features/Header'

@@ -1,19 +1,22 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { useUserCartQuery } from '../apis/userCart.generated'
-import { SpinnerContainer } from '@/components/elements/Spinner'
-import { useNavigate } from 'react-router-dom'
-import { useEmptyCartMutation } from '../apis/emptyCart.generated'
-import { ContentLayout } from '@/components/Layout'
-import { useWindowSize } from '@/hooks/useWindowSize'
-import { UserCartDesktopView } from './UserCartDesktopView'
-import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
-import { userCart } from '../apis/userCart'
-import round from 'lodash/round'
-import { UserCartMobileView } from '@/features/user-cart/components/UserCartMobileView'
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import { Delete02Icon } from 'hugeicons-react'
+import round from 'lodash/round'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { UserCartDesktopView } from './UserCartDesktopView'
+
+import { useEmptyCartMutation } from '../apis/emptyCart.generated'
+import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
+import { userCart } from '../apis/userCart'
+import { useUserCartQuery } from '../apis/userCart.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import { ContentLayout } from '@/components/Layout'
 import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { useMinifiedProductDetailsQuery } from '@/features/user-cart/apis/minifiedProductDetails.generated'
+import { UserCartMobileView } from '@/features/user-cart/components/UserCartMobileView'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 const UserCart: FC = () => {
   const navigate = useNavigate()
@@ -74,7 +77,7 @@ const UserCart: FC = () => {
 
   useEffect(() => {
     calculateTotalCartAmount()
-  }, [data])
+  }, [calculateTotalCartAmount, data])
 
   if (loading || !data) {
     return <SpinnerContainer height="60vh" />

@@ -1,9 +1,12 @@
-import React, { FC } from 'react'
-import { useParams } from 'react-router-dom'
-import { useProductDetailQuery } from '../../apis/productDetail.generated'
 import { Flex, Text } from '@chakra-ui/react'
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { FC } from 'react'
+import { useParams } from 'react-router-dom'
+
 import { EditContainerForm } from './EditContainerForm'
+
+import { useProductDetailQuery } from '../../apis/productDetail.generated'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
 
 type ProductParamType = {
   productId: string

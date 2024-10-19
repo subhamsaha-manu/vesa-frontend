@@ -1,11 +1,11 @@
 import { Box, Flex, Heading, IconButton, useBreakpointValue } from '@chakra-ui/react'
+import { CircleArrowLeft01Icon, CircleArrowRight01Icon } from 'hugeicons-react'
 import { FC, useState } from 'react'
 import Slider from 'react-slick'
 
 import image1 from '@/assets/images/image1.jpg'
 import image2 from '@/assets/images/image2.jpg'
 import image3 from '@/assets/images/image3.jpg'
-import { CircleArrowLeft01Icon, CircleArrowRight01Icon } from 'hugeicons-react'
 
 const settings = {
   dots: false,
@@ -111,7 +111,7 @@ export const Carousel: FC = () => {
             wordSpacing: '30px',
           }}
         >
-          "WE CHOOSE YOU"
+          &#34;WE CHOOSE YOU&#34;
         </Heading>
       </Flex>
     </Box>

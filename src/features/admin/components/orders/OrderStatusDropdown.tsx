@@ -1,5 +1,4 @@
-import { FC } from 'react'
-import { OrderStatus } from '@/types'
+import { Button } from '@chakra-ui/react'
 import {
   Dropdown,
   DropdownItem,
@@ -7,7 +6,9 @@ import {
   DropdownTrigger,
   SharedSelection,
 } from '@nextui-org/react'
-import { Button } from '@chakra-ui/react'
+import { FC } from 'react'
+
+import { OrderStatus } from '@/types'
 
 type OrderStatusDropdownProps = {
   currentStatus: OrderStatus

@@ -1,31 +1,32 @@
-import { Product } from '@/types'
-import React, { FC, useEffect, useState } from 'react'
-import { ContentLayout } from '@/components/Layout'
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { FC, useEffect, useState } from 'react'
+
+import { ContentLayout } from '@/components/Layout'
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
+import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
-import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 
 type ProductDetailsDesktopViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds'>
 }
 export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
-  productDetail,
+  productDetail: { description, imageUrl, isOutOfStock, price, productId, thumbnailUrl, title },
 }) => {
   const [mainImageURL, setMainImageURL] = useState<string>()
   const { currentUser } = useCurrentUserContext()
 
   useEffect(() => {
-    setMainImageURL(productDetail.imageUrl)
-  }, [productDetail])
+    setMainImageURL(imageUrl)
+  }, [imageUrl])
 
   return (
-    <ContentLayout pageTitle={productDetail.title} showFullPageScroll>
+    <ContentLayout pageTitle={title} showFullPageScroll>
       <Flex display-name="main-product-section" w="100%" gap={6} pt="30px">
         <Flex display-name="product-gallery" position="relative" w="57%" pl="104px">
           <Flex display-name="primary-image" position="relative" overflow="hidden" h="597px">
-            <Image src={mainImageURL} alt={productDetail.title} />
+            <Image src={mainImageURL} alt={title} />
           </Flex>
           <Flex
             display-name="thumbnail-images"
@@ -38,23 +39,24 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
             mr="30px"
           >
             <Image
-              src={productDetail.imageUrl}
-              alt={productDetail.title}
+              src={imageUrl}
+              alt={title}
               h="98px"
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(productDetail.imageUrl)}
-              border={mainImageURL === productDetail.imageUrl ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(imageUrl)}
+              border={mainImageURL === imageUrl ? '2px solid black' : 'none'}
             />
             {Array.from({ length: 3 }).map((_, index) => (
               <Image
-                src={productDetail.thumbnailUrl}
-                alt={productDetail.title}
+                key={productId}
+                src={thumbnailUrl}
+                alt={title}
                 h="98px"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(productDetail.thumbnailUrl)}
-                border={mainImageURL === productDetail.thumbnailUrl ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(thumbnailUrl)}
+                border={mainImageURL === thumbnailUrl ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>
@@ -62,11 +64,11 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
         <Flex display-name="product-summary" w="43%" flexDir="column" gap={4}>
           <Flex display-name="product-details" w="100%" flexDir="column" gap={4}>
             <Heading size="lg" color="#1E355B" fontWeight="500">
-              {productDetail.title}
+              {title}
             </Heading>
             <Flex
               display-name="meta-content"
-              background={productDetail.isOutOfStock ? '#FF0000' : '#77a464'}
+              background={isOutOfStock ? '#FF0000' : '#77a464'}
               p={4}
               gap={4}
               align="center"
@@ -77,17 +79,17 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
                 Availability
               </Heading>
               <Text size="sm" color="white">
-                {productDetail.isOutOfStock ? 'Out of Stock' : 'In Stock'}
+                {isOutOfStock ? 'Out of Stock' : 'In Stock'}
               </Text>
             </Flex>
             <Flex display-name="product-price">
               <Text fontSize="36px" color="#1E355B">
-                {`${INR_CURRENCY_SYMBOL} ${productDetail.price}`}
+                {`${INR_CURRENCY_SYMBOL} ${price}`}
               </Text>
             </Flex>
             <Flex display-name="product-description">
               <Text fontSize="18px" fontWeight="100">
-                {productDetail.description}
+                {description}
               </Text>
             </Flex>
           </Flex>
@@ -100,8 +102,8 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
               align="center"
               mt="20px"
             >
-              <AddToCart productId={productDetail.productId} />
-              <AddToWishlist productId={productDetail.productId} />
+              <AddToCart productId={productId} />
+              <AddToWishlist productId={productId} />
             </Flex>
           )}
         </Flex>

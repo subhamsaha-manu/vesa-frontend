@@ -1,15 +1,17 @@
-import { FC } from 'react'
+import { Text } from '@chakra-ui/layout'
 import { Flex } from '@chakra-ui/react'
 import { FavouriteIcon, HeartAddIcon } from 'hugeicons-react'
-import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
-import { useAddProductToWishlistMutation } from '../apis/addProductToWishlist.generated'
-import { Text } from '@chakra-ui/layout'
-import { userWishlist } from '../apis/userWishlist'
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import noop from 'lodash/noop'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { storage } from '@/utils/storage'
+
+import { useAddProductToWishlistMutation } from '../apis/addProductToWishlist.generated'
+import { userWishlist } from '../apis/userWishlist'
+
+import { SpinnerContainer } from '@/components/elements/Spinner'
+import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { TOKEN } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 type AddToWishlistProps = {
   productId: string
