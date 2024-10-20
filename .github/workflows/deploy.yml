@@ -1,44 +1,44 @@
-name: Deploy to S3 and Invalidate CloudFront Cache
-
+name: deploy-production
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  deploy:
+  build-and-deploy:
+    strategy:
+      matrix:
+        node:
+          - '21.1.0'
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout the repository
-      - name: Checkout Code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Set up Node.js environment
-      - name: Set up Node.js
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '21.1.0'
+          node-version: ${{ matrix.node }}
 
-      # Install dependencies and build
-      - name: Install Dependencies and Build
-        run: |
-          npm ci
-          npm run generate:all
-          npm run build
+      - name: install
+        run: npm ci
 
-      # Deploy to S3
-      - name: Deploy to S3
-        uses: aws-actions/s3-sync-action@v1.1.0
+      - name: generate graphql types
+        run: npm run generate:all
+
+      - name: Build sources
+        run: npm run build
+
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          bucket: ${{ secrets.S3_BUCKET_NAME }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ${{ secrets.AWS_REGION }}
-          source-dir: build
 
-      # Invalidate CloudFront cache
+      - name: Upload to s3
+        run: aws s3 cp build s3://vesa-frontend-bucket --recursive
+        
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
