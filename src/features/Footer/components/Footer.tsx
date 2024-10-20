@@ -39,7 +39,7 @@ export const Footer = () => {
           <Heading fontSize={{ base: 'sm', xl: 'md' }}>Reach us at</Heading>
           <Flex display-name="mobile" gap={2}>
             <WhatsappIcon size={isMobile ? 18 : 24} color="#25d366" />
-            <Text fontSize="sm">+91 9876543210</Text>
+            <Text fontSize="sm">+91-9876543210</Text>
           </Flex>
           <Flex display-name="mobile" gap={2}>
             <Mail01Icon size={isMobile ? 18 : 24} color="#25d366" />
