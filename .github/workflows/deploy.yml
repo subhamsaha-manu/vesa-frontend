@@ -34,14 +34,9 @@ jobs:
       - name: Deploy to S3
         uses: aws-actions/s3-sync-action@v1.1.0
         with:
-          args: --delete
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
-        run: |
-          aws s3 sync build/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+          bucket: ${{ secrets.S3_BUCKET_NAME }}
+          region: ${{ secrets.AWS_REGION }}
+          source-dir: build
 
       # Invalidate CloudFront cache
       - name: Invalidate CloudFront Cache
