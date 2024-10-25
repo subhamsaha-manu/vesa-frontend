@@ -31,6 +31,7 @@ type Mutation {
     register(registerUserInput: RegisterUserInput!): ID!
     updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
     updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
+    getPresignedUrl(productId: ID!, contentType: String!): PresignedUrlResponse!
 }
 
 input ProductFilter {
@@ -257,7 +258,6 @@ input UpdateProductInput {
     description: String
     price: Float
     categoryIds: [ID!]!
-    thumbnailUrl: String
     imageUrl: String
     quantity: Int
 }
@@ -265,6 +265,10 @@ input UpdateProductInput {
 type ProductsResponse {
     products: [MinifiedProduct!]!
     pageInfo: PageInfo!
+}
+
+type PresignedUrlResponse {
+    url: String!
 }
 
 schema {

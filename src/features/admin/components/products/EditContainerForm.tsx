@@ -7,13 +7,7 @@ import {
   CardHeader,
   Divider,
   Flex,
-  FormLabel,
   Heading,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Text,
   useToast,
 } from '@chakra-ui/react'
@@ -27,9 +21,11 @@ import * as z from 'zod'
 
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
+import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { InputField, TextAreaField } from '@/components/form'
+import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
+import { useGetPresignedUrlMutation } from '@/features/admin/apis/getPresignedUrl.generated'
 import { Category, Product, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
@@ -57,7 +53,9 @@ const schema = z.object({
   price: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
     message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   }),
-  quantity: z.number().min(1).max(50),
+  quantity: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
+    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  }),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -75,14 +73,20 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   const {
     handleSubmit,
     formState: { errors },
-    control,
+    register,
+    setError,
+    clearErrors,
+    getValues,
     setValue,
+    trigger,
+    control,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
   })
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
+  const [updatingProductThumbnail, setUpdatingProductThumbnail] = useState<boolean>(false)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -111,6 +115,21 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     ],
   })
 
+  const [getSignedUrl] = useGetPresignedUrlMutation({
+    fetchPolicy: 'network-only',
+    onCompleted: async (data) => {
+      setUpdatingProductThumbnail(true)
+      const uploadToS3Response = await uploadFileToS3(
+        getValues('thumbnail'),
+        data.getPresignedUrl.url
+      )
+
+      if (uploadToS3Response && uploadToS3Response.ok) {
+        setUpdatingProductThumbnail(false)
+      }
+    },
+  })
+
   useEffect(() => {
     setProductCategories(
       categoryIds.map((categoryId) => {
@@ -120,10 +139,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     )
   }, [categories, categoryIds, productDetail])
 
-  console.info({ errors })
-
   const handleFormSubmit = (values: FieldValues) => {
-    console.info({ values })
     const { title, description, price, quantity } = values
     const variables: UpdateProductInput = {
       title,
@@ -154,19 +170,23 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
             <CardHeader>
               <Heading size="md">Thumbnail</Heading>
             </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center' }}>
-              <Flex
-                boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
-                borderRadius="8px"
-                border="3px solid white"
-                height="200px"
-                width="200px"
-                backgroundImage={`url(${thumbnailUrl})`}
-                padding={0}
-                backgroundSize="cover"
-                backgroundPosition="center"
-                backgroundRepeat="no-repeat"
-                justifyContent="center"
+            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <ThumbnailUpload
+                errors={errors}
+                register={register}
+                setError={setError}
+                setValue={setValue}
+                clearErrors={clearErrors}
+                thumbnailUrl={thumbnailUrl}
+                trigger={trigger}
+                onFileAdded={() => {
+                  void getSignedUrl({
+                    variables: {
+                      productId,
+                      contentType: getValues('thumbnail')?.type,
+                    },
+                  })
+                }}
               />
             </CardBody>
           </Card>
@@ -260,30 +280,16 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   withRoundBorders={false}
                 />
                 <Flex flexDir="column">
-                  <FormLabel>
-                    <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
-                      <Flex display-name="field-wrapper-label">
-                        <Text fontSize="14px" fontWeight="500" color="#191919">
-                          Quantity
-                        </Text>
-                      </Flex>
-                      <Flex display-name="field-wrapper-required-indicator" color="red">
-                        *
-                      </Flex>
-                    </Flex>
-                  </FormLabel>
-                  <NumberInput
-                    defaultValue={quantity}
-                    onChange={(_, valueAsNumber) => {
-                      setValue('quantity', valueAsNumber)
-                    }}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
+                  <InputField
+                    fieldName="quantity"
+                    label="Quantity"
+                    control={control}
+                    error={errors['quantity'] as FieldError}
+                    isRequired
+                    value={quantity.toString()}
+                    placeholder="Enter the quantity of the product"
+                    withRoundBorders={false}
+                  />
                 </Flex>
               </Flex>
             </CardBody>
@@ -298,7 +304,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   colorScheme="blue"
                   type="submit"
                   leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                  isDisabled={loading}
+                  isDisabled={loading || updatingProductThumbnail}
                   form="edit-product-form"
                 >
                   Save Changes
