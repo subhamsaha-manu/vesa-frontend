@@ -19,15 +19,14 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
-import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
+import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { uploadFileToS3 } from '@/features/admin/apis/uploadFileToS3'
-import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
-import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
+import { useGetPresignedUrlMutation } from '@/features/admin/apis/getPresignedUrl.generated'
+import { Category, Product, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -57,9 +56,6 @@ const schema = z.object({
   quantity: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
     message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   }),
-  thumbnail: z.any().optional(),
-  medias: z.any().optional(),
-  status: z.any().optional(),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -72,7 +68,7 @@ type EditContainerFormProps = {
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
   const navigate = useNavigate()
 
-  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl, status } =
+  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl } =
     productDetail
   const {
     handleSubmit,
@@ -80,7 +76,9 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     register,
     setError,
     clearErrors,
+    getValues,
     setValue,
+    trigger,
     control,
   } = useForm({
     resolver: zodResolver(schema),
@@ -88,7 +86,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   })
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
-  const [productStatus, setProductStatus] = useState<ProductStatus>(status)
+  const [updatingProductThumbnail, setUpdatingProductThumbnail] = useState<boolean>(false)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -117,10 +115,20 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     ],
   })
 
-  const [generatePresignedUrls, { loading: generatingPresignedUrls }] =
-    useGeneratePresignedUrlsMutation({
-      fetchPolicy: 'network-only',
-    })
+  const [getSignedUrl] = useGetPresignedUrlMutation({
+    fetchPolicy: 'network-only',
+    onCompleted: async (data) => {
+      setUpdatingProductThumbnail(true)
+      const uploadToS3Response = await uploadFileToS3(
+        getValues('thumbnail'),
+        data.getPresignedUrl.url
+      )
+
+      if (uploadToS3Response && uploadToS3Response.ok) {
+        setUpdatingProductThumbnail(false)
+      }
+    },
+  })
 
   useEffect(() => {
     setProductCategories(
@@ -129,45 +137,16 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
         return category as CategoryType
       })
     )
-    setProductStatus(status)
-  }, [categories, categoryIds, productId, status])
-
-  const productStatusOptions = Object.entries(ProductStatus)
+  }, [categories, categoryIds, productDetail])
 
   const handleFormSubmit = (values: FieldValues) => {
-    const { title, description, price, quantity, medias, thumbnail } = values
-
-    const thumbnailFileType = thumbnail?.type
-    const mediaFileTypes = Array.from(medias).map((file) => (file as File).type)
-
-    generatePresignedUrls({
-      variables: {
-        generatePresignedUrlsInput: {
-          productId,
-          thumbnailFileType,
-          mediaFileTypes,
-        },
-      },
-    }).then((data) => {
-      if (data.data?.generatePresignedUrls) {
-        const { mediaUrls, thumbnailUrl } = data.data.generatePresignedUrls
-
-        void uploadFileToS3(thumbnail as File, thumbnailUrl)
-        Array.from(medias).forEach((file, index) => {
-          void uploadFileToS3(file as File, mediaUrls[index])
-        })
-      }
-    })
-
+    const { title, description, price, quantity } = values
     const variables: UpdateProductInput = {
       title,
       description,
       price: parseFloat(price),
       quantity: parseInt(quantity),
       categoryIds: productCategories.map((category) => category.categoryId),
-      thumbnailFileType,
-      mediaFileTypes,
-      status: productStatus,
     }
 
     void updateProduct({
@@ -199,35 +178,24 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 setValue={setValue}
                 clearErrors={clearErrors}
                 thumbnailUrl={thumbnailUrl}
+                trigger={trigger}
+                onFileAdded={() => {
+                  void getSignedUrl({
+                    variables: {
+                      productId,
+                      contentType: getValues('thumbnail')?.type,
+                    },
+                  })
+                }}
               />
             </CardBody>
           </Card>
-          <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">
-            <CardHeader>
-              <Heading size="md">Status</Heading>
-            </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-              <Select
-                placeholder="Select product status"
-                selectionMode="single"
-                className="max-w-xs"
-                selectedKeys={[productStatus]}
-                onSelectionChange={(keys: SharedSelection) => {
-                  setProductStatus(keys.currentKey as ProductStatus)
-                }}
-              >
-                {productStatusOptions.map(([key, status]) => (
-                  <SelectItem key={status}>{key}</SelectItem>
-                ))}
-              </Select>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" size="md" flex="fit-content" p="20px">
+          <Card variant="elevated" size="md" flex="fit-content">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
               <Heading size="md">Product Details</Heading>
             </CardHeader>
             <CardBody className="overflow-visible py-2">
-              <Flex flexDir="column" gap={8}>
+              <Flex flexDir="column" gap={4}>
                 <Text fontSize="18px" fontWeight="600" color="#191919">
                   Categories
                 </Text>
@@ -323,7 +291,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     withRoundBorders={false}
                   />
                 </Flex>
-                <ImageUploader register={register} setValue={setValue} />
               </Flex>
             </CardBody>
             <Divider />
@@ -337,7 +304,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   colorScheme="blue"
                   type="submit"
                   leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                  isDisabled={loading || generatingPresignedUrls}
+                  isDisabled={loading || updatingProductThumbnail}
                   form="edit-product-form"
                 >
                   Save Changes

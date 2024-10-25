@@ -31,7 +31,7 @@ type Mutation {
     register(registerUserInput: RegisterUserInput!): ID!
     updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
     updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
-    generatePresignedUrls(generatePresignedUrlsInput: GeneratePresignedUrlsInput!): PresignedUrlsResponse!
+    getPresignedUrl(productId: ID!, contentType: String!): PresignedUrlResponse!
 }
 
 input ProductFilter {
@@ -45,13 +45,12 @@ type Product {
     productId: ID!
     title: String!
     price: Float!
-    imageUrls: [String!]!
+    imageUrl: String!
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
     quantity: Int!
     isOutOfStock: Boolean!
-    status: ProductStatus!
 }
 
 type MinifiedProduct {
@@ -59,7 +58,7 @@ type MinifiedProduct {
     productId: ID!
     title: String!
     price: Float!
-    imageUrls: [String!]!
+    imageUrl: String!
     thumbnailUrl: String!
     quantity: Int!
     isOutOfStock: Boolean!
@@ -77,6 +76,8 @@ input AddProductInput {
     description: String!
     price: Float!
     categoryIds: [ID!]!
+    thumbnailUrl: String!
+    imageUrl: String!
     quantity: Int!
 }
 
@@ -257,10 +258,8 @@ input UpdateProductInput {
     description: String
     price: Float
     categoryIds: [ID!]!
-    mediaFileTypes: [String!]
-    thumbnailFileType: String
+    imageUrl: String
     quantity: Int
-    status: ProductStatus
 }
 
 type ProductsResponse {
@@ -268,21 +267,8 @@ type ProductsResponse {
     pageInfo: PageInfo!
 }
 
-input GeneratePresignedUrlsInput {
-    productId: ID!
-    mediaFileTypes: [String!]!
-    thumbnailFileType: String
-}
-
-type PresignedUrlsResponse {
-    mediaUrls: [String!]!
-    thumbnailUrl: String!
-}
-
-enum ProductStatus {
-    DRAFT
-    PUBLISHED
-    INACTIVE
+type PresignedUrlResponse {
+    url: String!
 }
 
 schema {

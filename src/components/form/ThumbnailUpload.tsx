@@ -11,6 +11,7 @@ import {
   UseFormRegister,
   UseFormSetError,
   UseFormSetValue,
+  UseFormTrigger,
 } from 'react-hook-form'
 
 import { ALLOWED_THUMBNAIL_FILE_TYPES, MAX_THUMBNAIL_FILE_SIZE } from '@/utils/constants'
@@ -22,6 +23,8 @@ type ThumbnailUploadProps = {
   setValue: UseFormSetValue<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
   thumbnailUrl?: string | null
+  trigger: UseFormTrigger<FieldValues>
+  onFileAdded: () => void
 }
 
 export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
@@ -31,6 +34,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   setValue,
   clearErrors,
   thumbnailUrl,
+  onFileAdded,
 }) => {
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null)
   const [thumbnailPreview, setThumbnailPreview] = useState<any>(thumbnailUrl ?? null)
@@ -40,12 +44,12 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   ): error is FieldError => {
     return (error as FieldError).message !== undefined
   }
-
   useEffect(() => {
+    setThumbnailPreview(thumbnailUrl)
     if (thumbnailUrl) {
-      setThumbnailPreview(thumbnailUrl)
+      setValue('thumbnail', thumbnailUrl)
     }
-  }, [thumbnailUrl])
+  }, [setValue, thumbnailUrl])
 
   const validateThumbnailFile = (event: ChangeEvent<HTMLInputElement>) => {
     const thumbnailFile = event.target.files?.[0]
@@ -79,6 +83,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
       }
       reader.readAsDataURL(thumbnailFile)
       setValue('thumbnail', thumbnailFile)
+      onFileAdded()
     }
   }
 
@@ -95,6 +100,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
         borderRadius="8px"
         border="3px solid white"
         height="200px"
+        width="200px"
         backgroundImage={thumbnailPreview}
         padding={0}
         backgroundSize="cover"
@@ -103,17 +109,16 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
         justifyContent="center"
       />
       <Flex
-        data-testid="update-thumbnail-icon"
         border="5px solid white"
         borderRadius="50%"
         position="absolute"
-        top="-12px"
-        right="-18px"
+        top="8px"
+        right="30px"
         background="white"
         cursor="pointer"
         onClick={triggerThumbnailFileInput}
       >
-        <PencilEdit02Icon size="20" color="#000000" />
+        <PencilEdit02Icon size="20" color="#000000" data-testid="update-thumbnail-icon" />
         <input
           style={{ display: 'none' }}
           {...register('thumbnail')}
