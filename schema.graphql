@@ -32,6 +32,7 @@ type Mutation {
     updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
     updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
     getPresignedUrl(productId: ID!, contentType: String!): PresignedUrlResponse!
+    generatePresignedUrls(productId: ID!, contentTypes: [String!]!): [String!]!
 }
 
 input ProductFilter {
@@ -46,6 +47,7 @@ type Product {
     title: String!
     price: Float!
     imageUrl: String!
+    imageUrls: [String!]!
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
