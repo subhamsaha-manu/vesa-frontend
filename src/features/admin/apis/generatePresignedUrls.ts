@@ -1,10 +1,7 @@
 import gql from 'graphql-tag'
 
 export const generatePresignedUrls = gql`
-  mutation generatePresignedUrls($generatePresignedUrlsInput: GeneratePresignedUrlsInput!) {
-    generatePresignedUrls(generatePresignedUrlsInput: $generatePresignedUrlsInput) {
-      mediaUrls
-      thumbnailUrl
-    }
+  mutation generatePresignedUrls($productId: ID!, $contentTypes: [String!]!) {
+    generatePresignedUrls(productId: $productId, contentTypes: $contentTypes)
   }
 `

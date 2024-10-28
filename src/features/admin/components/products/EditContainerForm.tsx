@@ -26,6 +26,7 @@ import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { useGetPresignedUrlMutation } from '@/features/admin/apis/getPresignedUrl.generated'
+import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
 import { Category, Product, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
@@ -291,6 +292,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     withRoundBorders={false}
                   />
                 </Flex>
+                <ImageUploader productId={productId} />
               </Flex>
             </CardBody>
             <Divider />
