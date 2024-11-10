@@ -19,13 +19,13 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
+import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
-import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { useGetPresignedUrlMutation } from '@/features/admin/apis/getPresignedUrl.generated'
+import { uploadFileToS3 } from '@/features/admin/apis/uploadFileToS3'
 import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
 import { Category, Product, UpdateProductInput } from '@/types'
 import {
@@ -57,6 +57,8 @@ const schema = z.object({
   quantity: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
     message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   }),
+  thumbnail: z.any().optional(),
+  medias: z.any().optional(),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -79,7 +81,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     clearErrors,
     getValues,
     setValue,
-    trigger,
     control,
   } = useForm({
     resolver: zodResolver(schema),
@@ -87,7 +88,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   })
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
-  const [updatingProductThumbnail, setUpdatingProductThumbnail] = useState<boolean>(false)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -116,20 +116,10 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     ],
   })
 
-  const [getSignedUrl] = useGetPresignedUrlMutation({
-    fetchPolicy: 'network-only',
-    onCompleted: async (data) => {
-      setUpdatingProductThumbnail(true)
-      const uploadToS3Response = await uploadFileToS3(
-        getValues('thumbnail'),
-        data.getPresignedUrl.url
-      )
-
-      if (uploadToS3Response && uploadToS3Response.ok) {
-        setUpdatingProductThumbnail(false)
-      }
-    },
-  })
+  const [generatePresignedUrls, { loading: generatingPresignedUrls }] =
+    useGeneratePresignedUrlsMutation({
+      fetchPolicy: 'network-only',
+    })
 
   useEffect(() => {
     setProductCategories(
@@ -141,13 +131,38 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   }, [categories, categoryIds, productDetail])
 
   const handleFormSubmit = (values: FieldValues) => {
-    const { title, description, price, quantity } = values
+    const { title, description, price, quantity, medias, thumbnail } = values
+
+    const thumbnailFileType = thumbnail?.type
+    const mediaFileTypes = Array.from(medias).map((file) => (file as File).type)
+
+    generatePresignedUrls({
+      variables: {
+        generatePresignedUrlsInput: {
+          productId,
+          thumbnailFileType,
+          mediaFileTypes,
+        },
+      },
+    }).then((data) => {
+      if (data.data?.generatePresignedUrls) {
+        const { mediaUrls, thumbnailUrl } = data.data.generatePresignedUrls
+
+        void uploadFileToS3(thumbnail as File, thumbnailUrl)
+        Array.from(medias).forEach((file, index) => {
+          void uploadFileToS3(file as File, mediaUrls[index])
+        })
+      }
+    })
+
     const variables: UpdateProductInput = {
       title,
       description,
       price: parseFloat(price),
       quantity: parseInt(quantity),
       categoryIds: productCategories.map((category) => category.categoryId),
+      thumbnailFileType,
+      mediaFileTypes,
     }
 
     void updateProduct({
@@ -179,15 +194,14 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 setValue={setValue}
                 clearErrors={clearErrors}
                 thumbnailUrl={thumbnailUrl}
-                trigger={trigger}
-                onFileAdded={() => {
-                  void getSignedUrl({
-                    variables: {
-                      productId,
-                      contentType: getValues('thumbnail')?.type,
-                    },
-                  })
-                }}
+                // onFileAdded={() => {
+                //   void generatePresignedUrls({
+                //     variables: {
+                //       productId,
+                //       contentType: getValues('thumbnail')?.type,
+                //     },
+                //   })
+                // }}
               />
             </CardBody>
           </Card>
@@ -292,7 +306,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     withRoundBorders={false}
                   />
                 </Flex>
-                <ImageUploader productId={productId} />
+                <ImageUploader register={register} setValue={setValue} />
               </Flex>
             </CardBody>
             <Divider />
@@ -306,7 +320,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   colorScheme="blue"
                   type="submit"
                   leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                  isDisabled={loading || updatingProductThumbnail}
+                  isDisabled={loading || generatingPresignedUrls}
                   form="edit-product-form"
                 >
                   Save Changes

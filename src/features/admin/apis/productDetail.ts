@@ -7,7 +7,6 @@ export const product = gql`
       title
       price
       thumbnailUrl
-      imageUrl
       imageUrls
       description
       quantity
