@@ -13,7 +13,7 @@ type ProductTileProps = {
 
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {
   const navigate = useNavigate()
-  const { imageUrl, price, productId, title, isOutOfStock } = product
+  const { imageUrls, price, productId, title, isOutOfStock } = product
 
   const hoverAnimation = {
     scale: 1.05,
@@ -33,7 +33,7 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
     >
       <Flex flexDir="column" borderRadius={2}>
         <Image
-          src={imageUrl}
+          src={imageUrls[0]}
           alt={title}
           borderRadius="4px"
           borderBottomRadius={0}

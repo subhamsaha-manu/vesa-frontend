@@ -12,7 +12,7 @@ type MobileViewCardProps = {
 }
 
 export const MobileViewCard: FC<MobileViewCardProps> = ({
-  wishlistItem: { imageUrl, price, productId, title },
+  wishlistItem: { imageUrls, price, productId, title },
   onItemClick,
   onRemoveClick,
 }) => (
@@ -27,7 +27,7 @@ export const MobileViewCard: FC<MobileViewCardProps> = ({
     m="5px"
   >
     <Flex display-name="top-image-section" maxH="126px" w="100%">
-      <Image src={imageUrl} alt={title} h="100%" w="100%" />
+      <Image src={imageUrls[0]} alt={title} h="100%" w="100%" />
     </Flex>
     <Flex display-name="bottom-section" w="100%" flexDir="column" gap={2} p={2}>
       <Flex onClick={() => onItemClick(productId)}>

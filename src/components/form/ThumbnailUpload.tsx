@@ -11,7 +11,6 @@ import {
   UseFormRegister,
   UseFormSetError,
   UseFormSetValue,
-  UseFormTrigger,
 } from 'react-hook-form'
 
 import { ALLOWED_THUMBNAIL_FILE_TYPES, MAX_THUMBNAIL_FILE_SIZE } from '@/utils/constants'
@@ -23,8 +22,6 @@ type ThumbnailUploadProps = {
   setValue: UseFormSetValue<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
   thumbnailUrl?: string | null
-  trigger: UseFormTrigger<FieldValues>
-  onFileAdded: () => void
 }
 
 export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
@@ -34,7 +31,6 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   setValue,
   clearErrors,
   thumbnailUrl,
-  onFileAdded,
 }) => {
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null)
   const [thumbnailPreview, setThumbnailPreview] = useState<any>(thumbnailUrl ?? null)
@@ -44,12 +40,12 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   ): error is FieldError => {
     return (error as FieldError).message !== undefined
   }
+
   useEffect(() => {
-    setThumbnailPreview(thumbnailUrl)
     if (thumbnailUrl) {
-      setValue('thumbnail', thumbnailUrl)
+      setThumbnailPreview(thumbnailUrl)
     }
-  }, [setValue, thumbnailUrl])
+  }, [thumbnailUrl])
 
   const validateThumbnailFile = (event: ChangeEvent<HTMLInputElement>) => {
     const thumbnailFile = event.target.files?.[0]
@@ -83,7 +79,6 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
       }
       reader.readAsDataURL(thumbnailFile)
       setValue('thumbnail', thumbnailFile)
-      onFileAdded()
     }
   }
 
