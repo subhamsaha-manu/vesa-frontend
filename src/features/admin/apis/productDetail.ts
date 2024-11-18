@@ -10,6 +10,7 @@ export const product = gql`
       imageUrls
       description
       quantity
+      status
       isOutOfStock
       categoryIds
     }

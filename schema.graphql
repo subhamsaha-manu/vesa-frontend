@@ -51,6 +51,7 @@ type Product {
     categoryIds: [ID!]!
     quantity: Int!
     isOutOfStock: Boolean!
+    status: ProductStatus!
 }
 
 type MinifiedProduct {
@@ -259,6 +260,7 @@ input UpdateProductInput {
     mediaFileTypes: [String!]
     thumbnailFileType: String
     quantity: Int
+    status: ProductStatus
 }
 
 type ProductsResponse {
@@ -275,6 +277,12 @@ input GeneratePresignedUrlsInput {
 type PresignedUrlsResponse {
     mediaUrls: [String!]!
     thumbnailUrl: String!
+}
+
+enum ProductStatus {
+    DRAFT
+    PUBLISHED
+    INACTIVE
 }
 
 schema {
