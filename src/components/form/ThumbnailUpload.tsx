@@ -95,7 +95,6 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
         borderRadius="8px"
         border="3px solid white"
         height="200px"
-        width="200px"
         backgroundImage={thumbnailPreview}
         padding={0}
         backgroundSize="cover"
@@ -104,16 +103,17 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
         justifyContent="center"
       />
       <Flex
+        data-testid="update-thumbnail-icon"
         border="5px solid white"
         borderRadius="50%"
         position="absolute"
-        top="8px"
-        right="30px"
+        top="-12px"
+        right="-18px"
         background="white"
         cursor="pointer"
         onClick={triggerThumbnailFileInput}
       >
-        <PencilEdit02Icon size="20" color="#000000" data-testid="update-thumbnail-icon" />
+        <PencilEdit02Icon size="20" color="#000000" />
         <input
           style={{ display: 'none' }}
           {...register('thumbnail')}

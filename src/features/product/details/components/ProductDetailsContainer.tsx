@@ -12,6 +12,7 @@ import { useWindowSize } from '@/hooks/useWindowSize'
 type ProductParamType = {
   productId: string
 }
+
 export const ProductDetailsContainer: FC = () => {
   const { productId } = useParams<keyof ProductParamType>() as ProductParamType
 

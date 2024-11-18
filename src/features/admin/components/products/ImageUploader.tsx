@@ -33,36 +33,6 @@ export const ImageUploader: FC<ImageUploaderProps> = ({ register, setValue }) =>
       handleFiles(files)
 
       setValue('medias', files)
-
-      // try {
-      //   const { data } = await getPresignedUrls({
-      //     variables: { productId, contentTypes },
-      //   })
-      //
-      //   const presignedUrls = data!.generatePresignedUrls
-      //
-      //   await Promise.all(
-      //     images.map(async (img, index) => {
-      //       const url = presignedUrls[index]
-      //       img.status = ImageStatusEnum.Uploading
-      //       setImages([...images])
-      //
-      //       try {
-      //         await fetch(url, {
-      //           method: 'PUT',
-      //           body: img.file,
-      //           headers: { 'Content-Type': img.file.type },
-      //         })
-      //         img.status = ImageStatusEnum.Uploaded
-      //       } catch (error) {
-      //         img.status = ImageStatusEnum.Error
-      //       }
-      //       setImages([...images])
-      //     })
-      //   )
-      // } catch (error) {
-      //   console.error('Error fetching presigned URLs:', error)
-      // }
     }
   }
 
@@ -78,16 +48,12 @@ export const ImageUploader: FC<ImageUploaderProps> = ({ register, setValue }) =>
     }
   }
 
-  const handleUpload = () => {
-    fileInputRef.current?.click()
-  }
-
   return (
     <VStack spacing={4}>
       <Flex
         border="1px dashed #17C653"
         background="#DFFFEA"
-        p={4}
+        p={6}
         width="100%"
         textAlign="center"
         borderRadius="md"

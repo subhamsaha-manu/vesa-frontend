@@ -9,7 +9,7 @@ import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsDesktopViewProps = {
-  productDetail: Omit<Product, 'id' | 'categoryIds'>
+  productDetail: Omit<Product, 'id' | 'categoryIds' | 'status'>
 }
 export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
   productDetail: { description, imageUrls, isOutOfStock, price, productId, thumbnailUrl, title },

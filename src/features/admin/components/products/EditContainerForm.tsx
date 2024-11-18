@@ -27,7 +27,7 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { uploadFileToS3 } from '@/features/admin/apis/uploadFileToS3'
 import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
-import { Category, Product, UpdateProductInput } from '@/types'
+import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -59,6 +59,7 @@ const schema = z.object({
   }),
   thumbnail: z.any().optional(),
   medias: z.any().optional(),
+  status: z.any().optional(),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -71,7 +72,7 @@ type EditContainerFormProps = {
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
   const navigate = useNavigate()
 
-  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl } =
+  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl, status } =
     productDetail
   const {
     handleSubmit,
@@ -79,7 +80,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     register,
     setError,
     clearErrors,
-    getValues,
     setValue,
     control,
   } = useForm({
@@ -88,6 +88,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   })
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
+  const [productStatus, setProductStatus] = useState<ProductStatus>(status)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -128,7 +129,10 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
         return category as CategoryType
       })
     )
-  }, [categories, categoryIds, productDetail])
+    setProductStatus(status)
+  }, [categories, categoryIds, productId, status])
+
+  const productStatusOptions = Object.entries(ProductStatus)
 
   const handleFormSubmit = (values: FieldValues) => {
     const { title, description, price, quantity, medias, thumbnail } = values
@@ -163,6 +167,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
       categoryIds: productCategories.map((category) => category.categoryId),
       thumbnailFileType,
       mediaFileTypes,
+      status: productStatus,
     }
 
     void updateProduct({
@@ -194,23 +199,35 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 setValue={setValue}
                 clearErrors={clearErrors}
                 thumbnailUrl={thumbnailUrl}
-                // onFileAdded={() => {
-                //   void generatePresignedUrls({
-                //     variables: {
-                //       productId,
-                //       contentType: getValues('thumbnail')?.type,
-                //     },
-                //   })
-                // }}
               />
             </CardBody>
           </Card>
-          <Card variant="elevated" size="md" flex="fit-content">
+          <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">
+            <CardHeader>
+              <Heading size="md">Status</Heading>
+            </CardHeader>
+            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <Select
+                placeholder="Select product status"
+                selectionMode="single"
+                className="max-w-xs"
+                selectedKeys={[productStatus]}
+                onSelectionChange={(keys: SharedSelection) => {
+                  setProductStatus(keys.currentKey as ProductStatus)
+                }}
+              >
+                {productStatusOptions.map(([key, status]) => (
+                  <SelectItem key={status}>{key}</SelectItem>
+                ))}
+              </Select>
+            </CardBody>
+          </Card>
+          <Card variant="elevated" size="md" flex="fit-content" p="20px">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
               <Heading size="md">Product Details</Heading>
             </CardHeader>
             <CardBody className="overflow-visible py-2">
-              <Flex flexDir="column" gap={4}>
+              <Flex flexDir="column" gap={8}>
                 <Text fontSize="18px" fontWeight="600" color="#191919">
                   Categories
                 </Text>
