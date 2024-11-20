@@ -19,7 +19,7 @@ export const EditProductContainer: FC = () => {
     variables: {
       productId,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   })
 
   return (

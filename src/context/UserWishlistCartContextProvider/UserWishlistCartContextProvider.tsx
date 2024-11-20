@@ -4,6 +4,7 @@ import { useUserCartOperationQuery } from './api/userCart.generated'
 import { useUserWishlistOperationQuery } from './api/userWishlist.generated'
 import { UserWishlistCartContextType } from './types'
 
+import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { TOKEN } from '@/utils/constants'
 import { storage } from '@/utils/storage'
 
@@ -16,17 +17,20 @@ export const UserWishlistCartContextProvider: FC<{
   children: ReactNode
 }> = (props) => {
   const authToken = storage.getItem(TOKEN)
+  const { currentUser } = useCurrentUserContext()
+
+  const skipCondition = currentUser?.isAdmin !== false || !currentUser || !authToken
 
   const [numberOfCartItems, setNumberOfCartItems] = useState<number>(0)
   const [wishlistItems, setWishlistItems] = useState<Array<string>>([])
 
   const { data } = useUserCartOperationQuery({
-    skip: !authToken,
+    skip: skipCondition,
     fetchPolicy: 'network-only',
   })
 
   const { data: userWishlistData } = useUserWishlistOperationQuery({
-    skip: !authToken,
+    skip: skipCondition,
     fetchPolicy: 'network-only',
   })
 
