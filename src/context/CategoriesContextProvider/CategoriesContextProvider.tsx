@@ -14,7 +14,7 @@ export const CategoriesContextProvider: FC<{
   const [categories, setCategories] = useState<Array<Omit<Category, 'description'>>>([])
 
   const { data } = useCategoriesQuery({
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   })
 
   useEffect(() => {

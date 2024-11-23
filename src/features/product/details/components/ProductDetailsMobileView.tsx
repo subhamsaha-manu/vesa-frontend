@@ -10,10 +10,10 @@ import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsMobileViewProps = {
-  productDetail: Omit<Product, 'id' | 'categoryIds'>
+  productDetail: Omit<Product, 'id' | 'categoryIds' | 'status'>
 }
 export const ProductDetailsMobileView: FC<ProductDetailsMobileViewProps> = ({ productDetail }) => {
-  const productImages = [productDetail.imageUrl, productDetail.thumbnailUrl]
+  const productImages = [...productDetail.imageUrls, productDetail.thumbnailUrl]
 
   const settings = {
     dots: true,

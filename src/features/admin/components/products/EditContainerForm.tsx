@@ -7,13 +7,7 @@ import {
   CardHeader,
   Divider,
   Flex,
-  FormLabel,
   Heading,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Text,
   useToast,
 } from '@chakra-ui/react'
@@ -25,12 +19,15 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
+import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { InputField, TextAreaField } from '@/components/form'
-import { Category, Product, UpdateProductInput } from '@/types'
+import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
+import { uploadFileToS3 } from '@/features/admin/apis/uploadFileToS3'
+import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
+import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -57,7 +54,12 @@ const schema = z.object({
   price: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
     message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
   }),
-  quantity: z.number().min(1).max(50),
+  quantity: z.string().min(1).regex(LEADING_OR_TRAILING_SPACES_ERROR_REGEX, {
+    message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
+  }),
+  thumbnail: z.any().optional(),
+  medias: z.any().optional(),
+  status: z.any().optional(),
 })
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
@@ -70,19 +72,23 @@ type EditContainerFormProps = {
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
   const navigate = useNavigate()
 
-  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl } =
+  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl, status } =
     productDetail
   const {
     handleSubmit,
     formState: { errors },
-    control,
+    register,
+    setError,
+    clearErrors,
     setValue,
+    control,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onChange',
   })
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
+  const [productStatus, setProductStatus] = useState<ProductStatus>(status)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -111,6 +117,11 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     ],
   })
 
+  const [generatePresignedUrls, { loading: generatingPresignedUrls }] =
+    useGeneratePresignedUrlsMutation({
+      fetchPolicy: 'network-only',
+    })
+
   useEffect(() => {
     setProductCategories(
       categoryIds.map((categoryId) => {
@@ -118,19 +129,45 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
         return category as CategoryType
       })
     )
-  }, [categories, categoryIds, productDetail])
+    setProductStatus(status)
+  }, [categories, categoryIds, productId, status])
 
-  console.info({ errors })
+  const productStatusOptions = Object.entries(ProductStatus)
 
   const handleFormSubmit = (values: FieldValues) => {
-    console.info({ values })
-    const { title, description, price, quantity } = values
+    const { title, description, price, quantity, medias, thumbnail } = values
+
+    const thumbnailFileType = thumbnail?.type
+    const mediaFileTypes = Array.from(medias).map((file) => (file as File).type)
+
+    generatePresignedUrls({
+      variables: {
+        generatePresignedUrlsInput: {
+          productId,
+          thumbnailFileType,
+          mediaFileTypes,
+        },
+      },
+    }).then((data) => {
+      if (data.data?.generatePresignedUrls) {
+        const { mediaUrls, thumbnailUrl } = data.data.generatePresignedUrls
+
+        void uploadFileToS3(thumbnail as File, thumbnailUrl)
+        Array.from(medias).forEach((file, index) => {
+          void uploadFileToS3(file as File, mediaUrls[index])
+        })
+      }
+    })
+
     const variables: UpdateProductInput = {
       title,
       description,
       price: parseFloat(price),
       quantity: parseInt(quantity),
       categoryIds: productCategories.map((category) => category.categoryId),
+      thumbnailFileType,
+      mediaFileTypes,
+      status: productStatus,
     }
 
     void updateProduct({
@@ -154,28 +191,43 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
             <CardHeader>
               <Heading size="md">Thumbnail</Heading>
             </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center' }}>
-              <Flex
-                boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
-                borderRadius="8px"
-                border="3px solid white"
-                height="200px"
-                width="200px"
-                backgroundImage={`url(${thumbnailUrl})`}
-                padding={0}
-                backgroundSize="cover"
-                backgroundPosition="center"
-                backgroundRepeat="no-repeat"
-                justifyContent="center"
+            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <ThumbnailUpload
+                errors={errors}
+                register={register}
+                setError={setError}
+                setValue={setValue}
+                clearErrors={clearErrors}
+                thumbnailUrl={thumbnailUrl}
               />
             </CardBody>
           </Card>
-          <Card variant="elevated" size="md" flex="fit-content">
+          <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">
+            <CardHeader>
+              <Heading size="md">Status</Heading>
+            </CardHeader>
+            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <Select
+                placeholder="Select product status"
+                selectionMode="single"
+                className="max-w-xs"
+                selectedKeys={[productStatus]}
+                onSelectionChange={(keys: SharedSelection) => {
+                  setProductStatus(keys.currentKey as ProductStatus)
+                }}
+              >
+                {productStatusOptions.map(([key, status]) => (
+                  <SelectItem key={status}>{key}</SelectItem>
+                ))}
+              </Select>
+            </CardBody>
+          </Card>
+          <Card variant="elevated" size="md" flex="fit-content" p="20px">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
               <Heading size="md">Product Details</Heading>
             </CardHeader>
             <CardBody className="overflow-visible py-2">
-              <Flex flexDir="column" gap={4}>
+              <Flex flexDir="column" gap={8}>
                 <Text fontSize="18px" fontWeight="600" color="#191919">
                   Categories
                 </Text>
@@ -260,31 +312,18 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   withRoundBorders={false}
                 />
                 <Flex flexDir="column">
-                  <FormLabel>
-                    <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
-                      <Flex display-name="field-wrapper-label">
-                        <Text fontSize="14px" fontWeight="500" color="#191919">
-                          Quantity
-                        </Text>
-                      </Flex>
-                      <Flex display-name="field-wrapper-required-indicator" color="red">
-                        *
-                      </Flex>
-                    </Flex>
-                  </FormLabel>
-                  <NumberInput
-                    defaultValue={quantity}
-                    onChange={(_, valueAsNumber) => {
-                      setValue('quantity', valueAsNumber)
-                    }}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
+                  <InputField
+                    fieldName="quantity"
+                    label="Quantity"
+                    control={control}
+                    error={errors['quantity'] as FieldError}
+                    isRequired
+                    value={quantity.toString()}
+                    placeholder="Enter the quantity of the product"
+                    withRoundBorders={false}
+                  />
                 </Flex>
+                <ImageUploader register={register} setValue={setValue} />
               </Flex>
             </CardBody>
             <Divider />
@@ -298,7 +337,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   colorScheme="blue"
                   type="submit"
                   leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                  isDisabled={loading}
+                  isDisabled={loading || generatingPresignedUrls}
                   form="edit-product-form"
                 >
                   Save Changes

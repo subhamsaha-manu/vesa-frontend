@@ -9,3 +9,5 @@ export const INVALID_EMAIL_ERROR_MESSAGE = 'Invalid email address'
 export const NAME_IS_MANDATORY = 'Name is mandatory'
 export const PRODUCT_TITLE_IS_MANDATORY = 'Title is mandatory'
 export const PRODUCT_DESCRIPTION_IS_MANDATORY = 'Description is mandatory'
+export const ALLOWED_THUMBNAIL_FILE_TYPES = ['png', 'jpeg', 'jpg']
+export const MAX_THUMBNAIL_FILE_SIZE = 50 * 1024 * 1024

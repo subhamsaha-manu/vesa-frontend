@@ -28,7 +28,7 @@ export const WishlistContent: FC<WishlistContentProps> = ({
               </Tr>
             </Thead>
             <Tbody>
-              {wishlistItems.map(({ imageUrl, price, productId, title }) => (
+              {wishlistItems.map(({ imageUrls, price, productId, title }) => (
                 <Tr key={productId}>
                   <Td
                     _hover={{ color: '#D9121F', cursor: 'pointer' }}
@@ -37,7 +37,7 @@ export const WishlistContent: FC<WishlistContentProps> = ({
                     <MultiplicationSignIcon size={15} />
                   </Td>
                   <Td>
-                    <Image src={imageUrl} alt={title} h="100px" w="80px" />
+                    <Image src={imageUrls[0]} alt={title} h="100px" w="80px" />
                   </Td>
                   <Td
                     style={{ fontWeight: '400' }}

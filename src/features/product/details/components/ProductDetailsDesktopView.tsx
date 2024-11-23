@@ -9,17 +9,17 @@ import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductDetailsDesktopViewProps = {
-  productDetail: Omit<Product, 'id' | 'categoryIds'>
+  productDetail: Omit<Product, 'id' | 'categoryIds' | 'status'>
 }
 export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
-  productDetail: { description, imageUrl, isOutOfStock, price, productId, thumbnailUrl, title },
+  productDetail: { description, imageUrls, isOutOfStock, price, productId, thumbnailUrl, title },
 }) => {
   const [mainImageURL, setMainImageURL] = useState<string>()
   const { currentUser } = useCurrentUserContext()
 
   useEffect(() => {
-    setMainImageURL(imageUrl)
-  }, [imageUrl])
+    setMainImageURL(thumbnailUrl)
+  }, [thumbnailUrl])
 
   return (
     <ContentLayout pageTitle={title} showFullPageScroll>
@@ -39,24 +39,24 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
             mr="30px"
           >
             <Image
-              src={imageUrl}
+              src={thumbnailUrl}
               alt={title}
               h="98px"
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(imageUrl)}
-              border={mainImageURL === imageUrl ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(imageUrls[0])}
+              border={mainImageURL === imageUrls[0] ? '2px solid black' : 'none'}
             />
-            {Array.from({ length: 3 }).map((_, index) => (
+            {imageUrls.map((url) => (
               <Image
                 key={productId}
-                src={thumbnailUrl}
+                src={url}
                 alt={title}
                 h="98px"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(thumbnailUrl)}
-                border={mainImageURL === thumbnailUrl ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(url)}
+                border={mainImageURL === url ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>

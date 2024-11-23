@@ -5,7 +5,7 @@ export const userWishlist = gql`
     userWishlist {
       productId
       title
-      imageUrl
+      imageUrls
       price
       quantity
       isOutOfStock
