@@ -45,13 +45,18 @@ type Product {
     productId: ID!
     title: String!
     price: Float!
-    imageUrls: [String!]!
+    imageUrls: [ImageUrl!]!
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
     quantity: Int!
     isOutOfStock: Boolean!
     status: ProductStatus!
+}
+
+type ImageUrl {
+    url: String!
+    uuid: ID!
 }
 
 type MinifiedProduct {

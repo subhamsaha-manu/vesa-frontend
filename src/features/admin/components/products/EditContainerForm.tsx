@@ -3,30 +3,31 @@ import {
   ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
-  Divider,
   Flex,
   Heading,
   Text,
   useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Chip, Select, SelectItem } from '@nextui-org/react'
+import { Chip, Image, Select, SelectItem, useDisclosure } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
 import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
+import { BiSolidTrash } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
+
+import { ImageUploader } from './ImageUploader'
+import { MediaCarousel } from './MediaCarousel'
 
 import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
+import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { uploadFileToS3 } from '@/features/admin/apis/uploadFileToS3'
-import { ImageUploader } from '@/features/admin/components/products/ImageUploader'
 import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
@@ -72,8 +73,18 @@ type EditContainerFormProps = {
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
   const navigate = useNavigate()
 
-  const { productId, title, description, price, quantity, categoryIds, thumbnailUrl, status } =
-    productDetail
+  const {
+    productId,
+    title,
+    description,
+    price,
+    quantity,
+    categoryIds,
+    thumbnailUrl,
+    status,
+    imageUrls,
+  } = productDetail
+
   const {
     handleSubmit,
     formState: { errors },
@@ -86,6 +97,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     resolver: zodResolver(schema),
     mode: 'onChange',
   })
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
   const [productStatus, setProductStatus] = useState<ProductStatus>(status)
@@ -268,50 +281,105 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
             </CardBody>
           </Card>
         </Flex>
-        <Flex flex="fit-content">
-          <Card w="100%" p={{ base: 0, xl: '20px' }}>
-            <CardHeader p={{ base: '8px', xl: '16px' }}>
-              <Heading size="md" fontWeight="600">
-                General
-              </Heading>
-            </CardHeader>
-            <CardBody p={{ base: '8px', xl: '16px' }}>
-              <Flex flexDir="column" gap="24px">
-                <InputField
-                  fieldName="title"
-                  label="Full Name"
-                  control={control}
-                  error={errors['title'] as FieldError}
-                  isRequired
-                  value={title}
-                  placeholder="Enter the name of the product"
-                  withRoundBorders={false}
-                />
-                <TextAreaField
-                  fieldName="description"
-                  label="Description"
-                  control={control}
-                  error={errors['description'] as FieldError}
-                  isRequired
-                  value={description}
-                  placeholder="Enter the description of the product"
-                  maxLength={200}
-                  showTextLength
-                />
+        <Flex flex="fit-content" flexDir="column" gap="32px">
+          <Flex flex="fit-content" display-name="general-section">
+            <Card w="100%" p={{ base: 0, xl: '20px' }}>
+              <CardHeader p={{ base: '8px', xl: '16px' }}>
+                <Heading size="md" fontWeight="600">
+                  General
+                </Heading>
+              </CardHeader>
+              <CardBody p={{ base: '8px', xl: '16px' }}>
+                <Flex flexDir="column" gap="24px">
+                  <InputField
+                    fieldName="title"
+                    label="Product Name"
+                    control={control}
+                    error={errors['title'] as FieldError}
+                    isRequired
+                    value={title}
+                    placeholder="Enter the name of the product"
+                    withRoundBorders={false}
+                  />
+                  <TextAreaField
+                    fieldName="description"
+                    label="Description"
+                    control={control}
+                    error={errors['description'] as FieldError}
+                    isRequired
+                    value={description}
+                    placeholder="Enter the description of the product"
+                    maxLength={200}
+                    showTextLength
+                  />
+                </Flex>
+              </CardBody>
+            </Card>
+          </Flex>
+          <Flex flex="fit-content" display-name="media-section">
+            <Card w="100%" p={{ base: 0, xl: '20px' }}>
+              <CardHeader p={{ base: '8px', xl: '16px' }}>
+                <Heading size="md" fontWeight="600">
+                  Media
+                </Heading>
+              </CardHeader>
+              <CardBody p={{ base: '8px', xl: '16px' }}>
+                <Flex flexDir="column" gap="24px">
+                  <ImageUploader register={register} setValue={setValue} />
+                  <Flex display-name="media-files" flexWrap="wrap" gap="16px">
+                    {imageUrls.map((imageUrl, index) => (
+                      <Flex position="relative" key={index}>
+                        <Image
+                          width={200}
+                          height={300}
+                          src={imageUrl.url}
+                          isBlurred
+                          onClick={onOpen}
+                          style={{ cursor: 'pointer', zIndex: 1 }}
+                        />
+                        <BiSolidTrash
+                          data-testid="delete-media"
+                          color="red"
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            right: '50%',
+                            cursor: 'pointer',
+                            zIndex: 5,
+                          }}
+                          onClick={() => {}}
+                        />
+                      </Flex>
+                    ))}
+                    <MediaCarousel
+                      imageUrls={imageUrls}
+                      isOpen={isOpen}
+                      onOpenChange={onOpenChange}
+                    />
+                  </Flex>
+                </Flex>
+              </CardBody>
+            </Card>
+          </Flex>
+          <Flex flex="fit-content" display-name="pricing-section">
+            <Card w="100%" p={{ base: 0, xl: '20px' }}>
+              <CardHeader p={{ base: '8px', xl: '16px' }}>
                 <Heading size="md" fontWeight="600">
                   Pricing
                 </Heading>
-                <InputField
-                  fieldName="price"
-                  label={`Price (in ${INR_CURRENCY_SYMBOL})`}
-                  control={control}
-                  error={errors['price'] as FieldError}
-                  isRequired
-                  value={price.toString()}
-                  placeholder="Enter the price of the product"
-                  withRoundBorders={false}
-                />
-                <Flex flexDir="column">
+              </CardHeader>
+              <CardBody p={{ base: '8px', xl: '16px' }}>
+                <Flex flexDir="column" gap="24px">
+                  <InputField
+                    fieldName="price"
+                    label={`Price (in ${INR_CURRENCY_SYMBOL})`}
+                    control={control}
+                    error={errors['price'] as FieldError}
+                    isRequired
+                    value={price.toString()}
+                    placeholder="Enter the price of the product"
+                    withRoundBorders={false}
+                  />
                   <InputField
                     fieldName="quantity"
                     label="Quantity"
@@ -323,28 +391,26 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     withRoundBorders={false}
                   />
                 </Flex>
-                <ImageUploader register={register} setValue={setValue} />
-              </Flex>
-            </CardBody>
-            <Divider />
-            <CardFooter justify="end">
-              <ButtonGroup spacing="2">
-                <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="solid"
-                  colorScheme="blue"
-                  type="submit"
-                  leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                  isDisabled={loading || generatingPresignedUrls}
-                  form="edit-product-form"
-                >
-                  Save Changes
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
+              </CardBody>
+            </Card>
+          </Flex>
+          <Flex display-name="footer" justify="end">
+            <ButtonGroup spacing="2">
+              <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
+                Cancel
+              </Button>
+              <Button
+                variant="solid"
+                colorScheme="blue"
+                type="submit"
+                leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
+                isDisabled={loading || generatingPresignedUrls}
+                form="edit-product-form"
+              >
+                Save Changes
+              </Button>
+            </ButtonGroup>
+          </Flex>
         </Flex>
       </Flex>
     </form>

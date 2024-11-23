@@ -44,19 +44,19 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
               h="98px"
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(imageUrls[0])}
-              border={mainImageURL === imageUrls[0] ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(imageUrls[0].url)}
+              border={mainImageURL === imageUrls[0].url ? '2px solid black' : 'none'}
             />
             {imageUrls.map((url) => (
               <Image
                 key={productId}
-                src={url}
+                src={url.url}
                 alt={title}
                 h="98px"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(url)}
-                border={mainImageURL === url ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(url.url)}
+                border={mainImageURL === url.url ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>
