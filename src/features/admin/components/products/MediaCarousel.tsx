@@ -2,10 +2,9 @@ import { Modal, ModalBody, ModalContent } from '@nextui-org/react'
 import { FC } from 'react'
 
 import Carousel from '@/components/elements/Carousel'
-import { ImageUrl } from '@/types'
 
 type MediaCarouselProps = {
-  imageUrls: Array<ImageUrl>
+  imageUrls: Array<string>
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
 }
@@ -22,7 +21,7 @@ export const MediaCarousel: FC<MediaCarouselProps> = ({ imageUrls, isOpen, onOpe
     >
       <ModalContent>
         <ModalBody>
-          <Carousel imageUrls={imageUrls.map((it) => it.url)} showText={false} />
+          <Carousel imageUrls={imageUrls} showText={false} />
         </ModalBody>
       </ModalContent>
     </Modal>

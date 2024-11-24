@@ -82,7 +82,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     categoryIds,
     thumbnailUrl,
     status,
-    imageUrls,
+    medias,
   } = productDetail
 
   const {
@@ -327,12 +327,12 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 <Flex flexDir="column" gap="24px">
                   <ImageUploader register={register} setValue={setValue} />
                   <Flex display-name="media-files" flexWrap="wrap" gap="16px">
-                    {imageUrls.map((imageUrl, index) => (
-                      <Flex position="relative" key={index}>
+                    {medias.map(({ url, uuid }) => (
+                      <Flex position="relative" key={uuid}>
                         <Image
                           width={200}
                           height={300}
-                          src={imageUrl.url}
+                          src={url}
                           isBlurred
                           onClick={onOpen}
                           style={{ cursor: 'pointer', zIndex: 1 }}
@@ -352,7 +352,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                       </Flex>
                     ))}
                     <MediaCarousel
-                      imageUrls={imageUrls}
+                      imageUrls={medias.map(({ url }) => url)}
                       isOpen={isOpen}
                       onOpenChange={onOpenChange}
                     />

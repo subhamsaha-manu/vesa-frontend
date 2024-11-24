@@ -45,7 +45,7 @@ type Product {
     productId: ID!
     title: String!
     price: Float!
-    imageUrls: [ImageUrl!]!
+    medias: [Media!]!
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
@@ -54,7 +54,7 @@ type Product {
     status: ProductStatus!
 }
 
-type ImageUrl {
+type Media {
     url: String!
     uuid: ID!
 }
@@ -68,6 +68,7 @@ type MinifiedProduct {
     thumbnailUrl: String!
     quantity: Int!
     isOutOfStock: Boolean!
+    status: ProductStatus!
 }
 
 input RegisterUserInput {
