@@ -15,17 +15,18 @@ import { SharedSelection } from '@nextui-org/system'
 import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { BiSolidTrash } from 'react-icons/bi'
+import { PiMagnifyingGlassThin } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
 import { ImageUploader } from './ImageUploader'
-import { MediaCarousel } from './MediaCarousel'
 
 import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
+import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
@@ -102,6 +103,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
   const [productStatus, setProductStatus] = useState<ProductStatus>(status)
+  const [deletedMediaIds, setDeletedMediaIds] = useState<Array<string>>([])
+  const [activeImage, setActiveImage] = useState<string | null>(null)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -328,34 +331,72 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                   <ImageUploader register={register} setValue={setValue} />
                   <Flex display-name="media-files" flexWrap="wrap" gap="16px">
                     {medias.map(({ url, uuid }) => (
-                      <Flex position="relative" key={uuid}>
+                      <Flex
+                        position="relative"
+                        key={uuid}
+                        opacity={deletedMediaIds.includes(uuid) ? '0.7' : '1'}
+                      >
                         <Image
                           width={200}
                           height={300}
                           src={url}
                           isBlurred
                           onClick={onOpen}
-                          style={{ cursor: 'pointer', zIndex: 1 }}
+                          style={{ zIndex: 1 }}
                         />
-                        <BiSolidTrash
-                          data-testid="delete-media"
-                          color="red"
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            right: '50%',
-                            cursor: 'pointer',
-                            zIndex: 5,
-                          }}
-                          onClick={() => {}}
-                        />
+                        <Flex
+                          position="absolute"
+                          top="5%"
+                          right="10%"
+                          width="30px"
+                          height="30px"
+                          bg="black"
+                          align="center"
+                          justify="center"
+                          zIndex={2}
+                          borderRadius="25%"
+                          gap={4}
+                          cursor="pointer"
+                          onClick={() => setActiveImage(uuid)}
+                        >
+                          <PiMagnifyingGlassThin size={24} color="#fff" />
+                        </Flex>
+                        <Flex
+                          position="absolute"
+                          top="5%"
+                          right="30%"
+                          width="30px"
+                          height="30px"
+                          bg="black"
+                          align="center"
+                          justify="center"
+                          zIndex={2}
+                          borderRadius="25%"
+                          gap={4}
+                          cursor="pointer"
+                        >
+                          <BiSolidTrash
+                            data-testid="delete-media"
+                            style={{ height: '25px', width: '25px' }}
+                            color="#be2626"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setDeletedMediaIds([...deletedMediaIds, uuid])
+                            }}
+                          />
+                        </Flex>
+                        {activeImage === uuid && (
+                          <ImageZoom
+                            imageUrl={url}
+                            isOpen={Boolean(activeImage)}
+                            onOpenChange={(isOpen) => {
+                              if (!isOpen) setActiveImage(null)
+                            }}
+                          />
+                        )}
                       </Flex>
                     ))}
-                    <MediaCarousel
-                      imageUrls={medias.map(({ url }) => url)}
-                      isOpen={isOpen}
-                      onOpenChange={onOpenChange}
-                    />
                   </Flex>
                 </Flex>
               </CardBody>
