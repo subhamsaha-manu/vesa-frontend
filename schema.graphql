@@ -45,13 +45,18 @@ type Product {
     productId: ID!
     title: String!
     price: Float!
-    imageUrls: [String!]!
+    medias: [Media!]!
     thumbnailUrl: String!
     description: String!
     categoryIds: [ID!]!
     quantity: Int!
     isOutOfStock: Boolean!
     status: ProductStatus!
+}
+
+type Media {
+    url: String!
+    uuid: ID!
 }
 
 type MinifiedProduct {
@@ -63,6 +68,7 @@ type MinifiedProduct {
     thumbnailUrl: String!
     quantity: Int!
     isOutOfStock: Boolean!
+    status: ProductStatus!
 }
 
 input RegisterUserInput {
@@ -257,10 +263,16 @@ input UpdateProductInput {
     description: String
     price: Float
     categoryIds: [ID!]!
-    mediaFileTypes: [String!]
+    mediaFiles: [MediaFileInput!]!
     thumbnailFileType: String
     quantity: Int
     status: ProductStatus
+    deletedMediaFiles: [MediaFileInput!]
+}
+
+input MediaFileInput {
+    fileType: String!
+    uuid: ID!
 }
 
 type ProductsResponse {

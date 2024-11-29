@@ -12,7 +12,7 @@ type ProductDetailsDesktopViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds' | 'status'>
 }
 export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
-  productDetail: { description, imageUrls, isOutOfStock, price, productId, thumbnailUrl, title },
+  productDetail: { description, medias, isOutOfStock, price, productId, thumbnailUrl, title },
 }) => {
   const [mainImageURL, setMainImageURL] = useState<string>()
   const { currentUser } = useCurrentUserContext()
@@ -44,19 +44,19 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
               h="98px"
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(imageUrls[0])}
-              border={mainImageURL === imageUrls[0] ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(medias[0].url)}
+              border={mainImageURL === medias[0].url ? '2px solid black' : 'none'}
             />
-            {imageUrls.map((url) => (
+            {medias.map((media) => (
               <Image
                 key={productId}
-                src={url}
+                src={media.url}
                 alt={title}
                 h="98px"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(url)}
-                border={mainImageURL === url ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(media.url)}
+                border={mainImageURL === media.url ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>

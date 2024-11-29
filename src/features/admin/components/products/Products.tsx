@@ -34,6 +34,7 @@ const columns = [
   { name: 'NAME', uid: 'name' },
   { name: 'STOCK', uid: 'quantity' },
   { name: 'PRICE', uid: 'price' },
+  { name: 'STATUS', uid: 'status' },
   { name: 'ACTIONS', uid: 'actions' },
 ]
 
