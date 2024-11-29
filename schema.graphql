@@ -263,10 +263,16 @@ input UpdateProductInput {
     description: String
     price: Float
     categoryIds: [ID!]!
-    mediaFileTypes: [String!]
+    mediaFiles: [MediaFileInput!]!
     thumbnailFileType: String
     quantity: Int
     status: ProductStatus
+    deletedMediaFiles: [ID!]
+}
+
+input MediaFileInput {
+    fileType: String!
+    uuid: ID!
 }
 
 type ProductsResponse {

@@ -29,7 +29,8 @@ import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { Category, Product, ProductStatus, UpdateProductInput } from '@/types'
+import { extractImageUUID } from '@/features/admin/utils/extractImageUUID'
+import { Category, MediaFileInput, Product, ProductStatus, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -106,6 +107,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
   const [deletedMediaIds, setDeletedMediaIds] = useState<Array<string>>([])
   const [activeImage, setActiveImage] = useState<string | null>(null)
 
+  console.info({ deletedMediaIds })
+
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
       productCategories.filter((category) => category.categoryId !== categoryToRemove.categoryId)
@@ -154,7 +157,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     const { title, description, price, quantity, medias, thumbnail } = values
 
     const thumbnailFileType = thumbnail?.type
-    const mediaFileTypes = Array.from(medias).map((file) => (file as File).type)
+    const mediaFileTypes = medias ? Array.from(medias).map((file) => (file as File).type) : []
+    let mediaFilesInput: Array<MediaFileInput> = []
 
     generatePresignedUrls({
       variables: {
@@ -168,29 +172,40 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
       if (data.data?.generatePresignedUrls) {
         const { mediaUrls, thumbnailUrl } = data.data.generatePresignedUrls
 
+        const mediaFileIds = mediaUrls.map((url) => extractImageUUID(url))
+
+        mediaFilesInput = mediaFileIds.map((id, index) => ({
+          uuid: id,
+          fileType: mediaFileTypes[index],
+        }))
+
         void uploadFileToS3(thumbnail as File, thumbnailUrl)
-        Array.from(medias).forEach((file, index) => {
-          void uploadFileToS3(file as File, mediaUrls[index])
+
+        if (medias) {
+          Array.from(medias).forEach((file, index) => {
+            void uploadFileToS3(file as File, mediaUrls[index])
+          })
+        }
+
+        const variables: UpdateProductInput = {
+          title,
+          description,
+          price: parseFloat(price),
+          quantity: parseInt(quantity),
+          categoryIds: productCategories.map((category) => category.categoryId),
+          thumbnailFileType,
+          mediaFiles: mediaFilesInput,
+          status: productStatus,
+          deletedMediaFiles: deletedMediaIds,
+        }
+
+        void updateProduct({
+          variables: {
+            productId,
+            updateProductInput: variables,
+          },
         })
       }
-    })
-
-    const variables: UpdateProductInput = {
-      title,
-      description,
-      price: parseFloat(price),
-      quantity: parseInt(quantity),
-      categoryIds: productCategories.map((category) => category.categoryId),
-      thumbnailFileType,
-      mediaFileTypes,
-      status: productStatus,
-    }
-
-    void updateProduct({
-      variables: {
-        productId,
-        updateProductInput: variables,
-      },
     })
   }
 

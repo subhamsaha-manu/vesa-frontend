@@ -6,7 +6,7 @@ import { MobileViewCard } from './MobileViewCard'
 import { MinifiedProduct } from '@/types'
 
 type WishlistMobileViewProps = {
-  wishlistItems: Array<Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>>
+  wishlistItems: Array<Omit<MinifiedProduct, 'status' | 'id'>>
   onItemClick: (productId: string) => void
   onRemoveClick: (productId: string) => void
 }
