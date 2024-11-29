@@ -20,7 +20,7 @@ import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type MinifiedProductType = Pick<
   MinifiedProduct,
-  'productId' | 'title' | 'price' | 'quantity' | 'thumbnailUrl'
+  'productId' | 'title' | 'price' | 'quantity' | 'thumbnailUrl' | 'status'
 >
 
 type ProductsProps = {
@@ -31,8 +31,8 @@ type ProductsProps = {
 }
 
 const columns = [
-  { name: 'NAME', uid: 'name' },
-  { name: 'STOCK', uid: 'quantity' },
+  { name: 'PRODUCT', uid: 'name' },
+  { name: 'QTY', uid: 'quantity' },
   { name: 'PRICE', uid: 'price' },
   { name: 'STATUS', uid: 'status' },
   { name: 'ACTIONS', uid: 'actions' },
@@ -40,15 +40,14 @@ const columns = [
 
 export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
   const renderCell = useCallback(
-    ({ price, productId, quantity, thumbnailUrl, title }: MinifiedProductType, columnKey: Key) => {
+    (
+      { price, productId, quantity, thumbnailUrl, title, status }: MinifiedProductType,
+      columnKey: Key
+    ) => {
       switch (columnKey) {
         case 'name':
           return (
-            <User
-              avatarProps={{ radius: 'lg', src: thumbnailUrl }}
-              description={title}
-              name={title}
-            >
+            <User avatarProps={{ radius: 'lg', src: thumbnailUrl }} name={title}>
               {title}
             </User>
           )
@@ -62,6 +61,12 @@ export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">{`${INR_CURRENCY_SYMBOL} ${round(price, 2)}`}</p>
+            </div>
+          )
+        case 'status':
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm capitalize">{status}</p>
             </div>
           )
         case 'actions':
