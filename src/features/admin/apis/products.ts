@@ -9,6 +9,7 @@ export const allProductsForAdmin = gql`
         price
         quantity
         thumbnailUrl
+        status
       }
       pageInfo {
         totalPages
