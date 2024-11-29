@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { MinifiedProduct } from '@/types'
 
 type WishlistContentProps = {
-  wishlistItems: Array<Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>>
+  wishlistItems: Array<Omit<MinifiedProduct, 'status' | 'id'>>
   onRemoveClick: (productId: string) => void
   onItemClick: (productId: string) => void
 }
