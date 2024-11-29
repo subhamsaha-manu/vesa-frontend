@@ -1,15 +1,17 @@
 import { Flex, Heading } from '@chakra-ui/react'
 import { FC } from 'react'
 
-import Carousel from './Carousel'
-
+import image1 from '@/assets/images/image1.jpg'
+import image2 from '@/assets/images/image2.jpg'
+import image3 from '@/assets/images/image3.jpg'
+import Carousel from '@/components/elements/Carousel'
 import { Categories } from '@/features/category'
 import { Catalogue } from '@/features/product'
 
 export const Dashboard: FC = () => {
   return (
     <Flex flexGrow={1} w="100%" display-name="dashboard-flex" flexDir="column" gap="64px">
-      <Carousel />
+      <Carousel imageUrls={[image1, image2, image3]} showText />
       <Flex
         display-name="shop-by-category-flex"
         flexDir="column"

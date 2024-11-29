@@ -8,7 +8,7 @@ import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type ProductTileProps = {
-  product: Omit<MinifiedProduct, 'quantity'>
+  product: Omit<MinifiedProduct, 'id' | 'quantity' | 'status'>
 }
 
 export const ProductTile: FC<ProductTileProps> = ({ product }) => {

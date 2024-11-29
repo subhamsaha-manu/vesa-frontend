@@ -13,7 +13,7 @@ type ProductDetailsMobileViewProps = {
   productDetail: Omit<Product, 'id' | 'categoryIds' | 'status'>
 }
 export const ProductDetailsMobileView: FC<ProductDetailsMobileViewProps> = ({ productDetail }) => {
-  const productImages = [...productDetail.imageUrls, productDetail.thumbnailUrl]
+  const productImages = [...productDetail.medias.map((m) => m.url), productDetail.thumbnailUrl]
 
   const settings = {
     dots: true,

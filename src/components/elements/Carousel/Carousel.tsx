@@ -3,10 +3,6 @@ import { CircleArrowLeft01Icon, CircleArrowRight01Icon } from 'hugeicons-react'
 import { FC, useState } from 'react'
 import Slider from 'react-slick'
 
-import image1 from '@/assets/images/image1.jpg'
-import image2 from '@/assets/images/image2.jpg'
-import image3 from '@/assets/images/image3.jpg'
-
 const settings = {
   dots: false,
   arrows: false,
@@ -21,26 +17,16 @@ const settings = {
   touch: true,
 }
 
-export const Carousel: FC = () => {
+type CarouselProps = {
+  imageUrls: Array<string>
+  showText: boolean
+}
+
+export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
   const [slider, setSlider] = useState<Slider | null>(null)
 
   const top = useBreakpointValue({ base: '80%', md: '50%' })
   const side = useBreakpointValue({ base: '30%', md: '10px' })
-
-  const galleryImages = [
-    {
-      id: 1,
-      src: image1,
-    },
-    {
-      id: 2,
-      src: image2,
-    },
-    {
-      id: 3,
-      src: image3,
-    },
-  ]
 
   return (
     <Box
@@ -76,44 +62,46 @@ export const Carousel: FC = () => {
       </IconButton>
 
       <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
-        {galleryImages.map(({ src, id }) => (
+        {imageUrls.map((url, index) => (
           <Box
-            key={id}
+            key={index}
             height="6xl"
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
-            backgroundImage={`url(${src})`}
+            backgroundImage={url}
           />
         ))}
       </Slider>
 
-      <Flex
-        display-name="carousel-text"
-        position="absolute"
-        w="100%"
-        h="100%"
-        justify="center"
-        align="center"
-        top={0}
-        flexDir="column"
-        gap={4}
-      >
-        <Heading size="4xl" fontWeight="700" letterSpacing="20px">
-          VESA
-        </Heading>
-        <Heading
-          size={{ base: 'xl', xl: '2xl' }}
-          color="#FFFFFF"
-          fontWeight="500"
-          style={{
-            wordSpacing: '30px',
-          }}
+      {showText && (
+        <Flex
+          display-name="carousel-text"
+          position="absolute"
+          w="100%"
+          h="100%"
+          justify="center"
+          align="center"
+          top={0}
+          flexDir="column"
+          gap={4}
         >
-          &#34;WE CHOOSE YOU&#34;
-        </Heading>
-      </Flex>
+          <Heading size="4xl" fontWeight="700" letterSpacing="20px">
+            VESA
+          </Heading>
+          <Heading
+            size={{ base: 'xl', xl: '2xl' }}
+            color="#FFFFFF"
+            fontWeight="500"
+            style={{
+              wordSpacing: '30px',
+            }}
+          >
+            &#34;WE CHOOSE YOU&#34;
+          </Heading>
+        </Flex>
+      )}
     </Box>
   )
 }

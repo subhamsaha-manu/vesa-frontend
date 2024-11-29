@@ -6,7 +6,7 @@ import { MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type MobileViewCardProps = {
-  wishlistItem: Omit<MinifiedProduct, 'thumbnailUrl' | 'id'>
+  wishlistItem: Omit<MinifiedProduct, 'status' | 'id'>
   onItemClick: (productId: string) => void
   onRemoveClick: (productId: string) => void
 }
