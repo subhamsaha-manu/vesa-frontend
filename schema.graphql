@@ -267,7 +267,7 @@ input UpdateProductInput {
     thumbnailFileType: String
     quantity: Int
     status: ProductStatus
-    deletedMediaFiles: [ID!]
+    deletedMediaFiles: [MediaFileInput!]
 }
 
 input MediaFileInput {

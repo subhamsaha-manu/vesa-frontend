@@ -29,7 +29,7 @@ import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { extractImageUUID } from '@/features/admin/utils/extractImageUUID'
+import { extractFileType, extractImageUUID } from '@/features/admin/utils/extractImageUUID'
 import { Category, MediaFileInput, Product, ProductStatus, UpdateProductInput } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
@@ -104,10 +104,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
 
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
   const [productStatus, setProductStatus] = useState<ProductStatus>(status)
-  const [deletedMediaIds, setDeletedMediaIds] = useState<Array<string>>([])
+  const [deletedMedias, setDeletedMedias] = useState<Array<MediaFileInput>>([])
   const [activeImage, setActiveImage] = useState<string | null>(null)
-
-  console.info({ deletedMediaIds })
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -196,7 +194,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
           thumbnailFileType,
           mediaFiles: mediaFilesInput,
           status: productStatus,
-          deletedMediaFiles: deletedMediaIds,
+          deletedMediaFiles: deletedMedias,
         }
 
         void updateProduct({
@@ -349,7 +347,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                       <Flex
                         position="relative"
                         key={uuid}
-                        opacity={deletedMediaIds.includes(uuid) ? '0.7' : '1'}
+                        opacity={deletedMedias.map((e) => e.uuid).includes(uuid) ? '0.7' : '1'}
                       >
                         <Image
                           width={200}
@@ -397,7 +395,10 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                             onClick={(e) => {
                               e.preventDefault()
                               e.stopPropagation()
-                              setDeletedMediaIds([...deletedMediaIds, uuid])
+                              setDeletedMedias([
+                                ...deletedMedias,
+                                { uuid, fileType: extractFileType(url) },
+                              ])
                             }}
                           />
                         </Flex>
