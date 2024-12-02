@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
+import { v4 as uuidv4 } from 'uuid'
 
-import { AddProductInput } from '@/types'
+import { AddProductInput, ProductStatus } from '@/types'
 
 const categoryIds = [
   'a73047b6-a146-4ff1-8435-2a2b66a06ecd',
@@ -20,6 +21,7 @@ function makeFactory<T>(template: () => T): () => T {
 }
 
 export const aProductFactory = makeFactory<AddProductInput>(() => ({
+  productId: uuidv4(),
   title: faker.commerce.productName(),
   description: faker.commerce.productDescription(),
   price: faker.number.float({ min: 1, max: 1000, fractionDigits: 2 }),
@@ -27,4 +29,7 @@ export const aProductFactory = makeFactory<AddProductInput>(() => ({
   thumbnailUrl: faker.image.url(),
   categoryIds: getRandomCategoryIds(),
   quantity: faker.number.int({ min: 1, max: 5 }),
+  mediaFiles: [],
+  thumbnailFileType: 'image/jpeg',
+  status: ProductStatus.Published,
 }))

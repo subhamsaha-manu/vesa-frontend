@@ -102,7 +102,7 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
           {authBy === AuthByType.Phone ? 'Email' : 'Phone'}
         </Button>
       </Flex>
-      <Text fontSize={{ base: 'xs', xl: 'md' }} textAlign="center" fontWeight="500">
+      <Text fontSize={{ base: 'xs' }} textAlign="center" fontWeight="300">
         Registering for this site allows you to access your order status and history. We will only
         ask you for information necessary to make the purchase process faster and easier.
       </Text>

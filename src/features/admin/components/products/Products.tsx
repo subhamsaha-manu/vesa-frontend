@@ -47,33 +47,33 @@ export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
       switch (columnKey) {
         case 'name':
           return (
-            <User avatarProps={{ radius: 'lg', src: thumbnailUrl }} name={title}>
+            <User avatarProps={{ radius: 'sm', src: thumbnailUrl, size: 'lg' }} name={title}>
               {title}
             </User>
           )
         case 'quantity':
           return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{quantity}</p>
+            <div>
+              <p>{quantity}</p>
             </div>
           )
         case 'price':
           return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{`${INR_CURRENCY_SYMBOL} ${round(price, 2)}`}</p>
+            <div>
+              <p>{`${INR_CURRENCY_SYMBOL} ${round(price, 2)}`}</p>
             </div>
           )
         case 'status':
           return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{status}</p>
+            <div>
+              <p>{status}</p>
             </div>
           )
         case 'actions':
           return (
-            <div className="relative flex items-center justify-center gap-2">
+            <div>
               <Tooltip content="Edit Product">
-                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                <span>
                   <Link to={`/admin/product/${productId}`}>
                     <EditIcon />
                   </Link>
@@ -115,7 +115,7 @@ export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={data}>
+      <TableBody items={data} emptyContent="No products found">
         {(item) => (
           <TableRow key={item.productId}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

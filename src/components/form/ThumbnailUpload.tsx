@@ -33,7 +33,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   thumbnailUrl,
 }) => {
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null)
-  const [thumbnailPreview, setThumbnailPreview] = useState<any>(thumbnailUrl ?? null)
+  const [thumbnailPreview, setThumbnailPreview] = useState<any>(thumbnailUrl)
 
   const isFieldError = (
     error: FieldError | Merge<FieldError, FieldErrorsImpl<any>>
@@ -104,14 +104,18 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
       />
       <Flex
         data-testid="update-thumbnail-icon"
-        border="5px solid white"
+        boxShadow="0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075)"
         borderRadius="50%"
         position="absolute"
         top="-12px"
-        right="-18px"
+        right="-10px"
         background="white"
         cursor="pointer"
         onClick={triggerThumbnailFileInput}
+        height="30px"
+        width="30px"
+        alignItems="center"
+        justify="center"
       >
         <PencilEdit02Icon size="20" color="#000000" />
         <input

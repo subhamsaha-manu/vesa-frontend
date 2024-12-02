@@ -10,27 +10,25 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Chip, Image, Select, SelectItem, useDisclosure } from '@nextui-org/react'
+import { Chip, Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
-import { BiSolidTrash } from 'react-icons/bi'
-import { PiMagnifyingGlassThin } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import * as z from 'zod'
 
 import { ImageUploader } from './ImageUploader'
 
+import { useAddProductMutation } from '../../apis/addProduct.generated'
 import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
-import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
-import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { extractFileType, extractImageUUID } from '@/features/admin/utils/extractImageUUID'
-import { Category, MediaFileInput, Product, ProductStatus, UpdateProductInput } from '@/types'
+import { extractImageUUID } from '@/features/admin/utils/extractImageUUID'
+import { AddProductInput, Category, MediaFileInput, ProductStatus } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -67,25 +65,14 @@ const schema = z.object({
 
 type CategoryType = Pick<Category, 'categoryId' | 'name'>
 
-type EditContainerFormProps = {
+type AddContainerFormProps = {
   categories: Array<CategoryType>
-  productDetail: Omit<Product, 'id'>
 }
 
-export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
+export const AddContainerForm: FC<AddContainerFormProps> = ({ categories }) => {
   const navigate = useNavigate()
 
-  const {
-    productId,
-    title,
-    description,
-    price,
-    quantity,
-    categoryIds,
-    thumbnailUrl,
-    status,
-    medias,
-  } = productDetail
+  const productId = uuidv4()
 
   const {
     handleSubmit,
@@ -100,12 +87,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     mode: 'onChange',
   })
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
-  const [productStatus, setProductStatus] = useState<ProductStatus>(status)
-  const [deletedMedias, setDeletedMedias] = useState<Array<MediaFileInput>>([])
-  const [activeImage, setActiveImage] = useState<string | null>(null)
+  const [productStatus, setProductStatus] = useState<ProductStatus>(ProductStatus.Draft)
 
   const handleClose = (categoryToRemove: CategoryType) => {
     setProductCategories(
@@ -119,10 +102,10 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     navigate('/admin/products')
   }
 
-  const [updateProduct, { loading }] = useUpdateProductMutation({
+  const [addProduct, { loading }] = useAddProductMutation({
     onCompleted: () => {
       toast({
-        title: 'Product updated successfully',
+        title: 'Product added successfully',
         status: 'success',
         duration: 2000,
         isClosable: true,
@@ -138,16 +121,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     useGeneratePresignedUrlsMutation({
       fetchPolicy: 'network-only',
     })
-
-  useEffect(() => {
-    setProductCategories(
-      categoryIds.map((categoryId) => {
-        const category = categories.find((category) => category.categoryId === categoryId)
-        return category as CategoryType
-      })
-    )
-    setProductStatus(status)
-  }, [categories, categoryIds, productId, status])
 
   const productStatusOptions = Object.entries(ProductStatus).filter((e) => e[0] !== 'All')
 
@@ -185,7 +158,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
           })
         }
 
-        const variables: UpdateProductInput = {
+        const variables: AddProductInput = {
+          productId,
           title,
           description,
           price: parseFloat(price),
@@ -194,13 +168,11 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
           thumbnailFileType,
           mediaFiles: mediaFilesInput,
           status: productStatus,
-          deletedMediaFiles: deletedMedias,
         }
 
-        void updateProduct({
+        void addProduct({
           variables: {
-            productId,
-            updateProductInput: variables,
+            addProductInput: variables,
           },
         })
       }
@@ -209,31 +181,44 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
 
   return (
     <form
-      data-testid="edit-product-form"
+      data-testid="add-product-form"
       style={{ width: '100%' }}
       onSubmit={handleSubmit(handleFormSubmit)}
-      id="edit-product-form"
+      id="add-product-form"
     >
       <Flex
         flexDir={{ base: 'column', xl: 'row' }}
         w="100%"
         gap="32px"
-        data-testid="edit-product-form-flex"
+        data-testid="add-product-form-flex"
       >
         <Flex flexDir="column" w={{ base: '100%', xl: '20%' }} gap="24px">
           <Card variant="elevated" size="md" p="20px">
             <CardHeader>
               <Heading size="md">Thumbnail</Heading>
             </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+            <CardBody
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                flexDirection: 'column',
+                gap: '16px',
+              }}
+            >
               <ThumbnailUpload
                 errors={errors}
                 register={register}
                 setError={setError}
                 setValue={setValue}
                 clearErrors={clearErrors}
-                thumbnailUrl={thumbnailUrl}
+                thumbnailUrl=""
               />
+
+              <Text fontSize="sm" color="gray.500">
+                Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are
+                accepted
+              </Text>
             </CardBody>
           </Card>
           <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">
@@ -318,7 +303,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     control={control}
                     error={errors['title'] as FieldError}
                     isRequired
-                    value={title}
                     placeholder="Enter the name of the product"
                     withRoundBorders={false}
                   />
@@ -328,7 +312,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     control={control}
                     error={errors['description'] as FieldError}
                     isRequired
-                    value={description}
                     placeholder="Enter the description of the product"
                     maxLength={200}
                     showTextLength
@@ -345,80 +328,11 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 </Heading>
               </CardHeader>
               <CardBody p={{ base: '8px', xl: '16px' }}>
-                <Flex flexDir="column" gap="24px">
+                <Flex flexDir="column" gap="8px">
                   <ImageUploader register={register} setValue={setValue} />
-                  <Flex display-name="media-files" flexWrap="wrap" gap="16px">
-                    {medias.map(({ url, uuid }) => (
-                      <Flex
-                        position="relative"
-                        key={uuid}
-                        opacity={deletedMedias.map((e) => e.uuid).includes(uuid) ? '0.7' : '1'}
-                      >
-                        <Image
-                          width={200}
-                          height={300}
-                          src={url}
-                          isBlurred
-                          onClick={onOpen}
-                          style={{ zIndex: 1 }}
-                        />
-                        <Flex
-                          position="absolute"
-                          top="5%"
-                          right="10%"
-                          width="30px"
-                          height="30px"
-                          bg="black"
-                          align="center"
-                          justify="center"
-                          zIndex={2}
-                          borderRadius="25%"
-                          gap={4}
-                          cursor="pointer"
-                          onClick={() => setActiveImage(uuid)}
-                        >
-                          <PiMagnifyingGlassThin size={24} color="#fff" />
-                        </Flex>
-                        <Flex
-                          position="absolute"
-                          top="5%"
-                          right="30%"
-                          width="30px"
-                          height="30px"
-                          bg="black"
-                          align="center"
-                          justify="center"
-                          zIndex={2}
-                          borderRadius="25%"
-                          gap={4}
-                          cursor="pointer"
-                        >
-                          <BiSolidTrash
-                            data-testid="delete-media"
-                            style={{ height: '25px', width: '25px' }}
-                            color="#be2626"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              setDeletedMedias([
-                                ...deletedMedias,
-                                { uuid, fileType: extractFileType(url) },
-                              ])
-                            }}
-                          />
-                        </Flex>
-                        {activeImage === uuid && (
-                          <ImageZoom
-                            imageUrl={url}
-                            isOpen={Boolean(activeImage)}
-                            onOpenChange={(isOpen) => {
-                              if (!isOpen) setActiveImage(null)
-                            }}
-                          />
-                        )}
-                      </Flex>
-                    ))}
-                  </Flex>
+                  <Text fontSize="sm" color="gray.500">
+                    Set the product media gallery.
+                  </Text>
                 </Flex>
               </CardBody>
             </Card>
@@ -438,7 +352,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     control={control}
                     error={errors['price'] as FieldError}
                     isRequired
-                    value={price.toString()}
                     placeholder="Enter the price of the product"
                     withRoundBorders={false}
                   />
@@ -448,7 +361,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                     control={control}
                     error={errors['quantity'] as FieldError}
                     isRequired
-                    value={quantity.toString()}
                     placeholder="Enter the quantity of the product"
                     withRoundBorders={false}
                   />
@@ -467,7 +379,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 type="submit"
                 leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
                 isDisabled={loading || generatingPresignedUrls}
-                form="edit-product-form"
+                form="add-product-form"
               >
                 Save Changes
               </Button>
