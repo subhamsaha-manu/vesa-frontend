@@ -38,6 +38,7 @@ input ProductFilter {
     ids: [ID!]
     categoryIds: [ID!]
     text: String
+    status: ProductStatus
 }
 
 type Product {
