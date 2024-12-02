@@ -48,6 +48,12 @@ const EditProductContainer = lazy(() =>
   }))
 )
 
+const AddProductContainer = lazy(() =>
+  import('@/features/admin/components').then((module) => ({
+    default: module.AddProductContainer,
+  }))
+)
+
 const App = () => {
   return (
     <CurrentUserContextProvider>
@@ -91,6 +97,7 @@ export const AppRoutes = () => {
       { path: 'order/:orderId', element: <AdminOrderDetails /> },
       { path: 'products', element: <ProductsContainer /> },
       { path: 'product/:productId', element: <EditProductContainer /> },
+      { path: 'product/add', element: <AddProductContainer /> },
     ],
   }
 

@@ -18,7 +18,7 @@ export const ProductsContainer: FC = () => {
   const { data, loading } = useAllProductsForAdminQuery({
     variables: {
       productFilter: {
-        status: productStatus,
+        status: productStatus === ProductStatus.All ? undefined : productStatus,
         text: searchText,
       },
       pageNumber: currentPage,

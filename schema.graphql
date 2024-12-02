@@ -80,11 +80,15 @@ input RegisterUserInput {
 }
 
 input AddProductInput {
+    productId: ID!
     title: String!
     description: String!
     price: Float!
     categoryIds: [ID!]!
+    mediaFiles: [MediaFileInput!]!
+    thumbnailFileType: String!
     quantity: Int!
+    status: ProductStatus!
 }
 
 enum UserRole {
@@ -293,6 +297,7 @@ type PresignedUrlsResponse {
 }
 
 enum ProductStatus {
+    ALL
     DRAFT
     PUBLISHED
     INACTIVE

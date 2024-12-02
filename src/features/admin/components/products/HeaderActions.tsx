@@ -3,6 +3,7 @@ import { Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
 import { Search01Icon } from 'hugeicons-react'
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { ProductStatus } from '@/types'
 
@@ -13,6 +14,8 @@ type HeaderActionsProps = {
 
 export const HeaderActions: FC<HeaderActionsProps> = ({ setSearchText, setProductStatus }) => {
   const productStatusOptions = Object.entries(ProductStatus)
+
+  const navigate = useNavigate()
 
   return (
     <Flex flex=".5" justify="flex-end" align="center" gap={4}>
@@ -43,7 +46,12 @@ export const HeaderActions: FC<HeaderActionsProps> = ({ setSearchText, setProduc
           <SelectItem key={status}>{key}</SelectItem>
         ))}
       </Select>
-      <Button variant="solid" colorScheme="blue" minW="fit-content">
+      <Button
+        variant="solid"
+        colorScheme="blue"
+        minW="fit-content"
+        onClick={() => navigate('/admin/product/add')}
+      >
         Add Product
       </Button>
     </Flex>
