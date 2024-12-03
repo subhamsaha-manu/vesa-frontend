@@ -12,6 +12,7 @@ type ContentLayoutProps = {
   showFullPageScroll?: boolean
   showHeaderTitle?: boolean
 }
+
 export const ContentLayout: FC<ContentLayoutProps> = ({
   pageTitle,
   children,

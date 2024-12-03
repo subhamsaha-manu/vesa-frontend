@@ -19,6 +19,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         overflowY="auto"
         maxH={{ base: 'calc(100vh - 60px)', xl: 'calc(100vh - 120px)' }}
         display-name="main-layout-flex-2"
+        gap="24px"
       >
         <Flex
           w="100%"

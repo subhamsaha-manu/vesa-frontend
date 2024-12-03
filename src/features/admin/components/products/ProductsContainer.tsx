@@ -14,15 +14,19 @@ export const ProductsContainer: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [productStatus, setProductStatus] = useState<ProductStatus>()
   const [searchText, setSearchText] = useState<string>()
+  const [rowsPerPage, setRowsPerPage] = useState<number>(15)
 
   const { data, loading } = useAllProductsForAdminQuery({
     variables: {
       productFilter: {
-        status: productStatus === ProductStatus.All ? undefined : productStatus,
+        statuses:
+          productStatus === ProductStatus.All || !productStatus
+            ? [ProductStatus.Published, ProductStatus.Draft, ProductStatus.Inactive]
+            : [productStatus],
         text: searchText,
       },
-      pageNumber: currentPage,
-      pageSize: 20,
+      pageNumber: currentPage === 0 ? 0 : currentPage - 1,
+      pageSize: rowsPerPage,
     },
     fetchPolicy: 'network-only',
   })
@@ -68,7 +72,10 @@ export const ProductsContainer: FC = () => {
             data={data.products.products}
             page={currentPage}
             pages={data.products.pageInfo.totalPages}
+            totalElements={data.products.pageInfo.totalElements}
             setPage={setCurrentPage}
+            rowsPerPage={rowsPerPage}
+            setRowsPerPage={setRowsPerPage}
           />
         </Flex>
       )}

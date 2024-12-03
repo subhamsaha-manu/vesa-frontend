@@ -1,5 +1,5 @@
 import { Image, Modal, ModalBody, ModalContent } from '@nextui-org/react'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 type ImageZoomProps = {
   imageUrl: string
@@ -8,10 +8,13 @@ type ImageZoomProps = {
 }
 
 export const ImageZoom: FC<ImageZoomProps> = ({ imageUrl, isOpen, onOpenChange }) => {
+  const [modalSize, setModalSize] = useState<'sm' | 'md' | 'lg' | 'xl' | 'full'>('md')
+
   return (
     <Modal
       backdrop="opaque"
-      size="3xl"
+      placement="bottom-center"
+      size={modalSize}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{
@@ -19,7 +22,7 @@ export const ImageZoom: FC<ImageZoomProps> = ({ imageUrl, isOpen, onOpenChange }
       }}
     >
       <ModalContent>
-        <ModalBody>
+        <ModalBody onClick={() => setModalSize('xl')}>
           <Image src={imageUrl} />
         </ModalBody>
       </ModalContent>

@@ -24,7 +24,7 @@ export const ReceivedOrdersContainer: FC = () => {
         display-name="admin-orders-header-section"
         justify="space-between"
         w="100%"
-        p={{ base: '10px', xl: '20px' }}
+        p={{ base: '10px', xl: '30px' }}
         background="white"
         h="80px"
         zIndex={2}

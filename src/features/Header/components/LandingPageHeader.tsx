@@ -18,13 +18,12 @@ import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
 import { useWindowSize } from '@/hooks/useWindowSize'
-import { USER_ID } from '@/utils/constants'
+import { MOBILE_VESA_LOGO_URL, USER_ID } from '@/utils/constants'
 import { storage } from '@/utils/storage'
 
 export const LandingPageHeader = () => {
@@ -66,14 +65,6 @@ export const LandingPageHeader = () => {
       path: '/',
     },
     ...categoryMenuOptions,
-    {
-      label: 'About Us',
-      path: '/about-us',
-    },
-    {
-      label: 'Contact Us',
-      path: '/contact-us',
-    },
   ]
 
   return (
@@ -123,7 +114,7 @@ export const LandingPageHeader = () => {
           cursor="pointer"
           onClick={() => navigate('/')}
         >
-          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="200px" />
+          <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="200px" />
         </Flex>
         <Flex
           justify="center"
@@ -134,7 +125,7 @@ export const LandingPageHeader = () => {
           cursor="pointer"
           onClick={() => navigate('/')}
         >
-          <Image src={mobileLogo} objectFit="scale-down" alt="VESA Logo" w="120px" />
+          <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="120px" />
         </Flex>
         <Flex
           flex={{ base: 1 }}

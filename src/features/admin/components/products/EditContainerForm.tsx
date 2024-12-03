@@ -10,12 +10,11 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Chip, Image, Select, SelectItem, useDisclosure } from '@nextui-org/react'
+import { Chip, Image, Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
 import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { BiSolidTrash } from 'react-icons/bi'
-import { PiMagnifyingGlassThin } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
@@ -30,7 +29,14 @@ import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { extractFileType, extractImageUUID } from '@/features/admin/utils/extractImageUUID'
-import { Category, MediaFileInput, Product, ProductStatus, UpdateProductInput } from '@/types'
+import {
+  Category,
+  GenerateUrlFor,
+  MediaFileInput,
+  Product,
+  ProductStatus,
+  UpdateProductInput,
+} from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -100,8 +106,6 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     mode: 'onChange',
   })
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
   const [productCategories, setProductCategories] = useState<Array<CategoryType>>([])
   const [productStatus, setProductStatus] = useState<ProductStatus>(status)
   const [deletedMedias, setDeletedMedias] = useState<Array<MediaFileInput>>([])
@@ -161,7 +165,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
     generatePresignedUrls({
       variables: {
         generatePresignedUrlsInput: {
-          productId,
+          generateUrlFor: GenerateUrlFor.Product,
+          id: productId,
           thumbnailFileType,
           mediaFileTypes,
         },
@@ -355,37 +360,22 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                         opacity={deletedMedias.map((e) => e.uuid).includes(uuid) ? '0.7' : '1'}
                       >
                         <Image
-                          width={200}
-                          height={300}
                           src={url}
                           isBlurred
-                          onClick={onOpen}
-                          style={{ zIndex: 1 }}
+                          onClick={() => {
+                            setActiveImage(uuid)
+                          }}
+                          style={{ zIndex: 1, cursor: 'zoom-in' }}
                         />
                         <Flex
                           position="absolute"
-                          top="5%"
-                          right="10%"
-                          width="30px"
-                          height="30px"
-                          bg="black"
-                          align="center"
-                          justify="center"
-                          zIndex={2}
-                          borderRadius="25%"
-                          gap={4}
-                          cursor="pointer"
-                          onClick={() => setActiveImage(uuid)}
-                        >
-                          <PiMagnifyingGlassThin size={24} color="#fff" />
-                        </Flex>
-                        <Flex
-                          position="absolute"
-                          top="5%"
-                          right="30%"
-                          width="30px"
-                          height="30px"
-                          bg="black"
+                          bottom="5%"
+                          right="5%"
+                          width="40px"
+                          height="32px"
+                          bg="#f5f5f5"
+                          opacity="98.0%"
+                          transition="opacity .1s ease-in-out, visibility .1s ease-in-out;"
                           align="center"
                           justify="center"
                           zIndex={2}
@@ -395,8 +385,8 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                         >
                           <BiSolidTrash
                             data-testid="delete-media"
-                            style={{ height: '25px', width: '25px' }}
-                            color="#be2626"
+                            style={{ height: '20px', width: '20px' }}
+                            color="#555555"
                             onClick={(e) => {
                               e.preventDefault()
                               e.stopPropagation()

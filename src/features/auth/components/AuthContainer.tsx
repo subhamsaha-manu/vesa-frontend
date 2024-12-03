@@ -21,31 +21,33 @@ const AuthContainer: FC = () => {
   const [authBy, setAuthBy] = useState<AuthByType>(AuthByType.Email)
 
   return (
-    <Flex
-      display-name="auth-modal-content-flex"
-      w="100%"
-      flexDir="column"
-      gap={6}
-      borderRadius="24px"
-      maxW="420px"
-      p={{ base: '12px' }}
-      border="1px solid black"
-      m="auto"
-    >
-      {authContainerStep === AuthContainerStepEnum.REQUEST_OTP && (
-        <RequestOtpStep
-          onSuccess={setAuthContainerStep}
-          setSentTo={setSendTo}
-          authBy={authBy}
-          setAuthBy={setAuthBy}
-        />
-      )}
-      {authContainerStep === AuthContainerStepEnum.VERIFY_OTP && (
-        <VerifyOtpStep sendTo={sendTo} navigateToStep={setAuthContainerStep} authBy={authBy} />
-      )}
-      {authContainerStep === AuthContainerStepEnum.BASIC_INFO && (
-        <UserBasicDetails sendTo={sendTo} authBy={authBy} />
-      )}
+    <Flex display-name="auth-modal-outer-flex" h="80vh" w="100%">
+      <Flex
+        display-name="auth-modal-content-flex"
+        w="100%"
+        flexDir="column"
+        gap={6}
+        borderRadius="24px"
+        maxW="420px"
+        p={{ base: '12px' }}
+        border="1px solid black"
+        m="auto"
+      >
+        {authContainerStep === AuthContainerStepEnum.REQUEST_OTP && (
+          <RequestOtpStep
+            onSuccess={setAuthContainerStep}
+            setSentTo={setSendTo}
+            authBy={authBy}
+            setAuthBy={setAuthBy}
+          />
+        )}
+        {authContainerStep === AuthContainerStepEnum.VERIFY_OTP && (
+          <VerifyOtpStep sendTo={sendTo} navigateToStep={setAuthContainerStep} authBy={authBy} />
+        )}
+        {authContainerStep === AuthContainerStepEnum.BASIC_INFO && (
+          <UserBasicDetails sendTo={sendTo} authBy={authBy} />
+        )}
+      </Flex>
     </Flex>
   )
 }

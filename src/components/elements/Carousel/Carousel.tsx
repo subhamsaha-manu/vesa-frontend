@@ -87,7 +87,7 @@ export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
           flexDir="column"
           gap={4}
         >
-          <Heading size="4xl" fontWeight="700" letterSpacing="20px">
+          <Heading size="4xl" fontWeight="700" letterSpacing="20px" color="#e5e2db">
             VESA
           </Heading>
           <Heading

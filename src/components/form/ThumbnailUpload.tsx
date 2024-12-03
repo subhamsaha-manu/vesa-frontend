@@ -22,6 +22,7 @@ type ThumbnailUploadProps = {
   setValue: UseFormSetValue<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
   thumbnailUrl?: string | null
+  fieldName?: string
 }
 
 export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
@@ -31,6 +32,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   setValue,
   clearErrors,
   thumbnailUrl,
+  fieldName = 'thumbnail',
 }) => {
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null)
   const [thumbnailPreview, setThumbnailPreview] = useState<any>(thumbnailUrl)
@@ -59,26 +61,26 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
     const fileExtension = fileName.split('.').pop()?.toLowerCase() || ''
 
     if (fileSize > MAX_THUMBNAIL_FILE_SIZE) {
-      setError('thumbnail', {
+      setError(fieldName, {
         type: 'manual',
         message: `Thumbnail size must be less than ${MAX_THUMBNAIL_FILE_SIZE / (1024 * 1024)} MB`,
       })
     } else if (!ALLOWED_THUMBNAIL_FILE_TYPES.includes(fileExtension)) {
-      setError('thumbnail', {
+      setError(fieldName, {
         type: 'manual',
         message: `Invalid thumbnail file type. Allowed types: ${ALLOWED_THUMBNAIL_FILE_TYPES.join(
           ', '
         )}`,
       })
     } else {
-      clearErrors('thumbnail')
+      clearErrors(fieldName)
 
       const reader = new FileReader()
       reader.onloadend = () => {
         setThumbnailPreview(reader.result)
       }
       reader.readAsDataURL(thumbnailFile)
-      setValue('thumbnail', thumbnailFile)
+      setValue(fieldName, thumbnailFile)
     }
   }
 
@@ -89,7 +91,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   }
 
   return (
-    <FormControl isInvalid={!!errors['thumbnail']}>
+    <FormControl isInvalid={!!errors[fieldName]}>
       <Flex
         boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
         borderRadius="8px"
@@ -120,14 +122,14 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
         <PencilEdit02Icon size="20" color="#000000" />
         <input
           style={{ display: 'none' }}
-          {...register('thumbnail')}
+          {...register(fieldName)}
           ref={thumbnailFileInputRef}
           type="file"
           onChange={validateThumbnailFile}
           data-testid="upload-thumbnail-input"
         />
       </Flex>
-      {errors['thumbnail'] && (
+      {errors[fieldName] && (
         <Flex display-name="field-wrapper-error-box-div" alignItems="center" w="100%">
           <FormErrorMessage>
             {errors.thumbnail && isFieldError(errors.thumbnail) ? errors.thumbnail.message : null}

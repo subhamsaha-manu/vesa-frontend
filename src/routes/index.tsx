@@ -54,6 +54,18 @@ const AddProductContainer = lazy(() =>
   }))
 )
 
+const CategoriesContainer = lazy(() =>
+  import('@/features/admin/components').then((module) => ({
+    default: module.CategoriesContainer,
+  }))
+)
+
+const EditCategoryContainer = lazy(() =>
+  import('@/features/admin/components').then((module) => ({
+    default: module.EditCategoryContainer,
+  }))
+)
+
 const App = () => {
   return (
     <CurrentUserContextProvider>
@@ -98,6 +110,8 @@ export const AppRoutes = () => {
       { path: 'products', element: <ProductsContainer /> },
       { path: 'product/:productId', element: <EditProductContainer /> },
       { path: 'product/add', element: <AddProductContainer /> },
+      { path: 'categories', element: <CategoriesContainer /> },
+      { path: 'category/:categoryId', element: <EditCategoryContainer /> },
     ],
   }
 
