@@ -6,6 +6,7 @@ import { ProductTile } from './ProductTile'
 import { useProductsQuery } from '../apis/products.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import { ProductStatus } from '@/types'
 
 type CatalogueProps = {
   categoryIds?: Array<string>
@@ -16,6 +17,7 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
     variables: {
       productFilter: {
         categoryIds,
+        statuses: [ProductStatus.Published],
       },
       pageNumber: 0,
       pageSize: 100,

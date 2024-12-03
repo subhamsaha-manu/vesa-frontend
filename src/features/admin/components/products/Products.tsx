@@ -11,7 +11,7 @@ import {
   User,
 } from '@nextui-org/react'
 import round from 'lodash/round'
-import { FC, Key, useCallback } from 'react'
+import { ChangeEvent, FC, Key, useCallback, useMemo } from 'react'
 import '../table.css'
 import { Link } from 'react-router-dom'
 
@@ -25,9 +25,12 @@ type MinifiedProductType = Pick<
 
 type ProductsProps = {
   data: Array<MinifiedProductType>
+  totalElements: number
   page: number
   setPage: (page: number) => void
   pages: number
+  rowsPerPage: number
+  setRowsPerPage: (rowsPerPage: number) => void
 }
 
 const columns = [
@@ -38,7 +41,20 @@ const columns = [
   { name: 'ACTIONS', uid: 'actions' },
 ]
 
-export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
+export const Products: FC<ProductsProps> = ({
+  data,
+  totalElements,
+  pages,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+}) => {
+  const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    setRowsPerPage(Number(e.target.value))
+    setPage(1)
+  }, [])
+
   const renderCell = useCallback(
     (
       { price, productId, quantity, thumbnailUrl, title, status }: MinifiedProductType,
@@ -88,16 +104,43 @@ export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
     []
   )
 
+  const topContent = useMemo(() => {
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <span className="text-default-400 text-small">Total {totalElements} products</span>
+          <label className="flex items-center text-default-400 text-small">
+            Rows per page:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+              value={rowsPerPage}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    )
+  }, [onRowsPerPageChange, data.length])
+
   return (
     <Table
       aria-label="All Products"
+      isHeaderSticky
+      bottomContentPlacement="outside"
+      topContentPlacement="outside"
+      topContent={topContent}
       bottomContent={
         <div className="flex w-full justify-center">
           <Pagination
             isCompact
             showControls
             showShadow
-            color="secondary"
+            color="primary"
             page={page}
             total={pages}
             onChange={(page) => setPage(page)}
@@ -105,7 +148,7 @@ export const Products: FC<ProductsProps> = ({ data, pages, page, setPage }) => {
         </div>
       }
       classNames={{
-        wrapper: 'min-h-[222px] py-4',
+        wrapper: 'max-h-[682px] py-4',
       }}
     >
       <TableHeader columns={columns}>

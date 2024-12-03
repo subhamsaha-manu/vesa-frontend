@@ -17,6 +17,7 @@ import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContex
 import { useMinifiedProductDetailsQuery } from '@/features/user-cart/apis/minifiedProductDetails.generated'
 import { UserCartMobileView } from '@/features/user-cart/components/UserCartMobileView'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { ProductStatus } from '@/types'
 
 const UserCart: FC = () => {
   const navigate = useNavigate()
@@ -38,6 +39,7 @@ const UserCart: FC = () => {
     variables: {
       productFilter: {
         ids: data?.userCart.map((item) => item.productId),
+        statuses: [ProductStatus.Published],
       },
       pageNumber: 0,
       pageSize: 100,
