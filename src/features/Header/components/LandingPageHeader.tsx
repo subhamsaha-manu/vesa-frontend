@@ -143,7 +143,7 @@ export const LandingPageHeader = () => {
               _hover={{ cursor: 'pointer' }}
               onClick={() => navigate(path)}
             >
-              <Text fontSize="md" color="subtle">
+              <Text fontSize="xl" color="subtle">
                 {label}
               </Text>
             </Flex>
@@ -151,10 +151,10 @@ export const LandingPageHeader = () => {
         </Flex>
         <Flex
           display-name="landing-page-header-search-product-flex"
-          mr="70px"
+          mr="20px"
           display={{ base: 'none', md: 'flex' }}
         >
-          <InputGroup>
+          <InputGroup width="400px">
             <InputLeftElement pointerEvents="none">
               <Search01Icon color="gray.300" size={20} />
             </InputLeftElement>
