@@ -1,11 +1,17 @@
-import { Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Heading, Image, Text, useColorModeValue } from '@chakra-ui/react'
 import { Mail01Icon, WhatsappIcon } from 'hugeicons-react'
 import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
+import { Copyright } from './Copyright'
+import { SEOContent } from './SEOContent'
+
+import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const Footer = () => {
   const size = useWindowSize()
+  const navigate = useNavigate()
 
   const { width } = size
 
@@ -21,21 +27,80 @@ export const Footer = () => {
       position="relative"
       bottom="0"
       left="0"
+      background="#e5e2db"
+      p={{ base: '20px 0 10px 0', xl: '30px 173px' }}
     >
-      <Flex
-        w="100%"
-        display-name="customer-care-flex"
-        maxW="1230px"
-        margin="auto"
-        p={{ base: '20px 0 10px 0', xl: '40px 0 20px 0' }}
-      >
-        <Flex
-          align="flex-start"
-          w="100%"
-          flexDir="column"
-          gap={4}
-          p={{ base: '0 10px', xl: '0 20px' }}
-        >
+      <Flex w="100%" display-name="app-footer-flex" gap="32px">
+        <Flex flexDir="column" gap={4} display-name="about-vesa">
+          <Flex display-name="mobile" gap={2} flexDir="column">
+            <Image src={mobileLogo} objectFit="fill" alt="VESA Logo" w="255px" h="50px" />
+            <Text fontSize="sm">
+              Discover a consciously elevated & responsibly crafted fashion brand, with an Indian
+              heart.
+            </Text>
+          </Flex>
+          <Flex display-name="mobile" gap={2} flexDir="column">
+            <Heading fontSize={{ base: 'sm', xl: 'md' }}>Shop Securely Using:</Heading>
+            <Text fontSize="sm">mail.vesa.team@gmail.com</Text>
+          </Flex>
+        </Flex>
+
+        <Flex flexDir="column" gap={4} display-name="important-links">
+          <Heading fontSize={{ base: 'sm', xl: 'md' }}>Quick Links</Heading>
+          <Flex display-name="mobile" gap={2} flexDir="column">
+            <Link to="/about-us">
+              <Text fontSize="sm" color="subtle">
+                About Us
+              </Text>
+            </Link>
+            <Link to="/contact-us">
+              <Text fontSize="sm" color="subtle">
+                Contact Us
+              </Text>
+            </Link>
+            <Link to="">
+              <Text fontSize="sm" color="subtle">
+                Terms & Conditions
+              </Text>
+            </Link>
+          </Flex>
+        </Flex>
+        <Flex flexDir="column" gap={4} display-name="account-related-links">
+          <Heading fontSize={{ base: 'sm', xl: 'md' }}>Account</Heading>
+          <Flex display-name="mobile" gap={2} flexDir="column">
+            <Link to="/about-us">
+              <Text fontSize="sm" color="subtle">
+                My Account
+              </Text>
+            </Link>
+            <Link to="/contact-us">
+              <Text fontSize="sm" color="subtle">
+                Refund Policy
+              </Text>
+            </Link>
+            <Link to="">
+              <Text fontSize="sm" color="subtle">
+                Privacy Policy
+              </Text>
+            </Link>
+            <Link to="">
+              <Text fontSize="sm" color="subtle">
+                Shipping Policy
+              </Text>
+            </Link>
+            <Link to="">
+              <Text fontSize="sm" color="subtle">
+                FAQ
+              </Text>
+            </Link>
+            <Link to="">
+              <Text fontSize="sm" color="subtle">
+                Return/Exchange
+              </Text>
+            </Link>
+          </Flex>
+        </Flex>
+        <Flex flexDir="column" gap={4} display-name="customer-care">
           <Heading fontSize={{ base: 'sm', xl: 'md' }}>Reach us at</Heading>
           <Flex display-name="mobile" gap={2}>
             <WhatsappIcon size={isMobile ? 18 : 24} color="#25d366" />
@@ -47,13 +112,8 @@ export const Footer = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex w="100%" p="20px 0" h="66px" background="#e5e2db">
-        <Flex w="100%" maxW="1230px" margin="auto">
-          <Text fontSize="sm" color="subtle">
-            Copyright &copy; {new Date().getFullYear()}, VESA All Rights Reserved.
-          </Text>
-        </Flex>
-      </Flex>
+      <SEOContent />
+      <Copyright />
     </Flex>
   )
 }

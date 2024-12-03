@@ -66,14 +66,6 @@ export const LandingPageHeader = () => {
       path: '/',
     },
     ...categoryMenuOptions,
-    {
-      label: 'About Us',
-      path: '/about-us',
-    },
-    {
-      label: 'Contact Us',
-      path: '/contact-us',
-    },
   ]
 
   return (

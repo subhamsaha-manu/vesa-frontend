@@ -28,10 +28,11 @@ export const ProductTile: FC<ProductTileProps> = ({ product }) => {
         overflow: 'hidden',
         backgroundColor: '#fff',
         position: 'relative',
+        borderRadius: '12px',
       }}
       onClick={() => navigate(`/product/${productId}`)}
     >
-      <Flex flexDir="column" borderRadius={2}>
+      <Flex flexDir="column" borderRadius={2} display-name="product-tile-flex">
         <Image
           src={imageUrls[0]}
           alt={title}
