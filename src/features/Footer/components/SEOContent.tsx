@@ -8,8 +8,8 @@ export const SEOContent: FC = () => {
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
 
   return (
-    <Flex w="100%" display-name="app-footer-seo-content" mt="50px">
-      <Accordion variant="splitted">
+    <Flex w="100%" display-name="app-footer-seo-content" mt="50px" p={{ base: '0 20px', xl: '0' }}>
+      <Accordion variant="splitted" style={{ padding: 0 }}>
         <AccordionItem
           key="anchor"
           aria-label="Anchor"

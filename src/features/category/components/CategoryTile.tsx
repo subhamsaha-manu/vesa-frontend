@@ -8,8 +8,10 @@ import { Category } from '@/types'
 type CategoryTileProps = {
   category: Omit<Category, 'description'>
 }
+
 export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
   const navigate = useNavigate()
+
   return (
     <Flex
       display-name="category-tile-flex"
@@ -27,13 +29,7 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
       // h={{ base: '150px', xl: '150px' }}
     >
       {/*<Image src={category.imageUrl} alt={category.name} loading="lazy" h="330px" w="300px" />*/}
-      <Image
-        src={category.imageUrl}
-        alt={category.name}
-        loading="lazy"
-        h={{ base: '370px', xl: 'auto' }}
-        w="100%"
-      />
+      <Image src={category.imageUrl} alt={category.name} loading="lazy" h="370px" w="100%" />
       <Flex
         display-name="category-name-flex"
         position="absolute"

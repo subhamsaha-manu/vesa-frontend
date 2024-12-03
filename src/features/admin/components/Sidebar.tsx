@@ -51,6 +51,21 @@ export const Sidebar = () => {
             <Text fontSize="md">All Products</Text>
           </Flex>
         </Link>
+        <Link to="categories">
+          <Flex
+            display-name="account-nav-item"
+            align="center"
+            gap={4}
+            p={{ base: '0 10px', xl: '0 20px' }}
+            cursor="pointer"
+            h="53px"
+            borderTop="1px solid #f6f6f6"
+            _hover={{ bg: 'gray.200' }}
+          >
+            <CheckListIcon size={20} color="#000000" />
+            <Text fontSize="md">All Categories</Text>
+          </Flex>
+        </Link>
         <Flex
           display-name="account-nav-item"
           align="center"

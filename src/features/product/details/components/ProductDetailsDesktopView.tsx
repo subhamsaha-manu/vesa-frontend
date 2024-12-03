@@ -24,24 +24,11 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
   return (
     <ContentLayout pageTitle={title} showFullPageScroll>
       <Flex display-name="main-product-section" w="100%" gap={6} pt="30px">
-        <Flex display-name="product-gallery" position="relative" w="57%" pl="104px">
-          <Flex display-name="primary-image" position="relative" overflow="hidden" h="597px">
-            <Image src={mainImageURL} alt={title} />
-          </Flex>
-          <Flex
-            display-name="thumbnail-images"
-            flexDir="column"
-            gap={4}
-            w="74px"
-            position="absolute"
-            top={0}
-            left={0}
-            mr="30px"
-          >
+        <Flex display-name="product-gallery" w="57%" gap="32px">
+          <Flex display-name="thumbnail-images" flexDir="column" gap={4} w="200px">
             <Image
               src={thumbnailUrl}
               alt={title}
-              h="98px"
               w="100%"
               cursor="pointer"
               onClick={() => setMainImageURL(medias[0].url)}
@@ -52,13 +39,23 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
                 key={productId}
                 src={media.url}
                 alt={title}
-                h="98px"
+                h="auto"
                 w="100%"
                 cursor="pointer"
                 onClick={() => setMainImageURL(media.url)}
                 border={mainImageURL === media.url ? '2px solid black' : 'none'}
               />
             ))}
+          </Flex>
+          <Flex display-name="primary-image" overflow="hidden" w="100%">
+            <Image
+              src={mainImageURL}
+              alt={title}
+              transition="transform 0.3s ease"
+              _hover={{
+                transform: 'scale(1.5)',
+              }}
+            />
           </Flex>
         </Flex>
         <Flex display-name="product-summary" w="43%" flexDir="column" gap={4}>

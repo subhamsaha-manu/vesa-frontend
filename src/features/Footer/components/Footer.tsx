@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Copyright } from './Copyright'
 import { SEOContent } from './SEOContent'
 
-import mobileLogo from '@/assets/logo/vesa-logo-mobile.jpg'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { VESA_LOGO_URL } from '@/utils/constants'
 
 export const Footer = () => {
   const size = useWindowSize()
@@ -30,10 +30,16 @@ export const Footer = () => {
       background="#e5e2db"
       p={{ base: '20px 0 10px 0', xl: '30px 173px' }}
     >
-      <Flex w="100%" display-name="app-footer-flex" gap="32px">
+      <Flex
+        w="100%"
+        display-name="app-footer-flex"
+        gap="32px"
+        flexDir={{ base: 'column', xl: 'row' }}
+        p={{ base: '0 20px', xl: '0' }}
+      >
         <Flex flexDir="column" gap={4} display-name="about-vesa">
           <Flex display-name="mobile" gap={2} flexDir="column">
-            <Image src={mobileLogo} objectFit="fill" alt="VESA Logo" w="255px" h="50px" />
+            <Image src={VESA_LOGO_URL} objectFit="fill" alt="VESA Logo" h="200px" w="200px" />
             <Text fontSize="sm">
               Discover a consciously elevated & responsibly crafted fashion brand, with an Indian
               heart.

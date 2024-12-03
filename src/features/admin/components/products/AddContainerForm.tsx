@@ -28,7 +28,7 @@ import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { extractImageUUID } from '@/features/admin/utils/extractImageUUID'
-import { AddProductInput, Category, MediaFileInput, ProductStatus } from '@/types'
+import { AddProductInput, Category, GenerateUrlFor, MediaFileInput, ProductStatus } from '@/types'
 import {
   INR_CURRENCY_SYMBOL,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -134,7 +134,8 @@ export const AddContainerForm: FC<AddContainerFormProps> = ({ categories }) => {
     generatePresignedUrls({
       variables: {
         generatePresignedUrlsInput: {
-          productId,
+          generateUrlFor: GenerateUrlFor.Product,
+          id: productId,
           thumbnailFileType,
           mediaFileTypes,
         },

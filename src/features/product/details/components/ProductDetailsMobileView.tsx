@@ -29,7 +29,7 @@ export const ProductDetailsMobileView: FC<ProductDetailsMobileViewProps> = ({ pr
     <ContentLayout pageTitle={productDetail.title} showFullPageScroll>
       <Flex w="100%" gap={4} pt="10px" flexDir="column">
         <Flex w="100%">
-          <Text fontSize="xs">{productDetail.title}</Text>
+          <Text fontSize="lg">{productDetail.title}</Text>
         </Flex>
         <SliderWrapper display-name="product-images-slider">
           <Slider {...settings}>
@@ -46,7 +46,7 @@ export const ProductDetailsMobileView: FC<ProductDetailsMobileViewProps> = ({ pr
             ))}
           </Slider>
         </SliderWrapper>
-        <Flex w="100%" flexDir="column" gap={4}>
+        <Flex w="100%" flexDir="column" gap={4} mt={4}>
           <Text fontSize="md">{productDetail.title}</Text>
           <Text fontSize="md" as="b">
             {INR_CURRENCY_SYMBOL} {productDetail.price}

@@ -1,9 +1,11 @@
 type Query {
     products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
     product(productId: ID!): Product!
+    category(categoryId: ID!): Category!
     categories: [Category!]!
     userCart: [CartItem!]!
     userWishlist: [MinifiedProduct!]!
+    users: [User!]!
     shippingAddresses: [ShippingAddress!]!
     shippingAddress(addressId: ID!): ShippingAddress!
     userOrderHistory: [MinifiedOrder!]!
@@ -14,10 +16,13 @@ type Query {
 }
 
 type Mutation {
+    register(registerUserInput: RegisterUserInput!): ID!
     addProduct(addProductInput: AddProductInput!): Boolean!
+    addProducts(addProductsInput: [AddProductInput!]!): Boolean!
+    addCategory(addCategoriesInput: AddCategoryInput!): Boolean!
     addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
     addProductToCart(productId: ID!): Boolean!
-    removeProductFromCart(productId: ID, removeAll: Boolean): Boolean!
+    removeProductFromCart(productId: ID!, removeAll: Boolean): Boolean!
     addProductToWishlist(productId: ID!): Boolean!
     removeProductFromWishlist(productId: ID!): Boolean!
     emptyCart: Boolean!
@@ -28,9 +33,9 @@ type Mutation {
     removeShippingAddress(addressId: ID!): Boolean!
     requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
     verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
-    register(registerUserInput: RegisterUserInput!): ID!
     updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
     updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
+    updateCategory(categoryId: ID!, updateCategoryInput: UpdateCategoryInput!): Boolean!
     generatePresignedUrls(generatePresignedUrlsInput: GeneratePresignedUrlsInput!): PresignedUrlsResponse!
 }
 
@@ -91,11 +96,6 @@ input AddProductInput {
     status: ProductStatus!
 }
 
-enum UserRole {
-    ADMIN
-    USER
-}
-
 type Category {
     categoryId: ID!
     name: String!
@@ -104,9 +104,10 @@ type Category {
 }
 
 input AddCategoryInput {
+    categoryId: ID!
     name: String!
     description: String!
-    imageUrl: String!
+    imageUrlType: String!
 }
 
 type CartItem {
@@ -115,6 +116,19 @@ type CartItem {
     price: Float!
     imageUrl: String!
     quantity: Int!
+}
+
+enum UserRole {
+    ADMIN
+    USER
+}
+
+type User {
+    userId: ID!
+    name: String!
+    email: String
+    phoneNumber: String
+    isAdmin: Boolean!
 }
 
 input PlaceOrderInput {
@@ -145,7 +159,7 @@ enum ModeOfPayment {
     COD
 }
 
-type Order {
+type  Order {
     orderId: ID!
     name: String!
     email: String!
@@ -208,14 +222,6 @@ type ShippingAddress {
     pincode: String!
     addressType: AddressType!
     isDefault: Boolean!
-}
-
-type User {
-    userId: ID!
-    name: String!
-    email: String
-    phoneNumber: String
-    isAdmin: Boolean!
 }
 
 type MinifiedOrder {
@@ -286,7 +292,8 @@ type ProductsResponse {
 }
 
 input GeneratePresignedUrlsInput {
-    productId: ID!
+    generateUrlFor: GenerateUrlFor!
+    id: ID!
     mediaFileTypes: [String!]!
     thumbnailFileType: String
 }
@@ -296,11 +303,22 @@ type PresignedUrlsResponse {
     thumbnailUrl: String!
 }
 
+enum GenerateUrlFor {
+    PRODUCT
+    CATEGORY
+}
+
 enum ProductStatus {
     ALL
-    DRAFT
     PUBLISHED
+    DRAFT
     INACTIVE
+}
+
+input UpdateCategoryInput {
+    name: String
+    description: String
+    mediaFileType: String
 }
 
 schema {
