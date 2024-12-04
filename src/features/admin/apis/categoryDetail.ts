@@ -7,6 +7,7 @@ export const category = gql`
       name
       description
       imageUrl
+      status
     }
   }
 `

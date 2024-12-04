@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const product = gql`
-  query productDetail($productId: ID!) {
+  query productDetail($productId: ID!, $categoryFilter: CategoryFilter!) {
     product(productId: $productId) {
       productId
       title
@@ -17,7 +17,7 @@ export const product = gql`
       isOutOfStock
       categoryIds
     }
-    categories {
+    categories(categoryFilter: $categoryFilter) {
       categoryId
       name
     }

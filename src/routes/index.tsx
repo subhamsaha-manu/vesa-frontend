@@ -66,6 +66,12 @@ const EditCategoryContainer = lazy(() =>
   }))
 )
 
+const AddCategoryContainer = lazy(() =>
+  import('@/features/admin/components').then((module) => ({
+    default: module.AddCategoryContainer,
+  }))
+)
+
 const App = () => {
   return (
     <CurrentUserContextProvider>
@@ -112,6 +118,7 @@ export const AppRoutes = () => {
       { path: 'product/add', element: <AddProductContainer /> },
       { path: 'categories', element: <CategoriesContainer /> },
       { path: 'category/:categoryId', element: <EditCategoryContainer /> },
+      { path: 'category/add', element: <AddCategoryContainer /> },
     ],
   }
 

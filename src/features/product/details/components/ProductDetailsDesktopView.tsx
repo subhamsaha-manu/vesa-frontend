@@ -1,5 +1,6 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
+import ReactImageMagnify from 'react-image-magnify'
 
 import { ContentLayout } from '@/components/Layout'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
@@ -14,7 +15,7 @@ type ProductDetailsDesktopViewProps = {
 export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
   productDetail: { description, medias, isOutOfStock, price, productId, thumbnailUrl, title },
 }) => {
-  const [mainImageURL, setMainImageURL] = useState<string>()
+  const [mainImageURL, setMainImageURL] = useState<string>(thumbnailUrl)
   const { currentUser } = useCurrentUserContext()
 
   useEffect(() => {
@@ -31,29 +32,41 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
               alt={title}
               w="100%"
               cursor="pointer"
-              onClick={() => setMainImageURL(medias[0].url)}
-              border={mainImageURL === medias[0].url ? '2px solid black' : 'none'}
+              onClick={() => setMainImageURL(thumbnailUrl)}
+              border={mainImageURL === thumbnailUrl ? '2px solid black' : 'none'}
             />
-            {medias.map((media) => (
+            {medias.map(({ url, uuid }) => (
               <Image
-                key={productId}
-                src={media.url}
+                key={uuid}
+                src={url}
                 alt={title}
                 h="auto"
                 w="100%"
                 cursor="pointer"
-                onClick={() => setMainImageURL(media.url)}
-                border={mainImageURL === media.url ? '2px solid black' : 'none'}
+                onClick={() => setMainImageURL(url)}
+                border={mainImageURL === url ? '2px solid black' : 'none'}
               />
             ))}
           </Flex>
-          <Flex display-name="primary-image" overflow="hidden" w="100%">
-            <Image
-              src={mainImageURL}
-              alt={title}
-              transition="transform 0.3s ease"
-              _hover={{
-                transform: 'scale(1.5)',
+          <Flex display-name="primary-image" w="100%">
+            <ReactImageMagnify
+              {...{
+                smallImage: {
+                  isFluidWidth: true,
+                  src: mainImageURL,
+                },
+                largeImage: {
+                  src: mainImageURL,
+                  width: 800,
+                  height: 1800,
+                },
+                enlargedImageContainerStyle: {
+                  zIndex: 9,
+                  border: '1px solid #ddd',
+                  background: '#fff',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                },
+                enlargedImagePosition: 'beside',
               }}
             />
           </Flex>

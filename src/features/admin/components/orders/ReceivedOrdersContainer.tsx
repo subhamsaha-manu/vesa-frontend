@@ -9,11 +9,12 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 
 export const ReceivedOrdersContainer: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0)
+  const [rowsPerPage, setRowsPerPage] = useState<number>(15)
 
   const { data, loading } = useOrdersQuery({
     variables: {
-      pageNumber: 0,
-      pageSize: 10,
+      pageNumber: currentPage === 0 ? 0 : currentPage - 1,
+      pageSize: rowsPerPage,
     },
     fetchPolicy: 'network-only',
   })
@@ -55,6 +56,9 @@ export const ReceivedOrdersContainer: FC = () => {
             page={currentPage}
             pages={data.orders.pageInfo.totalPages}
             setPage={setCurrentPage}
+            totalElements={data.orders.pageInfo.totalElements}
+            rowsPerPage={rowsPerPage}
+            setRowsPerPage={setRowsPerPage}
           />
         </Flex>
       )}

@@ -21,34 +21,44 @@ type ProductsProps = {
 
 const columns = [
   { name: 'CATEGORY', uid: 'name' },
+  { name: 'STATUS', uid: 'status' },
   { name: 'ACTIONS', uid: 'actions' },
 ]
 
 export const Categories: FC<ProductsProps> = ({ data }) => {
-  const renderCell = useCallback(({ categoryId, name, imageUrl }: Category, columnKey: Key) => {
-    switch (columnKey) {
-      case 'name':
-        return (
-          <User avatarProps={{ radius: 'sm', src: imageUrl, size: 'lg' }} name={name}>
-            {name}
-          </User>
-        )
-      case 'actions':
-        return (
-          <div>
-            <Tooltip content="Edit Category">
-              <span>
-                <Link to={`/admin/category/${categoryId}`}>
-                  <EditIcon />
-                </Link>
-              </span>
-            </Tooltip>
-          </div>
-        )
-      default:
-        return name
-    }
-  }, [])
+  const renderCell = useCallback(
+    ({ categoryId, name, imageUrl, status }: Category, columnKey: Key) => {
+      switch (columnKey) {
+        case 'name':
+          return (
+            <User avatarProps={{ radius: 'sm', src: imageUrl, size: 'lg' }} name={name}>
+              {name}
+            </User>
+          )
+        case 'status':
+          return (
+            <div>
+              <p>{status}</p>
+            </div>
+          )
+        case 'actions':
+          return (
+            <div>
+              <Tooltip content="Edit Category">
+                <span>
+                  <Link to={`/admin/category/${categoryId}`}>
+                    <EditIcon />
+                  </Link>
+                </span>
+              </Tooltip>
+            </div>
+          )
+        default:
+          return name
+      }
+    },
+    []
+  )
 
   return (
     <Table

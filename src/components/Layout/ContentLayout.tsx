@@ -37,7 +37,7 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
       >
         <Flex
           onClick={() => navigate('/')}
-          _hover={{ cursor: 'pointer', 'text-decoration': 'underline' }}
+          _hover={{ cursor: 'pointer', textDecoration: 'underline' }}
           gap={2}
         >
           <Home01Icon size={isMobile ? 18 : 22} color="#000000" />

@@ -2,7 +2,7 @@ type Query {
     products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
     product(productId: ID!): Product!
     category(categoryId: ID!): Category!
-    categories: [Category!]!
+    categories(categoryFilter: CategoryFilter!): [Category!]!
     userCart: [CartItem!]!
     userWishlist: [MinifiedProduct!]!
     users: [User!]!
@@ -101,6 +101,7 @@ type Category {
     name: String!
     description: String!
     imageUrl: String!
+    status: CategoryStatus!
 }
 
 input AddCategoryInput {
@@ -108,6 +109,7 @@ input AddCategoryInput {
     name: String!
     description: String!
     imageUrlType: String!
+    status: CategoryStatus!
 }
 
 type CartItem {
@@ -315,10 +317,23 @@ enum ProductStatus {
     INACTIVE
 }
 
+enum CategoryStatus {
+    PUBLISHED
+    DRAFT
+    INACTIVE
+}
+
 input UpdateCategoryInput {
     name: String
     description: String
     mediaFileType: String
+    status: CategoryStatus
+}
+
+input CategoryFilter {
+    ids: [ID!]
+    text: String
+    statuses: [CategoryStatus!]!
 }
 
 schema {
