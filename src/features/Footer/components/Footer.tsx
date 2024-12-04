@@ -24,6 +24,7 @@ export const Footer = () => {
       color={useColorModeValue('gray.700', 'gray.200')}
       borderTop="1px solid #e6e6e6"
       display-name="app-footer"
+      id="app-footer"
       position="relative"
       bottom="0"
       left="0"

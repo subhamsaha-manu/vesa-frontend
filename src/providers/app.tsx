@@ -23,7 +23,7 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
       <ChakraProvider theme={theme}>
         <Suspense fallback={<SpinnerContainer height="60vh" />}>
           <ErrorBoundary fallback={<ErrorFallback />}>
-            <BrowserRouter>
+            <BrowserRouter basename="/">
               <ApolloProvider client={getClient()}>
                 <CategoriesContextProvider>{children}</CategoriesContextProvider>
               </ApolloProvider>

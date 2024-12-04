@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { Search01Icon, UserIcon } from 'hugeicons-react'
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
@@ -105,28 +105,31 @@ export const LandingPageHeader = () => {
             _hover={{ bg: 'transparent' }}
           />
         </Flex>
-        <Flex
-          justify={{ base: 'center', md: 'start' }}
-          alignItems={{ base: 'center', md: 'center' }}
-          display-name="landing-page-header-logo-flex-for-larger-screen"
-          display={{ base: 'none', md: 'flex' }}
-          maxW="200px"
-          cursor="pointer"
-          onClick={() => navigate('/')}
-        >
-          <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="200px" />
-        </Flex>
-        <Flex
-          justify="center"
-          alignItems="center"
-          display-name="landing-page-header-logo-flex-for-smaller-screen"
-          display={{ base: 'flex', md: 'none' }}
-          flex={1}
-          cursor="pointer"
-          onClick={() => navigate('/')}
-        >
-          <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="120px" />
-        </Flex>
+        <Link to="/">
+          <Flex
+            justify={{ base: 'center', md: 'start' }}
+            alignItems={{ base: 'center', md: 'center' }}
+            display-name="landing-page-header-logo-flex-for-larger-screen"
+            display={{ base: 'none', md: 'flex' }}
+            maxW="200px"
+            cursor="pointer"
+          >
+            <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="200px" />
+          </Flex>
+        </Link>
+        <Link to="/">
+          <Flex
+            justify="center"
+            alignItems="center"
+            display-name="landing-page-header-logo-flex-for-smaller-screen"
+            display={{ base: 'flex', md: 'none' }}
+            flex={1}
+            cursor="pointer"
+          >
+            <Image src={MOBILE_VESA_LOGO_URL} objectFit="scale-down" alt="VESA Logo" w="120px" />
+          </Flex>
+        </Link>
+
         <Flex
           flex={{ base: 1 }}
           justify={{ base: 'center', md: 'center' }}
@@ -137,16 +140,17 @@ export const LandingPageHeader = () => {
           display={{ base: 'none', md: 'flex' }}
         >
           {menuOptions.map(({ label, path }) => (
-            <Flex
-              display-name="landing-page-header-menu-options-flex"
-              key={label}
-              _hover={{ cursor: 'pointer' }}
-              onClick={() => navigate(path)}
-            >
-              <Text fontSize="xl" color="subtle">
-                {label}
-              </Text>
-            </Flex>
+            <Link to={path} key={label}>
+              <Flex
+                display-name="landing-page-header-menu-options-flex"
+                key={label}
+                _hover={{ cursor: 'pointer' }}
+              >
+                <Text fontSize="xl" color="subtle">
+                  {label}
+                </Text>
+              </Flex>
+            </Link>
           ))}
         </Flex>
         <Flex
