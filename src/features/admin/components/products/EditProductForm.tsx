@@ -15,17 +15,18 @@ import { SharedSelection } from '@nextui-org/system'
 import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { BiSolidTrash } from 'react-icons/bi'
+import Zoom from 'react-medium-image-zoom'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
 import { ImageUploader } from './ImageUploader'
+import 'react-medium-image-zoom/dist/styles.css'
 
 import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUrls.generated'
 import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
-import ImageZoom from '@/components/elements/ImageZoom'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
 import { extractFileType, extractImageUUID } from '@/features/admin/utils/extractImageUUID'
@@ -366,59 +367,45 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                   <ImageUploader register={register} setValue={setValue} />
                   <Flex display-name="media-files" flexWrap="wrap" gap="16px">
                     {medias.map(({ url, uuid }) => (
-                      <Flex
-                        position="relative"
-                        key={uuid}
-                        opacity={deletedMedias.map((e) => e.uuid).includes(uuid) ? '0.7' : '1'}
-                      >
-                        <Image
-                          src={url}
-                          isBlurred
-                          onClick={() => {
-                            setActiveImage(uuid)
-                          }}
-                          style={{ zIndex: 1, cursor: 'zoom-in' }}
-                        />
+                      <Zoom key={uuid}>
                         <Flex
-                          position="absolute"
-                          bottom="5%"
-                          right="5%"
-                          width="40px"
-                          height="32px"
-                          bg="#f5f5f5"
-                          opacity="98.0%"
-                          transition="opacity .1s ease-in-out, visibility .1s ease-in-out;"
-                          align="center"
-                          justify="center"
-                          zIndex={2}
-                          borderRadius="25%"
-                          gap={4}
-                          cursor="pointer"
+                          position="relative"
+                          key={uuid}
+                          opacity={deletedMedias.map((e) => e.uuid).includes(uuid) ? '0.7' : '1'}
                         >
-                          <BiSolidTrash
-                            data-testid="delete-media"
-                            style={{ height: '20px', width: '20px' }}
-                            color="#555555"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              setDeletedMedias([
-                                ...deletedMedias,
-                                { uuid, fileType: extractFileType(url) },
-                              ])
-                            }}
-                          />
+                          <Image src={url} style={{ zIndex: 1, cursor: 'zoom-in' }} />
+                          <Flex
+                            position="absolute"
+                            bottom="5%"
+                            right="5%"
+                            width="40px"
+                            height="32px"
+                            bg="#f5f5f5"
+                            opacity="98.0%"
+                            transition="opacity .1s ease-in-out, visibility .1s ease-in-out;"
+                            align="center"
+                            justify="center"
+                            zIndex={2}
+                            borderRadius="25%"
+                            gap={4}
+                            cursor="pointer"
+                          >
+                            <BiSolidTrash
+                              data-testid="delete-media"
+                              style={{ height: '20px', width: '20px' }}
+                              color="#555555"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                setDeletedMedias([
+                                  ...deletedMedias,
+                                  { uuid, fileType: extractFileType(url) },
+                                ])
+                              }}
+                            />
+                          </Flex>
                         </Flex>
-                        {activeImage === uuid && (
-                          <ImageZoom
-                            imageUrl={url}
-                            isOpen={Boolean(activeImage)}
-                            onOpenChange={(isOpen) => {
-                              if (!isOpen) setActiveImage(null)
-                            }}
-                          />
-                        )}
-                      </Flex>
+                      </Zoom>
                     ))}
                   </Flex>
                 </Flex>
