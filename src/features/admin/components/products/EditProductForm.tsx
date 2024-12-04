@@ -78,7 +78,7 @@ type EditContainerFormProps = {
   productDetail: Omit<Product, 'id'>
 }
 
-export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
+export const EditProductForm: FC<EditContainerFormProps> = ({ categories, productDetail }) => {
   const navigate = useNavigate()
 
   const {
@@ -230,7 +230,15 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
             <CardHeader>
               <Heading size="md">Thumbnail</Heading>
             </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+            <CardBody
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                flexDirection: 'column',
+                gap: '16px',
+              }}
+            >
               <ThumbnailUpload
                 errors={errors}
                 register={register}
@@ -239,6 +247,10 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categories, prod
                 clearErrors={clearErrors}
                 thumbnailUrl={thumbnailUrl}
               />
+              <Text fontSize="sm" color="gray.500">
+                Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are
+                accepted
+              </Text>
             </CardBody>
           </Card>
           <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">

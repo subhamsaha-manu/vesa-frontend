@@ -1,10 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { Accordion, AccordionItem } from '@nextui-org/react'
-import { RecordIcon } from 'hugeicons-react'
+import { Logout04Icon, RecordIcon } from 'hugeicons-react'
 import { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
+import { TOKEN, USER_ID } from '@/utils/constants'
+import { storage } from '@/utils/storage'
 
 export const Sidebar: FC = () => {
   const {
@@ -29,72 +31,6 @@ export const Sidebar: FC = () => {
           Hi, {name}
         </Text>
       </Flex>
-      {/*<Flex flexDir="column" align="stretch">*/}
-      {/*  <Link to="">*/}
-      {/*    <Flex*/}
-      {/*      display-name="account-nav-item"*/}
-      {/*      align="center"*/}
-      {/*      gap={4}*/}
-      {/*      p={{ base: '0 10px', xl: '0 20px' }}*/}
-      {/*      cursor="pointer"*/}
-      {/*      h="53px"*/}
-      {/*      borderTop="1px solid #f6f6f6"*/}
-      {/*      _hover={{ bg: 'gray.200' }}*/}
-      {/*    >*/}
-      {/*      <CheckListIcon size={20} color="#000000" />*/}
-      {/*      <Text fontSize="md">All Orders</Text>*/}
-      {/*    </Flex>*/}
-      {/*  </Link>*/}
-      {/*  <Link to="products">*/}
-      {/*    <Flex*/}
-      {/*      display-name="account-nav-item"*/}
-      {/*      align="center"*/}
-      {/*      gap={4}*/}
-      {/*      p={{ base: '0 10px', xl: '0 20px' }}*/}
-      {/*      cursor="pointer"*/}
-      {/*      h="53px"*/}
-      {/*      borderTop="1px solid #f6f6f6"*/}
-      {/*      _hover={{ bg: 'gray.200' }}*/}
-      {/*    >*/}
-      {/*      <CheckListIcon size={20} color="#000000" />*/}
-      {/*      <Text fontSize="md">All Products</Text>*/}
-      {/*    </Flex>*/}
-      {/*  </Link>*/}
-      {/*  <Link to="categories">*/}
-      {/*    <Flex*/}
-      {/*      display-name="account-nav-item"*/}
-      {/*      align="center"*/}
-      {/*      gap={4}*/}
-      {/*      p={{ base: '0 10px', xl: '0 20px' }}*/}
-      {/*      cursor="pointer"*/}
-      {/*      h="53px"*/}
-      {/*      borderTop="1px solid #f6f6f6"*/}
-      {/*      _hover={{ bg: 'gray.200' }}*/}
-      {/*    >*/}
-      {/*      <CheckListIcon size={20} color="#000000" />*/}
-      {/*      <Text fontSize="md">All Categories</Text>*/}
-      {/*    </Flex>*/}
-      {/*  </Link>*/}
-      {/*  <Flex*/}
-      {/*    display-name="account-nav-item"*/}
-      {/*    align="center"*/}
-      {/*    gap={4}*/}
-      {/*    p={{ base: '0 10px', xl: '0 20px' }}*/}
-      {/*    cursor="pointer"*/}
-      {/*    h="53px"*/}
-      {/*    borderTop="1px solid #f6f6f6"*/}
-      {/*    _hover={{ bg: 'gray.200' }}*/}
-      {/*    onClick={() => {*/}
-      {/*      storage.clearItem(USER_ID)*/}
-      {/*      storage.clearItem(TOKEN)*/}
-      {/*      navigate('/')*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <Logout04Icon size={20} color="#000000" />*/}
-      {/*    <Text fontSize="md">Logout</Text>*/}
-      {/*  </Flex>*/}
-      {/*</Flex>*/}
-
       <Accordion variant="light">
         <AccordionItem
           key="1"
@@ -158,7 +94,45 @@ export const Sidebar: FC = () => {
             </Flex>
           </Link>
         </AccordionItem>
+        <AccordionItem
+          key="2"
+          aria-label="Sales"
+          title={<AccordionTitle title="Sales" iconSize={10} />}
+        >
+          <Link to="">
+            <Flex
+              display-name="account-nav-item"
+              align="center"
+              gap={4}
+              p={{ base: '0 10px', xl: '0 10px' }}
+              cursor="pointer"
+              h="53px"
+              borderTop="1px solid #f6f6f6"
+              _hover={{ bg: 'gray.200' }}
+            >
+              <AccordionTitle title="Orders Listing" iconSize={10} />
+            </Flex>
+          </Link>
+        </AccordionItem>
       </Accordion>
+      <Flex
+        display-name="account-nav-item"
+        align="center"
+        gap={4}
+        p={{ base: '0 10px', xl: '0 10px' }}
+        cursor="pointer"
+        h="53px"
+        borderTop="1px solid #f6f6f6"
+        _hover={{ bg: 'gray.200' }}
+        onClick={() => {
+          storage.clearItem(USER_ID)
+          storage.clearItem(TOKEN)
+          navigate('/')
+        }}
+      >
+        <Logout04Icon size={20} color="#000000" />
+        <Text fontSize="md">Logout</Text>
+      </Flex>
     </Flex>
   )
 }

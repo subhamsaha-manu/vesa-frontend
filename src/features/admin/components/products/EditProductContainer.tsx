@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { EditContainerForm } from './EditContainerForm'
+import { EditProductForm } from './EditProductForm'
 
 import { useProductDetailQuery } from '../../apis/productDetail.generated'
 
@@ -52,7 +52,7 @@ export const EditProductContainer: FC = () => {
           p={{ base: '10px', xl: '30px' }}
           pb="80px !important"
         >
-          <EditContainerForm categories={data.categories} productDetail={data.product} />
+          <EditProductForm categories={data.categories} productDetail={data.product} />
         </Flex>
       )}
     </Flex>

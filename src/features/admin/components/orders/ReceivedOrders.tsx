@@ -12,7 +12,7 @@ import { EyeIcon } from 'hugeicons-react'
 import round from 'lodash/round'
 import startCase from 'lodash/startCase'
 import moment from 'moment'
-import { FC, Key, useCallback } from 'react'
+import { ChangeEvent, FC, Key, useCallback, useMemo } from 'react'
 import '../table.css'
 import { Link } from 'react-router-dom'
 
@@ -24,6 +24,9 @@ type ReceivedOrdersProps = {
   page: number
   setPage: (page: number) => void
   pages: number
+  rowsPerPage: number
+  setRowsPerPage: (rowsPerPage: number) => void
+  totalElements: number
 }
 
 const columns = [
@@ -36,7 +39,15 @@ const columns = [
   { name: 'ACTIONS', uid: 'actions' },
 ]
 
-export const ReceivedOrders: FC<ReceivedOrdersProps> = ({ data, pages, page, setPage }) => {
+export const ReceivedOrders: FC<ReceivedOrdersProps> = ({
+  data,
+  pages,
+  page,
+  setPage,
+  setRowsPerPage,
+  totalElements,
+  rowsPerPage,
+}) => {
   const renderCell = useCallback(
     (
       { orderId, name, orderDate, orderTotal, orderStatus, modeOfPayment }: MinifiedReceivedOrder,
@@ -46,7 +57,9 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({ data, pages, page, set
         case 'id':
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{orderId.substring(0, 7)}</p>
+              <b>
+                <p className="text-bold text-sm capitalize">{orderId.substring(0, 7)}</p>
+              </b>
             </div>
           )
         case 'name':
@@ -102,9 +115,39 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({ data, pages, page, set
     []
   )
 
+  const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    setRowsPerPage(Number(e.target.value))
+    setPage(1)
+  }, [])
+
+  const topContent = useMemo(() => {
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <span className="text-default-400 text-small">Total {totalElements} orders</span>
+          <label className="flex items-center text-default-400 text-small">
+            Rows per page:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+              value={rowsPerPage}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    )
+  }, [onRowsPerPageChange, data.length])
+
   return (
     <Table
       aria-label="All Orders"
+      topContent={topContent}
+      bottomContentPlacement="outside"
       bottomContent={
         <div className="flex w-full justify-center">
           <Pagination
@@ -119,7 +162,7 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({ data, pages, page, set
         </div>
       }
       classNames={{
-        wrapper: 'min-h-[222px] py-4',
+        wrapper: 'max-h-[682px] py-4',
       }}
     >
       <TableHeader columns={columns}>
@@ -131,7 +174,7 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({ data, pages, page, set
       </TableHeader>
       <TableBody items={data}>
         {(item) => (
-          <TableRow key={item.orderId}>
+          <TableRow key={item.orderId} style={{ height: '60px' }}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
           </TableRow>
         )}

@@ -69,7 +69,7 @@ type AddContainerFormProps = {
   categories: Array<CategoryType>
 }
 
-export const AddContainerForm: FC<AddContainerFormProps> = ({ categories }) => {
+export const AddProductForm: FC<AddContainerFormProps> = ({ categories }) => {
   const navigate = useNavigate()
 
   const productId = uuidv4()
