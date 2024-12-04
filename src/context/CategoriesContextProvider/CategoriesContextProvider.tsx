@@ -3,7 +3,7 @@ import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState 
 import { useCategoriesQuery } from './api/categories.generated'
 import { CategoriesContextType } from './types'
 
-import { Category } from '@/types'
+import { Category, CategoryStatus } from '@/types'
 
 const CategoriesContext = createContext<CategoriesContextType>({} as CategoriesContextType)
 
@@ -14,6 +14,11 @@ export const CategoriesContextProvider: FC<{
   const [categories, setCategories] = useState<Array<Omit<Category, 'description'>>>([])
 
   const { data } = useCategoriesQuery({
+    variables: {
+      categoryFilter: {
+        statuses: [CategoryStatus.Published],
+      },
+    },
     fetchPolicy: 'cache-and-network',
   })
 

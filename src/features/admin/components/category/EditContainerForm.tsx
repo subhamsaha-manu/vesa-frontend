@@ -9,7 +9,9 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC } from 'react'
+import { Select, SelectItem } from '@nextui-org/react'
+import { SharedSelection } from '@nextui-org/system'
+import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
@@ -21,7 +23,7 @@ import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
-import { Category, GenerateUrlFor, UpdateCategoryInput } from '@/types'
+import { Category, CategoryStatus, GenerateUrlFor, UpdateCategoryInput } from '@/types'
 import {
   CATEGORY_TITLE_IS_MANDATORY,
   LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
@@ -45,6 +47,7 @@ const schema = z.object({
       message: LEADING_OR_TRAILING_SPACES_ERROR_MESSAGE,
     }),
   image: z.any().optional(),
+  status: z.any().optional(),
 })
 
 type EditContainerFormProps = {
@@ -54,7 +57,15 @@ type EditContainerFormProps = {
 export const EditContainerForm: FC<EditContainerFormProps> = ({ categoryDetail }) => {
   const navigate = useNavigate()
 
-  const { categoryId, name, description, imageUrl } = categoryDetail
+  const { categoryId, name, description, imageUrl, status } = categoryDetail
+
+  const [categoryStatus, setCategoryStatus] = useState<CategoryStatus>(status)
+
+  const categoryStatusOptions = Object.entries(CategoryStatus)
+
+  useEffect(() => {
+    setCategoryStatus(status)
+  }, [categoryId, status])
 
   const {
     handleSubmit,
@@ -97,12 +108,13 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categoryDetail }
     const { name, description, image } = values
 
     const imageFileType = image?.type
+
     generatePresignedUrls({
       variables: {
         generatePresignedUrlsInput: {
           generateUrlFor: GenerateUrlFor.Category,
           id: categoryId,
-          mediaFileTypes: [imageFileType],
+          mediaFileTypes: imageFileType ? [imageFileType] : [],
         },
       },
     }).then((data) => {
@@ -115,6 +127,7 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categoryDetail }
           name,
           description,
           mediaFileType: imageFileType,
+          status: categoryStatus,
         }
 
         void updateCategory({
@@ -155,6 +168,26 @@ export const EditContainerForm: FC<EditContainerFormProps> = ({ categoryDetail }
                 thumbnailUrl={imageUrl}
                 fieldName="image"
               />
+            </CardBody>
+          </Card>
+          <Card variant="elevated" size="md" p="20px" data-testid="category-status-card">
+            <CardHeader>
+              <Heading size="md">Status</Heading>
+            </CardHeader>
+            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <Select
+                placeholder="Select category status"
+                selectionMode="single"
+                className="max-w-xs"
+                selectedKeys={[categoryStatus]}
+                onSelectionChange={(keys: SharedSelection) => {
+                  setCategoryStatus(keys.currentKey as CategoryStatus)
+                }}
+              >
+                {categoryStatusOptions.map(([key, status]) => (
+                  <SelectItem key={status}>{key}</SelectItem>
+                ))}
+              </Select>
             </CardBody>
           </Card>
         </Flex>

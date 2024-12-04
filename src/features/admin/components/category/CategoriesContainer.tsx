@@ -1,14 +1,34 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { FC } from 'react'
+import { debounce } from 'lodash'
+import { FC, useState } from 'react'
 
+import { Categories } from './Categories'
 import { HeaderActions } from './HeaderActions'
 
+import { useAllCategoriesForAdminQuery } from '../../apis/categories.generated'
+
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { useAllCategoriesForAdminQuery } from '@/features/admin/apis/categories.generated'
-import { Categories } from '@/features/admin/components/category/Categories'
+import { CategoryStatus } from '@/types'
 
 export const CategoriesContainer: FC = () => {
+  const [searchText, setSearchText] = useState<string>()
+
+  const onSearchInputChange = debounce((text: string) => {
+    if (searchText && text === '') {
+      setSearchText(undefined)
+    }
+    if (text.length > 2) {
+      setSearchText(text)
+    }
+  }, 500)
+
   const { data, loading } = useAllCategoriesForAdminQuery({
+    variables: {
+      categoryFilter: {
+        statuses: [CategoryStatus.Inactive, CategoryStatus.Draft, CategoryStatus.Published],
+        text: searchText,
+      },
+    },
     fetchPolicy: 'network-only',
   })
 
@@ -27,7 +47,7 @@ export const CategoriesContainer: FC = () => {
         <Text fontSize="md" as="b">
           Categories
         </Text>
-        <HeaderActions />
+        <HeaderActions setSearchText={onSearchInputChange} />
       </Flex>
       {loading || !data ? (
         <SpinnerContainer height="60vh" />

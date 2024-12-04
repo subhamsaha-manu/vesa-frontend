@@ -7,6 +7,7 @@ import { EditContainerForm } from './EditContainerForm'
 import { useProductDetailQuery } from '../../apis/productDetail.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import { CategoryStatus } from '@/types'
 
 type ProductParamType = {
   productId: string
@@ -18,6 +19,9 @@ export const EditProductContainer: FC = () => {
   const { data, loading } = useProductDetailQuery({
     variables: {
       productId,
+      categoryFilter: {
+        statuses: [CategoryStatus.Published],
+      },
     },
     fetchPolicy: 'cache-and-network',
   })

@@ -29,7 +29,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           align="flex-start"
           display-name="main-layout-flex-3"
           flexDir="column"
-          p="0 4px"
+          p={{ base: '0 4px', xl: '0' }}
         >
           {children}
         </Flex>

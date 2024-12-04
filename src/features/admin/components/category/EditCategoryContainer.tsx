@@ -35,14 +35,14 @@ export const EditCategoryContainer: FC = () => {
         align="center"
       >
         <Text fontSize="md" as="b">
-          Edit Product - {data?.category.name}
+          Edit Category - {data?.category.name}
         </Text>
       </Flex>
       {loading || !data ? (
         <SpinnerContainer height="60vh" />
       ) : (
         <Flex
-          display-name="edit-product-form-wrapper"
+          display-name="edit-category-form-wrapper"
           w="100%"
           gap={6}
           p={{ base: '10px', xl: '30px' }}
