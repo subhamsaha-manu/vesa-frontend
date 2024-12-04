@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { ErrorFallback, MainLayout, ScrollToTop } from '@/components/Layout'
+import { ErrorFallback, MainLayout } from '@/components/Layout'
 import { CurrentUserContextProvider, UserWishlistCartContextProvider } from '@/context'
 import { Dashboard } from '@/features/dashboard'
 import { CategoryProducts, ProductDetailsContainer } from '@/features/product'
@@ -125,12 +125,7 @@ export const AppRoutes = () => {
   const commonRoutes = [
     {
       path: '/',
-      element: (
-        <>
-          <ScrollToTop />
-          <App />
-        </>
-      ),
+      element: <App />,
       children: [
         { path: '/', element: <Dashboard /> },
         { path: 'product-category/:categoryName', element: <CategoryProducts /> },
