@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { ProductDetailsDesktopView } from './ProductDetailsDesktopView'
+import { ProductDetailsMobileView } from './ProductDetailsMobileView'
 
 import { useProductQuery } from '../apis/product.generated'
 
@@ -27,15 +28,10 @@ export const ProductDetailsContainer: FC = () => {
     fetchPolicy: 'network-only',
   })
 
-  // if (loading || !data) {
-  //   return <SpinnerContainer height="60vh" />
-  // }
-
   return (
     <>
       {isMobile ? (
-        // <ProductDetailsMobileView productDetail={data?.product} />
-        <div>div</div>
+        <ProductDetailsMobileView productDetail={data?.product} loading={loading} />
       ) : (
         <ProductDetailsDesktopView productDetail={data?.product} loading={loading} />
       )}

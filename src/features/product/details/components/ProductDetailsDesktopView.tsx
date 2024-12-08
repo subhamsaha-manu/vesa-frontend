@@ -3,22 +3,15 @@ import { Skeleton } from '@nextui-org/react'
 import { FC, useEffect, useState } from 'react'
 import ReactImageMagnify from 'react-image-magnify'
 
+import { ProductViewProps } from '../types'
+
 import { ContentLayout } from '@/components/Layout'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
-import { Product } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
-type ProductDetailsDesktopViewProps = {
-  productDetail?: Omit<Product, 'id' | 'categoryIds' | 'status'>
-  loading: boolean
-}
-
-export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
-  productDetail,
-  loading,
-}) => {
+export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail, loading }) => {
   const [mainImageURL, setMainImageURL] = useState<string | undefined>(productDetail?.thumbnailUrl)
   const { currentUser } = useCurrentUserContext()
 
@@ -28,7 +21,7 @@ export const ProductDetailsDesktopView: FC<ProductDetailsDesktopViewProps> = ({
 
   return (
     <ContentLayout pageTitle={productDetail?.title ?? ''} showFullPageScroll>
-      <Flex display-name="main-product-section" w="100%" gap={6} p="30px 250px 0 250px">
+      <Flex display-name="main-product-section" w="100%" gap={6} p={{ xl: '30px 250px 0 250px' }}>
         <Flex display-name="product-gallery" w="57%" gap="32px">
           {loading ? (
             <Flex display-name="thumbnail-images-skeleton" flexDir="column" gap={4} w="100px">
