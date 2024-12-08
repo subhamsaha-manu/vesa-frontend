@@ -2,11 +2,9 @@ import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { ProductDetailsDesktopView } from './ProductDetailsDesktopView'
-import { ProductDetailsMobileView } from './ProductDetailsMobileView'
 
 import { useProductQuery } from '../apis/product.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 type ProductParamType = {
@@ -29,16 +27,17 @@ export const ProductDetailsContainer: FC = () => {
     fetchPolicy: 'network-only',
   })
 
-  if (loading || !data) {
-    return <SpinnerContainer height="60vh" />
-  }
+  // if (loading || !data) {
+  //   return <SpinnerContainer height="60vh" />
+  // }
 
   return (
     <>
       {isMobile ? (
-        <ProductDetailsMobileView productDetail={data.product} />
+        // <ProductDetailsMobileView productDetail={data?.product} />
+        <div>div</div>
       ) : (
-        <ProductDetailsDesktopView productDetail={data.product} />
+        <ProductDetailsDesktopView productDetail={data?.product} loading={loading} />
       )}
     </>
   )

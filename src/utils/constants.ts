@@ -19,3 +19,5 @@ export const CAROUSEL_IMAGE_0_URL = 'https://cdn.myvesa.com/carousel-images/0.jp
 export const CAROUSEL_IMAGE_1_URL = 'https://cdn.myvesa.com/carousel-images/1.jpg'
 export const CAROUSEL_IMAGE_2_URL = 'https://cdn.myvesa.com/carousel-images/2.jpg'
 export const CAROUSEL_IMAGE_3_URL = 'https://cdn.myvesa.com/carousel-images/3.jpg'
+
+export const CATALOGUE_PAGE_SIZE = 8
