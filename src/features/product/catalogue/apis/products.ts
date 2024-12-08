@@ -11,6 +11,12 @@ export const products = gql`
         imageUrls
         isOutOfStock
       }
+      pageInfo {
+        totalPages
+        totalElements
+        pageSize
+        currentPage
+      }
     }
   }
 `
