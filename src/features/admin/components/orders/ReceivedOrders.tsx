@@ -10,7 +10,6 @@ import {
 } from '@nextui-org/react'
 import { EyeIcon } from 'hugeicons-react'
 import round from 'lodash/round'
-import startCase from 'lodash/startCase'
 import moment from 'moment'
 import { ChangeEvent, FC, Key, useCallback, useMemo } from 'react'
 import '../table.css'
@@ -32,10 +31,10 @@ type ReceivedOrdersProps = {
 const columns = [
   { name: 'Order ID', uid: 'id' },
   { name: 'Billing Name', uid: 'name' },
-  { name: 'Date', uid: 'date' },
   { name: 'Total', uid: 'total' },
   { name: 'Order Status', uid: 'status' },
-  { name: 'Payment Method', uid: 'payment' },
+  { name: 'Date Added', uid: 'dateAdded' },
+  { name: 'Date Modified', uid: 'dateModified' },
   { name: 'ACTIONS', uid: 'actions' },
 ]
 
@@ -50,7 +49,15 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({
 }) => {
   const renderCell = useCallback(
     (
-      { orderId, name, orderDate, orderTotal, orderStatus, modeOfPayment }: MinifiedReceivedOrder,
+      {
+        orderId,
+        name,
+        orderDate,
+        orderTotal,
+        orderStatus,
+        modeOfPayment,
+        dateModified,
+      }: MinifiedReceivedOrder,
       columnKey: Key
     ) => {
       switch (columnKey) {
@@ -58,41 +65,41 @@ export const ReceivedOrders: FC<ReceivedOrdersProps> = ({
           return (
             <div className="flex flex-col">
               <b>
-                <p className="text-bold text-sm capitalize">{orderId.substring(0, 7)}</p>
+                <p className="text-bold text-md capitalize">{orderId.substring(0, 7)}</p>
               </b>
             </div>
           )
         case 'name':
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{name}</p>
-            </div>
-          )
-        case 'date':
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {moment(orderDate).format('DD-MM-YYYY')}
-              </p>
+              <p className="text-bold text-md capitalize">{name}</p>
             </div>
           )
         case 'total':
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{`${INR_CURRENCY_SYMBOL} ${round(orderTotal, 2)}`}</p>
+              <p className="text-bold text-md capitalize">{`${INR_CURRENCY_SYMBOL} ${round(orderTotal, 2)}`}</p>
             </div>
           )
         case 'status':
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{orderStatus}</p>
+              <p className="text-bold text-md capitalize">{orderStatus}</p>
             </div>
           )
-        case 'payment':
+        case 'dateAdded':
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {startCase(modeOfPayment.replace('_', ' '))}
+              <p className="text-bold text-md capitalize">
+                {moment(orderDate).format('DD-MM-YYYY')}
+              </p>
+            </div>
+          )
+        case 'dateModified':
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-md capitalize">
+                {moment(dateModified).format('DD-MM-YYYY')}
               </p>
             </div>
           )

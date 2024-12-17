@@ -1,10 +1,10 @@
-import { Button, Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
 import { Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
-import { Search01Icon } from 'hugeicons-react'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import SearchInput from '@/components/elements/SearchInput'
 import { ProductStatus } from '@/types'
 
 type HeaderActionsProps = {
@@ -19,18 +19,7 @@ export const HeaderActions: FC<HeaderActionsProps> = ({ setSearchText, setProduc
 
   return (
     <Flex flex=".5" justify="flex-end" align="center" gap={4}>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <Search01Icon color="gray.300" size={20} />
-        </InputLeftElement>
-        <Input
-          placeholder="Search product"
-          size="md"
-          background="#F9F9F9"
-          borderRadius="8px"
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-      </InputGroup>
+      <SearchInput onSearch={setSearchText} placeholder="Search Product" />
       <Select
         placeholder="Status"
         selectionMode="single"
