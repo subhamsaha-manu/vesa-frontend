@@ -89,7 +89,6 @@ export const TextAreaField = (props: TextAreaFieldProps) => {
             </TextAreaWrapper>
             {showTextLength && isEmpty(error) && (
               <Text
-                variant="body-medium"
                 color={error ? 'error.100' : 'primary.80'}
                 data-testid={`${testid}-text-length`}
                 marginTop="16px"

@@ -1,19 +1,20 @@
-import { CircularProgress, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import { CircularProgress } from '@nextui-org/react'
 import React from 'react'
 
 type SpinnerProps = {
-  size?: string
+  size?: 'sm' | 'md' | 'lg' | undefined
   thickness?: string
-  color?: string
+  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | undefined
   justifySpinner?: 'flex-start' | 'center'
   width?: string
   height?: string
   overflow?: 'scroll' | 'unset'
 }
+
 export const SpinnerContainer = ({
-  size = '60px',
-  thickness = '5px',
-  color = '#9198A3',
+  size = 'sm',
+  color = 'default',
   justifySpinner = 'center',
   width = '100%',
   height = '100%',
@@ -28,15 +29,7 @@ export const SpinnerContainer = ({
       alignItems="center"
       overflow={overflow}
     >
-      <CircularProgress
-        capIsRound
-        isIndeterminate
-        thickness={thickness}
-        color={color}
-        size={size}
-        data-testid="spinner"
-        trackColor="transparent"
-      />
+      <CircularProgress isIndeterminate color={color} size={size} data-testid="spinner" />
     </Flex>
   )
 }

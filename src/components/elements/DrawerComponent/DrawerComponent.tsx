@@ -1,12 +1,13 @@
+import { FC, ReactNode } from 'react'
+
 import {
-  Drawer,
+  DrawerBackdrop,
   DrawerBody,
-  DrawerCloseButton,
+  DrawerCloseTrigger,
   DrawerContent,
   DrawerHeader,
-  DrawerOverlay,
-} from '@chakra-ui/react'
-import { FC, ReactNode } from 'react'
+  DrawerRoot,
+} from '@/components/ui/drawer'
 
 type DrawerComponentProps = {
   isOpen: boolean
@@ -22,13 +23,18 @@ export const DrawerComponent: FC<DrawerComponentProps> = ({
   children,
 }) => {
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: 'md', xl: 'lg' }}>
-      <DrawerOverlay />
+    <DrawerRoot
+      open={isOpen}
+      placement="end"
+      onOpenChange={onClose}
+      size={{ base: 'md', xl: 'lg' }}
+    >
+      <DrawerBackdrop />
       <DrawerContent>
-        <DrawerCloseButton />
+        <DrawerCloseTrigger />
         <DrawerHeader>{headerTitle}</DrawerHeader>
         <DrawerBody h="85%">{children}</DrawerBody>
       </DrawerContent>
-    </Drawer>
+    </DrawerRoot>
   )
 }

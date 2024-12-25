@@ -1,6 +1,8 @@
-import { Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
 import { CancelCircleIcon, Search01Icon } from 'hugeicons-react'
 import { FC, useState } from 'react'
+
+import { InputGroup } from '@/components/ui/input-group'
 
 type SearchInputProps = {
   onSearch: (text: string) => void
@@ -16,20 +18,11 @@ const SearchInput: FC<SearchInputProps> = ({ onSearch, placeholder }) => {
   }
 
   return (
-    <InputGroup>
-      <InputLeftElement pointerEvents="none">
-        <Search01Icon color="gray.300" size={20} />
-      </InputLeftElement>
-      <Input
-        placeholder={placeholder}
-        size="md"
-        background="white"
-        borderRadius="40px"
-        onChange={(e) => onSearchInputChange(e.target.value)}
-        value={searchText}
-      />
-      {searchText && (
-        <InputRightElement style={{ cursor: 'pointer' }}>
+    <InputGroup
+      flex="1"
+      startElement={<Search01Icon color="gray.300" size={20} />}
+      endElement={
+        searchText && (
           <CancelCircleIcon
             size={20}
             color="#000000"
@@ -38,8 +31,17 @@ const SearchInput: FC<SearchInputProps> = ({ onSearch, placeholder }) => {
               onSearch('')
             }}
           />
-        </InputRightElement>
-      )}
+        )
+      }
+    >
+      <Input
+        placeholder={placeholder}
+        size="md"
+        background="white"
+        borderRadius="40px"
+        onChange={(e) => onSearchInputChange(e.target.value)}
+        value={searchText}
+      />
     </InputGroup>
   )
 }

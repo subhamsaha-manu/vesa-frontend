@@ -1,8 +1,7 @@
-import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
-import { Button } from '@nextui-org/react'
 import { CheckmarkCircle02Icon } from 'hugeicons-react'
 import { FC, useEffect, useState } from 'react'
+import { IoIosArrowBack } from 'react-icons/io'
 import { Link, useParams } from 'react-router-dom'
 
 import { OrderStatusDropdown } from './OrderStatusDropdown'
@@ -14,12 +13,14 @@ import { orders } from '../../apis/orders'
 import { useUpdateOrderStatusMutation } from '../../apis/updateOrderStatus.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import { Button } from '@/components/ui/button'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { OrderStatus } from '@/types'
 
 type OrderParamType = {
   orderId: string
 }
+
 export const OrderDetails: FC = () => {
   const { orderId } = useParams<keyof OrderParamType>() as OrderParamType
   const [orderStatus, setOrderStatus] = useState<OrderStatus | undefined>()
@@ -66,23 +67,18 @@ export const OrderDetails: FC = () => {
         p={{ base: '5px', xl: 0 }}
       >
         <Link to="/admin">
-          <IconButton
-            aria-label="Back"
-            variant="outline"
-            size={{ base: 'sm', xl: 'md' }}
-            icon={<ArrowBackIcon fontSize={isMobile ? 18 : 22} />}
-          />
+          <IconButton aria-label="Back" variant="outline" size={{ base: 'sm', xl: 'md' }}>
+            <IoIosArrowBack fontSize={isMobile ? 18 : 22} />
+          </IconButton>
         </Link>
         <Flex gap={4} align="center">
           <OrderStatusDropdown currentStatus={orderStatus!} onStatusChange={setOrderStatus} />
           {orderStatus !== data?.orderDetails.orderStatus && (
             <Button
-              isIconOnly
               aria-label="approve"
-              variant="light"
-              radius="full"
+              variant="subtle"
               onClick={() => void updateOrderStatus()}
-              isLoading={updateOrderStatusLoading}
+              loading={updateOrderStatusLoading}
             >
               <CheckmarkCircle02Icon size={24} color="#11a2aa" />
             </Button>

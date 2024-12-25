@@ -1,4 +1,3 @@
-import { EditIcon } from '@chakra-ui/icons'
 import {
   Table,
   TableBody,
@@ -11,6 +10,7 @@ import {
 } from '@nextui-org/react'
 import { FC, Key, useCallback } from 'react'
 import '../table.css'
+import { CiEdit } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 
 import { Category } from '@/types'
@@ -47,7 +47,7 @@ export const Categories: FC<ProductsProps> = ({ data }) => {
               <Tooltip content="Edit Category">
                 <span>
                   <Link to={`/admin/category/${categoryId}`}>
-                    <EditIcon />
+                    <CiEdit />
                   </Link>
                 </span>
               </Tooltip>

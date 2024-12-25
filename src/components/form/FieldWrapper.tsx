@@ -1,6 +1,8 @@
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Text } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 import { Control, FieldError } from 'react-hook-form'
+
+import { Field } from '@/components/ui/field'
 
 type FieldWrapperProps = {
   children: ReactNode
@@ -28,8 +30,8 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
   } = props
 
   return (
-    <FormControl
-      isInvalid={!!error?.message}
+    <Field
+      invalid={!!error?.message}
       data-testid={testid}
       style={{
         display: 'flex',
@@ -37,38 +39,13 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
         width: '100%',
         position: 'relative',
       }}
+      label={label}
+      required={isRequired}
+      errorText={error?.message}
     >
-      {label && (
-        <FormLabel>
-          <Flex display-name="field-wrapper-form-label-flex" align="center" gap={1}>
-            <Flex display-name="field-wrapper-label">
-              <Text fontSize="14px" fontWeight="500" color="#191919">
-                {label}
-              </Text>
-            </Flex>
-            <Flex
-              display-name="field-wrapper-required-indicator"
-              display={isRequired ? 'flex' : 'none'}
-              color="red"
-            >
-              *
-            </Flex>
-          </Flex>
-        </FormLabel>
-      )}
       <Box display-name="field-wrapper-box-div" w={showErrorOnRight ? '50%' : '100%'}>
         {children}
       </Box>
-      {error?.message && (
-        <Flex
-          display-name="field-wrapper-error-box-div"
-          alignItems="center"
-          w="100%"
-          marginLeft={showErrorOnRight ? '5px' : undefined}
-        >
-          <FormErrorMessage>{error.message}</FormErrorMessage>
-        </Flex>
-      )}
-    </FormControl>
+    </Field>
   )
 }

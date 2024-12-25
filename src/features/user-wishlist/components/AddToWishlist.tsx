@@ -1,5 +1,4 @@
-import { Text } from '@chakra-ui/layout'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { FavouriteIcon, HeartAddIcon } from 'hugeicons-react'
 import noop from 'lodash/noop'
 import { FC } from 'react'
@@ -51,7 +50,7 @@ export const AddToWishlist: FC<AddToWishlistProps> = ({ productId, mobileView })
       flex={1}
     >
       {loading ? (
-        <SpinnerContainer size="20px" overflow="unset" width="5%" />
+        <SpinnerContainer overflow="unset" width="5%" />
       ) : (
         <>
           {isProductInWishlist ? (

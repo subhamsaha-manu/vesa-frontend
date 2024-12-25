@@ -1,4 +1,4 @@
-import { Flex, Image, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Flex, Image, Table } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
 import { FC } from 'react'
 
@@ -17,41 +17,43 @@ export const WishlistContent: FC<WishlistContentProps> = ({
   return (
     <Flex display-name="main-content" w="100%" h="100%" gap={6} justify="space-between">
       <Flex display-name="wishlist-items-table" w="100%" h="100%">
-        <TableContainer w="100%">
-          <Table variant="simple" size="lg">
-            <Thead>
-              <Tr>
-                <Th></Th>
-                <Th></Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Product name</Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }}>Price</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {wishlistItems.map(({ imageUrls, price, productId, title }) => (
-                <Tr key={productId}>
-                  <Td
-                    _hover={{ color: '#D9121F', cursor: 'pointer' }}
-                    onClick={() => onRemoveClick(productId)}
-                  >
-                    <MultiplicationSignIcon size={15} />
-                  </Td>
-                  <Td>
-                    <Image src={imageUrls[0]} alt={title} h="100px" w="80px" />
-                  </Td>
-                  <Td
-                    style={{ fontWeight: '400' }}
-                    _hover={{ cursor: 'pointer', color: '#00bb00', textDecoration: 'underline' }}
-                    onClick={() => onItemClick(productId)}
-                  >
-                    {title}
-                  </Td>
-                  <Td>{price}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        <Table.Root variant="outline" size="lg" w="100%">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader />
+              <Table.ColumnHeader />
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }}>
+                Product name
+              </Table.ColumnHeader>
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }}>
+                Price
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {wishlistItems.map(({ imageUrls, price, productId, title }) => (
+              <Table.Row key={productId}>
+                <Table.Cell
+                  _hover={{ color: '#D9121F', cursor: 'pointer' }}
+                  onClick={() => onRemoveClick(productId)}
+                >
+                  <MultiplicationSignIcon size={15} />
+                </Table.Cell>
+                <Table.Cell>
+                  <Image src={imageUrls[0]} alt={title} h="100px" w="80px" />
+                </Table.Cell>
+                <Table.Cell
+                  style={{ fontWeight: '400' }}
+                  _hover={{ cursor: 'pointer', color: '#00bb00', textDecoration: 'underline' }}
+                  onClick={() => onItemClick(productId)}
+                >
+                  {title}
+                </Table.Cell>
+                <Table.Cell>{price}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
       </Flex>
     </Flex>
   )

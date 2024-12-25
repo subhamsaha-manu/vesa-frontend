@@ -1,22 +1,14 @@
-import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
-import { Text } from '@chakra-ui/layout'
-import {
-  Box,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  Flex,
-  IconButton,
-  Image,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Box, Flex, IconButton, Image, Text, useDisclosure } from '@chakra-ui/react'
 import { UserIcon } from 'hugeicons-react'
 import { debounce } from 'lodash'
 import { FC } from 'react'
+import { IoMdClose } from 'react-icons/io'
+import { RxHamburgerMenu } from 'react-icons/rx'
 import { Link, useNavigate } from 'react-router-dom'
 
 import SearchInput from '@/components/elements/SearchInput'
+import { useColorModeValue } from '@/components/ui/color-mode'
+import { DrawerBody, DrawerContent, DrawerRoot } from '@/components/ui/drawer'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
@@ -27,7 +19,7 @@ import { MOBILE_VESA_LOGO_URL, USER_ID } from '@/utils/constants'
 import { storage } from '@/utils/storage'
 
 export const LandingPageHeader = () => {
-  const { isOpen, onToggle } = useDisclosure()
+  const { open, onToggle } = useDisclosure()
   const { categories } = useCategoriesContextProvider()
 
   const { currentUser } = useCurrentUserContext()
@@ -95,26 +87,25 @@ export const LandingPageHeader = () => {
         <Flex ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }} flex={1}>
           <IconButton
             onClick={onToggle}
-            icon={
-              isOpen ? (
-                <CloseIcon
-                  w={5}
-                  h={5}
-                  style={{ transition: 'transform 0.3s', transform: 'rotate(180deg)' }}
-                />
-              ) : (
-                <HamburgerIcon
-                  w={5}
-                  h={5}
-                  style={{ transition: 'transform 0.3s', transform: 'rotate(0deg)' }}
-                />
-              )
-            }
             variant="outline"
             aria-label="Toggle Navigation"
             border="none"
             _hover={{ bg: 'transparent' }}
-          />
+          >
+            {open ? (
+              <IoMdClose
+                width={5}
+                height={5}
+                style={{ transition: 'transform 0.3s', transform: 'rotate(180deg)' }}
+              />
+            ) : (
+              <RxHamburgerMenu
+                width={5}
+                height={5}
+                style={{ transition: 'transform 0.3s', transform: 'rotate(0deg)' }}
+              />
+            )}
+          </IconButton>
         </Flex>
         <Link to="/">
           <Flex
@@ -199,17 +190,13 @@ export const LandingPageHeader = () => {
         </Flex>
       </Flex>
 
-      <Drawer isOpen={isOpen} onClose={onToggle} placement="left" size="xs" preserveScrollBarGap>
-        <DrawerContent
-          sx={{
-            top: '60px !important',
-          }}
-        >
+      <DrawerRoot open={open} onOpenChange={onToggle} placement="start" size="xs">
+        <DrawerContent>
           <DrawerBody p={0}>
             <MobileNav menuOptions={menuOptions} onToggle={onToggle} />
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </DrawerRoot>
     </Box>
   )
 }
@@ -218,6 +205,7 @@ type MobileNavProps = {
   menuOptions: { label: string; path: string }[]
   onToggle: () => void
 }
+
 const MobileNav: FC<MobileNavProps> = ({ menuOptions, onToggle }) => {
   const navigate = useNavigate()
 

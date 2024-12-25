@@ -1,6 +1,6 @@
-import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { FC } from 'react'
+import { IoIosArrowBack } from 'react-icons/io'
 import { Link, useParams } from 'react-router-dom'
 
 import { OrderSummary } from './OrderSummary'
@@ -44,12 +44,9 @@ export const OrderDetails: FC = () => {
         p={{ base: '5px', xl: 0 }}
       >
         <Link to="/account/orders">
-          <IconButton
-            aria-label="Back"
-            variant="outline"
-            size={{ base: 'sm', xl: 'md' }}
-            icon={<ArrowBackIcon fontSize={isMobile ? 18 : 22} />}
-          />
+          <IconButton aria-label="Back" variant="outline" size={{ base: 'sm', xl: 'md' }}>
+            <IoIosArrowBack fontSize={isMobile ? 18 : 22} />
+          </IconButton>
         </Link>
       </Flex>
       {loading || !data ? (

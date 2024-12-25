@@ -1,20 +1,16 @@
-import {
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-} from '@chakra-ui/react'
+import { Flex, Heading, Separator, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { Button } from '@/components/ui/button'
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+} from '@/components/ui/dialog'
 
 type RemoveAddressWarningModalProps = {
   isOpen: boolean
@@ -22,6 +18,7 @@ type RemoveAddressWarningModalProps = {
   showSpinner: boolean
   removeAddress: () => void
 }
+
 export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
   isOpen,
   toggleWarningModal,
@@ -29,10 +26,15 @@ export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
   removeAddress,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={toggleWarningModal} isCentered size={{ base: 'md', xl: 'lg' }}>
-      <ModalOverlay />
-      <ModalContent data-testid="remove-address-warning-modal">
-        <ModalHeader>
+    <DialogRoot
+      open={isOpen}
+      onOpenChange={toggleWarningModal}
+      placement="center"
+      size={{ base: 'md', xl: 'lg' }}
+    >
+      <DialogBackdrop />
+      <DialogContent data-testid="remove-address-warning-modal">
+        <DialogHeader>
           <Flex
             w="100%"
             display-name="remove-address-warning-modal-close-button-flex"
@@ -40,8 +42,8 @@ export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
           >
             <FaTimes fontSize="18px" onClick={toggleWarningModal} cursor="pointer" />
           </Flex>
-        </ModalHeader>
-        <ModalBody mb={5} mr={5} ml={5}>
+        </DialogHeader>
+        <DialogBody mb={5} mr={5} ml={5}>
           <Flex
             flexDir="column"
             display-name="remove-address-warning-content-vstack"
@@ -55,10 +57,10 @@ export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
               Are you sure you want to remove this address?
             </Text>
           </Flex>
-        </ModalBody>
-        <Divider />
+        </DialogBody>
+        <Separator />
 
-        <ModalFooter pt={5} pb={10} pr={10}>
+        <DialogFooter pt={5} pb={10} pr={10}>
           <Flex
             display-name="remove-address-warning-modal-button-stack"
             p="0 40px 0 40px"
@@ -87,14 +89,15 @@ export const RemoveAddressWarningModal: FC<RemoveAddressWarningModalProps> = ({
               style={{
                 flex: 1,
               }}
-              leftIcon={showSpinner ? <SpinnerContainer size="20px" overflow="unset" /> : undefined}
-              isDisabled={showSpinner}
+              loading={showSpinner}
+              loadingText="Removing..."
+              disabled={showSpinner}
             >
               Remove
             </Button>
           </Flex>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   )
 }

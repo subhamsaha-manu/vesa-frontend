@@ -1,4 +1,4 @@
-import { Button, Flex, useDisclosure, useToast } from '@chakra-ui/react'
+import { Flex, useDisclosure } from '@chakra-ui/react'
 import { FC } from 'react'
 
 import { RemoveAddressWarningModal } from './RemoveAddressWarningModal'
@@ -6,6 +6,8 @@ import { RemoveAddressWarningModal } from './RemoveAddressWarningModal'
 import { useRemoveShippingAddressMutation } from '../apis/removeShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
 
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { ShippingAddress } from '@/types'
 
 type AddressCardProps = {
@@ -13,7 +15,7 @@ type AddressCardProps = {
   onEdit: (addressId: string) => void
 }
 export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { open, onOpen, onClose } = useDisclosure()
 
   const {
     addressId,
@@ -28,19 +30,16 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
     addressType,
   } = address
 
-  const toast = useToast()
-
   const [removeShippingAddress, { loading }] = useRemoveShippingAddressMutation({
     variables: {
       addressId,
     },
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Address Removed',
         description: 'Your address has been removed successfully',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       onClose()
     },
@@ -104,7 +103,7 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
             >
               Edit
             </Button>
-            <Button variant="link" color="black" fontSize="xs" onClick={onOpen}>
+            <Button variant="outline" color="black" fontSize="xs" onClick={onOpen}>
               Delete
             </Button>
           </Flex>
@@ -113,7 +112,7 @@ export const AddressCard: FC<AddressCardProps> = ({ address, onEdit }) => {
       <RemoveAddressWarningModal
         removeAddress={removeShippingAddress}
         toggleWarningModal={onClose}
-        isOpen={isOpen}
+        isOpen={open}
         showSpinner={loading}
       />
     </>

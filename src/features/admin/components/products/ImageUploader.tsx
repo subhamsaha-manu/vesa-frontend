@@ -1,5 +1,5 @@
 import { isNonEmptyArray } from '@apollo/client/utilities'
-import { Flex, Image, Text, VStack } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import { Cancel01Icon, ImageUpload01Icon } from 'hugeicons-react'
 import { isEmpty } from 'lodash'
 import { ChangeEvent, FC, useRef, useState } from 'react'
@@ -49,7 +49,7 @@ export const ImageUploader: FC<ImageUploaderProps> = ({ register, setValue }) =>
   }
 
   return (
-    <VStack spacing={4}>
+    <Flex gap={4} flexDir="column">
       <Flex
         border="1px dashed #17C653"
         background="#DFFFEA"
@@ -113,6 +113,6 @@ export const ImageUploader: FC<ImageUploaderProps> = ({ register, setValue }) =>
         ref={fileInputRef}
         onChange={handleFileSelection}
       />
-    </VStack>
+    </Flex>
   )
 }

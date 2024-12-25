@@ -1,5 +1,4 @@
-import { Text } from '@chakra-ui/layout'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { FavouriteIcon } from 'hugeicons-react'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'

@@ -1,15 +1,17 @@
-import { Button, Flex, Image, Text } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import { capitalize } from 'lodash'
 import round from 'lodash/round'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Button } from '@/components/ui/button'
 import { Order, OrderItem } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 type OrderSummaryProps = {
   order: Order
 }
+
 export const OrderSummary: FC<OrderSummaryProps> = ({ order }) => {
   return (
     <Flex w="100%" flexDir="column" gap={4} p={{ base: 0, xl: 4 }}>

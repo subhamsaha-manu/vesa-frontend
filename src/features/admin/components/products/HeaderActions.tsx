@@ -1,10 +1,11 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import SearchInput from '@/components/elements/SearchInput'
+import { Button } from '@/components/ui/button'
 import { ProductStatus } from '@/types'
 
 type HeaderActionsProps = {

@@ -1,8 +1,9 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import SearchInput from '@/components/elements/SearchInput'
+import { Button } from '@/components/ui/button'
 
 type HeaderActionsProps = {
   setSearchText: (text: string) => void

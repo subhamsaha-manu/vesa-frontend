@@ -1,16 +1,4 @@
-import {
-  Button,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-  useToast,
-} from '@chakra-ui/react'
+import { Button, Flex, Text, useDisclosure } from '@chakra-ui/react'
 import { FC, useState } from 'react'
 
 import { AddressCard } from './AddressCard'
@@ -19,14 +7,21 @@ import { AddressForm } from './AddressForm'
 import { useAddShippingAddressMutation } from '../apis/addShippingAddress.generated'
 import { shippingAddresses } from '../apis/shippingAddresses'
 import { useShippingAddressesQuery } from '../apis/shippingAddresses.generated'
+import { useUpdateShippingAddressMutation } from '../apis/updateShippingAddress.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
-import { useUpdateShippingAddressMutation } from '@/features/user-shipping-address/apis/updateShippingAddress.generated'
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+} from '@/components/ui/dialog'
+import { toaster } from '@/components/ui/toaster'
 
 const Addresses: FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const toast = useToast()
-
+  const { open, onOpen, onClose } = useDisclosure()
   const [addressId, setAddressId] = useState<string>()
 
   const { data, loading: fetchingAllAddresses } = useShippingAddressesQuery({
@@ -35,12 +30,11 @@ const Addresses: FC = () => {
 
   const [addShippingAddress, { loading: addingAddress }] = useAddShippingAddressMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Address Added',
         description: 'Your address has been added successfully',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       onClose()
     },
@@ -49,12 +43,11 @@ const Addresses: FC = () => {
 
   const [updateShippingAddress, { loading: updatingAddress }] = useUpdateShippingAddressMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Address Updated',
         description: 'Your address has been updated successfully',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       onClose()
     },
@@ -108,12 +101,12 @@ const Addresses: FC = () => {
         </Flex>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent p="32px">
-          <ModalHeader pl="0">Add a New Address</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody p="0">
+      <DialogRoot open={open} onOpenChange={onClose} placement="center">
+        <DialogBackdrop />
+        <DialogContent p="32px">
+          <DialogHeader pl="0">Add a New Address</DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody p="0">
             <AddressForm
               onSubmit={(values) => {
                 const {
@@ -167,9 +160,9 @@ const Addresses: FC = () => {
               showSpinner={addingAddress || updatingAddress}
               addressId={addressId}
             />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </>
   )
 }

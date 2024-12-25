@@ -39,7 +39,6 @@ const MediaFiles: FC<MediaFileProps> = ({ medias, deletedMedias, setDeletedMedia
             />
           </Zoom>
 
-          {/* Trash button */}
           <Flex
             position="absolute"
             bottom="5%"

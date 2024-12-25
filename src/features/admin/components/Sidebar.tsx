@@ -27,7 +27,7 @@ export const Sidebar: FC = () => {
   return (
     <Flex display-name="account-nav" color="#666" flexDir="column" boxShadow="md">
       <Flex p="30px 0" justify="center" align="center">
-        <Text size={{ base: 'md', xl: 'lg' }} fontWeight="bold">
+        <Text fontSize={{ base: 'md', xl: 'lg' }} fontWeight="bold">
           Hi, {name}
         </Text>
       </Flex>

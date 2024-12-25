@@ -2,13 +2,13 @@
   "compileOnSave": true,
   "compilerOptions": {
     "target": "es6",
-    "module": "esnext",
+    "module": "ESNext",
     "allowJs": true,
     "jsx": "react-jsx",
     "outDir": "./build",
     "isolatedModules": true,
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "typeRoots": [
       "./types",
       "./node_modules/@types"

@@ -35,8 +35,6 @@ export const InputField = (props: InputFieldProps) => {
     testid,
     setFocus = false,
     disabled = false,
-    endAdornment,
-    startAdornment,
     isRequired,
     withRoundBorders = true,
   } = props
@@ -64,6 +62,7 @@ export const InputField = (props: InputFieldProps) => {
           <Input
             {...field}
             type={type}
+            variant="outline"
             ref={inputRef}
             placeholder={placeholder}
             data-testid={testid}
@@ -80,8 +79,10 @@ export const InputField = (props: InputFieldProps) => {
                 onBlurAction(inputRef.current?.value)
               }
             }}
-            isDisabled={disabled}
+            disabled={disabled}
             style={{
+              border: '1px solid #ecedef',
+              padding: '0 16px',
               background: `${disabled ? '#ecedef' : 'white'}`,
               borderRadius: withRoundBorders ? '40px' : '8px',
               height: '48px',

@@ -1,5 +1,4 @@
-import { Text } from '@chakra-ui/layout'
-import { Button, Flex, Heading, useToast } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FC } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
@@ -7,9 +6,10 @@ import * as z from 'zod'
 
 import { useContactUsMutation } from '../apis/contactUs.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField } from '@/components/form'
 import { ContentLayout } from '@/components/Layout'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import {
   INVALID_EMAIL_ERROR_MESSAGE,
   INVALID_MOBILE_NUMBER_ERROR_MESSAGE,
@@ -38,16 +38,13 @@ export const ContactUs: FC = () => {
     mode: 'onChange',
   })
 
-  const toast = useToast()
-
   const [contactUs, { loading }] = useContactUsMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Hang tight',
         description: 'We will get back to you soon!',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       reset()
     },
@@ -105,7 +102,7 @@ export const ContactUs: FC = () => {
                 fontSize="25px"
                 fontWeight="300"
                 type="submit"
-                leftIcon={loading ? <SpinnerContainer size="20px" overflow="unset" /> : <> </>}
+                loading={loading}
               >
                 Contact Us
               </Button>

@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react/button'
 import {
   Dropdown,
   DropdownItem,
@@ -14,6 +14,7 @@ type OrderStatusDropdownProps = {
   currentStatus: OrderStatus
   onStatusChange: (status: OrderStatus) => void
 }
+
 export const OrderStatusDropdown: FC<OrderStatusDropdownProps> = ({
   currentStatus,
   onStatusChange,

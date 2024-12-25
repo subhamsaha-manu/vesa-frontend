@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { PencilEdit02Icon } from 'hugeicons-react'
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import {
@@ -13,6 +13,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form'
 
+import { Field } from '@/components/ui/field'
 import { ALLOWED_THUMBNAIL_FILE_TYPES, MAX_THUMBNAIL_FILE_SIZE } from '@/utils/constants'
 
 type ThumbnailUploadProps = {
@@ -91,7 +92,7 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
   }
 
   return (
-    <FormControl isInvalid={!!errors[fieldName]}>
+    <Field invalid={!!errors[fieldName]} errorText="">
       <Flex
         boxShadow="#00000013 0px 6.5px 19.5px 6.5px"
         borderRadius="8px"
@@ -129,13 +130,6 @@ export const ThumbnailUpload: FC<ThumbnailUploadProps> = ({
           data-testid="upload-thumbnail-input"
         />
       </Flex>
-      {errors[fieldName] && (
-        <Flex display-name="field-wrapper-error-box-div" alignItems="center" w="100%">
-          <FormErrorMessage>
-            {errors.thumbnail && isFieldError(errors.thumbnail) ? errors.thumbnail.message : null}
-          </FormErrorMessage>
-        </Flex>
-      )}
-    </FormControl>
+    </Field>
   )
 }

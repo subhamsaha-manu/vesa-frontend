@@ -1,5 +1,4 @@
-import { Text } from '@chakra-ui/layout'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import React, { FC } from 'react'
 
 export const Copyright: FC = () => (

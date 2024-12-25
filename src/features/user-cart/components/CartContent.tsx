@@ -1,23 +1,11 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react'
+import { Flex, Heading, Image, Table, Text } from '@chakra-ui/react'
 import { MultiplicationSignIcon } from 'hugeicons-react'
 import round from 'lodash/round'
 import { FC } from 'react'
 
 import { AdjustCartItemQuantity } from './AdjustCartItemQuantity'
 
+import { Button } from '@/components/ui/button'
 import { CartItem, MinifiedProduct } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
@@ -42,65 +30,63 @@ export const CartContent: FC<CartContentProps> = ({
   return (
     <Flex display-name="main-content" w="100%" h="100%" gap={6} justify="space-between">
       <Flex display-name="cart-items-table" h="100%">
-        <TableContainer w="100%">
-          <Table variant="simple" size="lg">
-            <Thead>
-              <Tr>
-                <Th></Th>
-                <Th></Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
-                  Product
-                </Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
-                  Price
-                </Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
-                  Quantity
-                </Th>
-                <Th style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
-                  Subtotal
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {cartItems.map(({ imageUrl, price, productId, quantity, title }) => (
-                <Tr key={productId}>
-                  <Td
-                    _hover={{ color: '#D9121F', cursor: 'pointer' }}
-                    onClick={() => removeProductFromCart(productId, true)}
-                  >
-                    <MultiplicationSignIcon size={15} />
-                  </Td>
-                  <Td pl={0} pr={0}>
-                    <Image src={imageUrl} alt={title} maxW="200px" />
-                  </Td>
-                  <Td
-                    style={{ fontWeight: '400' }}
-                    _hover={{ cursor: 'pointer', color: '#00bb00', textDecoration: 'underline' }}
-                    onClick={() => onItemClick(productId)}
-                    pr={0}
-                  >
-                    {title}
-                  </Td>
-                  <Td pr={0}>{round(price, 2)}</Td>
-                  <Td pr={0}>
-                    <AdjustCartItemQuantity
-                      initialQuantity={quantity}
-                      productId={productId}
-                      removeProductFromCart={removeProductFromCart}
-                      calculateTotalCartAmount={calculateTotalCartAmount}
-                      maxQuantity={
-                        minifiedProductDetails?.find((product) => product.productId === productId)
-                          ?.quantity
-                      }
-                    />
-                  </Td>
-                  <Td pr={0}>{round(price * quantity, 2)}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        <Table.Root variant="outline" size="lg" w="100%">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader />
+              <Table.ColumnHeader />
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                Product
+              </Table.ColumnHeader>
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                Price
+              </Table.ColumnHeader>
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                Quantity
+              </Table.ColumnHeader>
+              <Table.ColumnHeader style={{ textTransform: 'capitalize', fontWeight: '500' }} pr={0}>
+                Subtotal
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {cartItems.map(({ imageUrl, price, productId, quantity, title }) => (
+              <Table.Row key={productId}>
+                <Table.Cell
+                  _hover={{ color: '#D9121F', cursor: 'pointer' }}
+                  onClick={() => removeProductFromCart(productId, true)}
+                >
+                  <MultiplicationSignIcon size={15} />
+                </Table.Cell>
+                <Table.Cell pl={0} pr={0}>
+                  <Image src={imageUrl} alt={title} maxW="200px" />
+                </Table.Cell>
+                <Table.Cell
+                  style={{ fontWeight: '400' }}
+                  _hover={{ cursor: 'pointer', color: '#00bb00', textDecoration: 'underline' }}
+                  onClick={() => onItemClick(productId)}
+                  pr={0}
+                >
+                  {title}
+                </Table.Cell>
+                <Table.Cell pr={0}>{round(price, 2)}</Table.Cell>
+                <Table.Cell pr={0}>
+                  <AdjustCartItemQuantity
+                    initialQuantity={quantity}
+                    productId={productId}
+                    removeProductFromCart={removeProductFromCart}
+                    calculateTotalCartAmount={calculateTotalCartAmount}
+                    maxQuantity={
+                      minifiedProductDetails?.find((product) => product.productId === productId)
+                        ?.quantity
+                    }
+                  />
+                </Table.Cell>
+                <Table.Cell pr={0}>{round(price * quantity, 2)}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
       </Flex>
       <Flex
         display-name="cart-summary"

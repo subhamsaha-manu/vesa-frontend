@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import { PencilEdit01Icon } from 'hugeicons-react'
 import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +8,8 @@ import { OtpInputField } from './OtpInputField'
 
 import { useVerifyOtpMutation } from '../apis/verifyOtp.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { AuthByType } from '@/types'
 import { TOKEN, USER_ID } from '@/utils/constants'
 import { storage } from '@/utils/storage'
@@ -21,7 +22,6 @@ type VerifyOtpStepProps = {
 
 export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigateToStep }) => {
   const [otp, setOtp] = useState<string>('')
-  const toast = useToast()
 
   const navigate = useNavigate()
 
@@ -37,23 +37,21 @@ export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigate
     }).then((response) => {
       const responseData = response.data?.verifyOtp
       if (responseData?.isVerified) {
-        toast({
+        toaster.create({
           title: 'OTP Verified',
           description: 'You have successfully verified your OTP.',
-          status: 'success',
+          type: 'success',
           duration: 2000,
-          isClosable: true,
         })
         storage.setItem(USER_ID, responseData.userId)
         storage.setItem(TOKEN, responseData.token)
         navigate('/')
       } else {
-        toast({
+        toaster.create({
           title: 'Invalid OTP',
           description: 'Please try again.',
-          status: 'error',
+          type: 'error',
           duration: 2000,
-          isClosable: true,
         })
       }
     })
@@ -91,8 +89,8 @@ export const VerifyOtpStep: FC<VerifyOtpStepProps> = ({ sendTo, authBy, navigate
           onClick={onVerifyOtp}
           fontSize="25px"
           fontWeight="400"
-          isDisabled={loading}
-          leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
+          disabled={loading}
+          loading={loading}
         >
           Verify OTP
         </Button>

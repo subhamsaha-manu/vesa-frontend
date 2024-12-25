@@ -1,21 +1,21 @@
-import { Button, Flex, Heading, Text } from '@chakra-ui/react'
-import { Delete02Icon } from 'hugeicons-react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import round from 'lodash/round'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { UserCartDesktopView } from './UserCartDesktopView'
+import { UserCartMobileView } from './UserCartMobileView'
 
 import { useEmptyCartMutation } from '../apis/emptyCart.generated'
+import { useMinifiedProductDetailsQuery } from '../apis/minifiedProductDetails.generated'
 import { useRemoveProductFromCartMutation } from '../apis/removeProductFromCart.generated'
 import { userCart } from '../apis/userCart'
 import { useUserCartQuery } from '../apis/userCart.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ContentLayout } from '@/components/Layout'
+import { Button } from '@/components/ui/button'
 import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
-import { useMinifiedProductDetailsQuery } from '@/features/user-cart/apis/minifiedProductDetails.generated'
-import { UserCartMobileView } from '@/features/user-cart/components/UserCartMobileView'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { ProductStatus } from '@/types'
 
@@ -113,7 +113,7 @@ const UserCart: FC = () => {
             >
               <Text
                 color="#00bb00"
-                size="xs"
+                fontSize="xs"
                 _hover={{ cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Continue Shopping
@@ -133,13 +133,8 @@ const UserCart: FC = () => {
                 _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
                 borderRadius="40px"
                 onClick={() => void emptyCart()}
-                leftIcon={
-                  emptyingCart ? (
-                    <SpinnerContainer size="20px" overflow="unset" />
-                  ) : (
-                    <Delete02Icon />
-                  )
-                }
+                loading={emptyingCart}
+                loadingText="Emptying Cart"
               >
                 Empty Cart
               </Button>

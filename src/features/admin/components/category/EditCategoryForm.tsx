@@ -1,14 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
+import { Card, Flex, Group, Heading, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
@@ -22,8 +12,9 @@ import { useGeneratePresignedUrlsMutation } from '../../apis/generatePresignedUr
 import { useUpdateCategoryMutation } from '../../apis/updateCategory.generated'
 import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { Category, CategoryStatus, GenerateUrlFor, UpdateCategoryInput } from '@/types'
 import {
   CATEGORY_TITLE_IS_MANDATORY,
@@ -81,19 +72,16 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
     mode: 'onChange',
   })
 
-  const toast = useToast()
-
   const goBackToProducts = () => {
     navigate('/admin/categories')
   }
 
   const [updateCategory, { loading }] = useUpdateCategoryMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Category updated successfully',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       goBackToProducts()
     },
@@ -155,11 +143,11 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
         data-testid="edit-category-form-flex"
       >
         <Flex flexDir="column" w={{ base: '100%', xl: '20%' }} gap="24px">
-          <Card variant="elevated" size="md" p="20px">
-            <CardHeader>
+          <Card.Root variant="elevated" size="md" p="20px">
+            <Card.Header>
               <Heading size="md">Thumbnail</Heading>
-            </CardHeader>
-            <CardBody
+            </Card.Header>
+            <Card.Body
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -181,13 +169,13 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
                 Set the category thumbnail image. Only *.png, *.jpg and *.jpeg image files are
                 accepted
               </Text>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" size="md" p="20px" data-testid="category-status-card">
-            <CardHeader>
+            </Card.Body>
+          </Card.Root>
+          <Card.Root variant="elevated" size="md" p="20px" data-testid="category-status-card">
+            <Card.Header>
               <Heading size="md">Status</Heading>
-            </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+            </Card.Header>
+            <Card.Body style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
               <Select
                 placeholder="Select category status"
                 selectionMode="single"
@@ -201,18 +189,18 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
                   <SelectItem key={status}>{key}</SelectItem>
                 ))}
               </Select>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </Flex>
         <Flex flex="fit-content" flexDir="column" gap="32px">
           <Flex flex="fit-content" display-name="general-section">
-            <Card w="100%" p={{ base: 0, xl: '20px' }}>
-              <CardHeader p={{ base: '8px', xl: '16px' }}>
+            <Card.Root w="100%" p={{ base: 0, xl: '20px' }}>
+              <Card.Header p={{ base: '8px', xl: '16px' }}>
                 <Heading size="md" fontWeight="600">
                   General
                 </Heading>
-              </CardHeader>
-              <CardBody p={{ base: '8px', xl: '16px' }}>
+              </Card.Header>
+              <Card.Body p={{ base: '8px', xl: '16px' }}>
                 <Flex flexDir="column" gap="24px">
                   <InputField
                     fieldName="name"
@@ -236,11 +224,11 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
                     showTextLength
                   />
                 </Flex>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Flex>
           <Flex display-name="footer" justify="end">
-            <ButtonGroup spacing="2">
+            <Group>
               <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
                 Cancel
               </Button>
@@ -248,13 +236,14 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
                 variant="solid"
                 colorScheme="blue"
                 type="submit"
-                leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                isDisabled={loading || generatingPresignedUrls}
+                loading={loading}
+                loadingText="Saving..."
+                disabled={loading || generatingPresignedUrls}
                 form="edit-category-form"
               >
                 Save Changes
               </Button>
-            </ButtonGroup>
+            </Group>
           </Flex>
         </Flex>
       </Flex>

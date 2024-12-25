@@ -57,8 +57,8 @@ export const UserCartMobileView: FC<UserCartMobileViewProps> = ({
           </Flex>
           <Flex display-name="checkout-section" w="100%" flexDir="column" gap={5}>
             <Flex display-name="total-amount" w="100%" justify="space-evenly">
-              <Text size="sm">Estimated Total Amount:</Text>
-              <Text size="lg" as="b">
+              <Text fontSize="sm">Estimated Total Amount:</Text>
+              <Text fontSize="lg" as="b">
                 {INR_CURRENCY_SYMBOL} {totalCartAmount}
               </Text>
             </Flex>

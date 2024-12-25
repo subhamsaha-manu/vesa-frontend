@@ -1,15 +1,4 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-  Switch,
-  Text,
-} from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
 import { FC, useEffect, useState } from 'react'
@@ -17,8 +6,11 @@ import { FieldError, FieldValues, useController, useForm } from 'react-hook-form
 import Select from 'react-select'
 import * as z from 'zod'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { Field } from '@/components/ui/field'
+import { Radio, RadioGroup } from '@/components/ui/radio'
+import { Switch } from '@/components/ui/switch'
 import { stateOptions } from '@/features/user-cart/utils/IndianStates'
 import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 import { AddressType } from '@/types'
@@ -160,7 +152,7 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
               disabled
             />
           </Flex>
-          <FormControl isInvalid={!isNil(errors.state)} isRequired>
+          <Field invalid={!isNil(errors.state)} required errorText="State is mandatory">
             <Select
               isClearable
               isSearchable
@@ -171,8 +163,7 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
               styles={customStyles}
               {...restStateFieldProps}
             />
-            <FormErrorMessage>{errors.state && 'State is mandatory'}</FormErrorMessage>
-          </FormControl>
+          </Field>
           <InputField
             fieldName="pincode"
             placeholder="PIN Code"
@@ -183,13 +174,13 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
           <Text fontSize="md" as="b" color="gray">
             Address Type
           </Text>
-          <FormControl display="flex" alignItems="center" isRequired>
+          <Field display="flex" alignItems="center" required>
             <RadioGroup
               defaultValue={addressType}
               value={addressType}
-              onChange={(value) => setAddressType(value as AddressType)}
+              onValueChange={(value) => setAddressType(value.value as AddressType)}
             >
-              <Stack spacing={4} direction="row">
+              <Stack gap={4} direction="row">
                 <Radio value={AddressType.Home} {...register('addressType')}>
                   Home
                 </Radio>
@@ -201,18 +192,15 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
                 </Radio>
               </Stack>
             </RadioGroup>
-          </FormControl>
-          <FormControl display="flex" alignItems="center">
-            <FormLabel htmlFor="isDefault" mb="0">
-              Default Address
-            </FormLabel>
+          </Field>
+          <Field display="flex" alignItems="center" label="Default Address">
             <Switch
               id="isDefault"
               {...register('isDefault')}
-              isChecked={isDefaultChecked}
+              checked={isDefaultChecked}
               onChange={() => setIsDefaultChecked(!isDefaultChecked)}
             />
-          </FormControl>
+          </Field>
           <Button
             variant="solid"
             size="lg"
@@ -225,7 +213,8 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmit, showSpinner, addre
             fontSize="25px"
             fontWeight="300"
             type="submit"
-            leftIcon={showSpinner ? <SpinnerContainer size="20px" overflow="unset" /> : <> </>}
+            loading={showSpinner}
+            loadingText="Saving..."
           >
             {addressId ? 'Update Address' : 'Add Address'}
           </Button>

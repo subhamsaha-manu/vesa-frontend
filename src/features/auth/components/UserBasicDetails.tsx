@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, useToast } from '@chakra-ui/react'
+import { Flex, Heading } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FC, useEffect } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
@@ -7,8 +7,9 @@ import * as z from 'zod'
 
 import { useRegisterMutation } from '../apis/register.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { AuthByType } from '@/types'
 import {
   INVALID_EMAIL_ERROR_MESSAGE,
@@ -46,7 +47,6 @@ export const UserBasicDetails: FC<UserBasicDetailsProps> = ({ sendTo, authBy }) 
   })
 
   const navigate = useNavigate()
-  const toast = useToast()
 
   useEffect(() => {
     if (authBy === AuthByType.Email) {
@@ -59,12 +59,11 @@ export const UserBasicDetails: FC<UserBasicDetailsProps> = ({ sendTo, authBy }) 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
       storage.setItem(USER_ID, data.register)
-      toast({
+      toaster.create({
         title: 'Account created',
         description: 'You have successfully created your account.',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       navigate('/')
     },
@@ -117,9 +116,9 @@ export const UserBasicDetails: FC<UserBasicDetailsProps> = ({ sendTo, authBy }) 
             borderRadius="40px"
             fontSize="25px"
             fontWeight="400"
-            isDisabled={loading}
+            disabled={loading}
+            loading={loading}
             type="submit"
-            leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
           >
             Save Details
           </Button>

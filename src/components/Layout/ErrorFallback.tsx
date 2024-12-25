@@ -15,7 +15,7 @@ export const ErrorFallback = () => {
       alignItems="center"
       data-testid="error-fallback-container"
     >
-      <VStack spacing="3">
+      <VStack gap="3">
         <Image src={img} alt="Error" />
         <Heading size="lg" data-testid="error-heading">
           {ERROR_HEADING}

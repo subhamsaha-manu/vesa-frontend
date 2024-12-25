@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FieldValues } from 'react-hook-form'
 
@@ -8,7 +8,8 @@ import { AuthContainerStepEnum } from './AuthContainer'
 
 import { useRequestOtpMutation } from '../apis/requestOtp.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { AuthByType } from '@/types'
 
 type RequestOtpStepProps = {
@@ -17,14 +18,13 @@ type RequestOtpStepProps = {
   authBy: AuthByType
   setAuthBy: (authBy: AuthByType) => void
 }
+
 export const RequestOtpStep: FC<RequestOtpStepProps> = ({
   onSuccess,
   setSentTo,
   authBy,
   setAuthBy,
 }) => {
-  const toast = useToast()
-
   const [requestOtp, { loading }] = useRequestOtpMutation()
 
   const onRequestOTP = (values: FieldValues) => {
@@ -37,12 +37,11 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
       },
     }).then((response) => {
       if (response.data?.requestOtp) {
-        toast({
+        toaster.create({
           title: 'OTP Sent',
           description: 'An OTP has been sent.',
-          status: 'success',
+          type: 'success',
           duration: 2000,
-          isClosable: true,
         })
         onSuccess(AuthContainerStepEnum.VERIFY_OTP)
         setSentTo(value)
@@ -68,11 +67,11 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
       <Flex display-name="request-otp" justify="center" gap="4" flexDir="column" align="center">
         <Button
           variant="solid"
+          colorPalette="red"
           size="lg"
-          color="white"
-          background="black"
-          _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           borderRadius="40px"
+          color="white"
+          _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           onClick={() =>
             document.getElementById('auth-form')?.dispatchEvent(
               new Event('submit', {
@@ -83,21 +82,21 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
           }
           fontSize="25px"
           fontWeight="400"
-          isDisabled={loading}
-          leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
+          disabled={loading}
+          loading={loading}
         >
           Request OTP
         </Button>
         <Text fontSize={{ base: 'sm', xl: 'md' }}>Or Login Using</Text>
         <Button
-          variant="outline"
+          variant="solid"
           size="md"
           color="black"
           _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           onClick={() =>
             setAuthBy(authBy === AuthByType.Phone ? AuthByType.Email : AuthByType.Phone)
           }
-          isDisabled
+          disabled
         >
           {authBy === AuthByType.Phone ? 'Email' : 'Phone'}
         </Button>

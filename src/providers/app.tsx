@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client'
-import { ChakraProvider } from '@chakra-ui/react'
 import { NextUIProvider } from '@nextui-org/react'
 import { FC, ReactNode, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -8,8 +7,10 @@ import { BrowserRouter } from 'react-router-dom'
 import { getClient } from '@/apollo/client'
 import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ErrorFallback } from '@/components/Layout'
+import { Provider } from '@/components/ui/provider'
+import { Toaster } from '@/components/ui/toaster'
 import { CategoriesContextProvider } from '@/context'
-import theme from '@/utils/theme'
+
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
@@ -20,17 +21,18 @@ type AppProviderProps = {
 export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   return (
     <NextUIProvider>
-      <ChakraProvider theme={theme}>
+      <Provider>
         <Suspense fallback={<SpinnerContainer height="60vh" />}>
           <ErrorBoundary fallback={<ErrorFallback />}>
             <BrowserRouter basename="/">
               <ApolloProvider client={getClient()}>
+                <Toaster />
                 <CategoriesContextProvider>{children}</CategoriesContextProvider>
               </ApolloProvider>
             </BrowserRouter>
           </ErrorBoundary>
         </Suspense>
-      </ChakraProvider>
+      </Provider>
     </NextUIProvider>
   )
 }

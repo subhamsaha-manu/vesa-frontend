@@ -1,5 +1,4 @@
-import { Text } from '@chakra-ui/layout'
-import { Flex, Image } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'

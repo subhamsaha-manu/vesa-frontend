@@ -115,7 +115,7 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
                 <Heading size="sm" color="white">
                   Availability
                 </Heading>
-                <Text size="sm" color="white">
+                <Text fontSize="sm" color="white">
                   {productDetail?.isOutOfStock ? 'Out of Stock' : 'In Stock'}
                 </Text>
               </Flex>

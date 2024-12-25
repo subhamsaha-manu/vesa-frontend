@@ -1,4 +1,3 @@
-import { EditIcon } from '@chakra-ui/icons'
 import {
   Pagination,
   Table,
@@ -13,6 +12,7 @@ import {
 import round from 'lodash/round'
 import { ChangeEvent, FC, Key, useCallback, useMemo } from 'react'
 import '../table.css'
+import { CiEdit } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 
 import { MinifiedProduct } from '@/types'
@@ -91,7 +91,7 @@ export const Products: FC<ProductsProps> = ({
               <Tooltip content="Edit Product">
                 <span>
                   <Link to={`/admin/product/${productId}`}>
-                    <EditIcon />
+                    <CiEdit />
                   </Link>
                 </span>
               </Tooltip>

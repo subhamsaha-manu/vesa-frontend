@@ -1,14 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
+import { Card, Flex, Group, Heading, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Chip, Select, SelectItem } from '@nextui-org/react'
 import { SharedSelection } from '@nextui-org/system'
@@ -27,8 +17,9 @@ import { allProductsForAdmin } from '../../apis/products'
 import { useUpdateProductMutation } from '../../apis/updateProduct.generated'
 import { uploadFileToS3 } from '../../apis/uploadFileToS3'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
 import { InputField, TextAreaField, ThumbnailUpload } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { extractImageUUID } from '@/features/admin/utils/extractImageUUID'
 import {
   Category,
@@ -117,19 +108,16 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
     )
   }
 
-  const toast = useToast()
-
   const goBackToProducts = () => {
     navigate('/admin/products')
   }
 
   const [updateProduct, { loading }] = useUpdateProductMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Product updated successfully',
-        status: 'success',
+        type: 'success',
         duration: 2000,
-        isClosable: true,
       })
       goBackToProducts()
     },
@@ -226,11 +214,11 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
         data-testid="edit-product-form-flex"
       >
         <Flex flexDir="column" w={{ base: '100%', xl: '20%' }} gap="24px">
-          <Card variant="elevated" size="md" p="20px">
-            <CardHeader>
+          <Card.Root variant="elevated" size="md" p="20px">
+            <Card.Header>
               <Heading size="md">Thumbnail</Heading>
-            </CardHeader>
-            <CardBody
+            </Card.Header>
+            <Card.Body
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -251,13 +239,13 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                 Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are
                 accepted
               </Text>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" size="md" p="20px" data-testid="product-status-card">
-            <CardHeader>
+            </Card.Body>
+          </Card.Root>
+          <Card.Root variant="elevated" size="md" p="20px" data-testid="product-status-card">
+            <Card.Header>
               <Heading size="md">Status</Heading>
-            </CardHeader>
-            <CardBody style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+            </Card.Header>
+            <Card.Body style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
               <Select
                 placeholder="Select product status"
                 selectionMode="single"
@@ -271,13 +259,13 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                   <SelectItem key={status}>{key}</SelectItem>
                 ))}
               </Select>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" size="md" flex="fit-content" p="20px">
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+            </Card.Body>
+          </Card.Root>
+          <Card.Root variant="elevated" size="md" flex="fit-content" p="20px">
+            <Card.Header className="pb-0 pt-2 px-4 flex-col items-start">
               <Heading size="md">Product Details</Heading>
-            </CardHeader>
-            <CardBody className="overflow-visible py-2">
+            </Card.Header>
+            <Card.Body className="overflow-visible py-2">
               <Flex flexDir="column" gap={8}>
                 <Text fontSize="18px" fontWeight="600" color="#191919">
                   Categories
@@ -316,18 +304,18 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                   ))}
                 </Select>
               </Flex>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </Flex>
         <Flex flex="fit-content" flexDir="column" gap="32px">
           <Flex flex="fit-content" display-name="general-section">
-            <Card w="100%" p={{ base: 0, xl: '20px' }}>
-              <CardHeader p={{ base: '8px', xl: '16px' }}>
+            <Card.Root w="100%" p={{ base: 0, xl: '20px' }}>
+              <Card.Header p={{ base: '8px', xl: '16px' }}>
                 <Heading size="md" fontWeight="600">
                   General
                 </Heading>
-              </CardHeader>
-              <CardBody p={{ base: '8px', xl: '16px' }}>
+              </Card.Header>
+              <Card.Body p={{ base: '8px', xl: '16px' }}>
                 <Flex flexDir="column" gap="24px">
                   <InputField
                     fieldName="title"
@@ -351,17 +339,17 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                     showTextLength
                   />
                 </Flex>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Flex>
           <Flex flex="fit-content" display-name="media-section">
-            <Card w="100%" p={{ base: 0, xl: '20px' }}>
-              <CardHeader p={{ base: '8px', xl: '16px' }}>
+            <Card.Root w="100%" p={{ base: 0, xl: '20px' }}>
+              <Card.Header p={{ base: '8px', xl: '16px' }}>
                 <Heading size="md" fontWeight="600">
                   Media
                 </Heading>
-              </CardHeader>
-              <CardBody p={{ base: '8px', xl: '16px' }}>
+              </Card.Header>
+              <Card.Body p={{ base: '8px', xl: '16px' }}>
                 <Flex flexDir="column" gap="24px">
                   <ImageUploader register={register} setValue={setValue} />
                   <MediaFiles
@@ -370,17 +358,17 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                     setDeletedMedias={setDeletedMedias}
                   />
                 </Flex>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Flex>
           <Flex flex="fit-content" display-name="pricing-section">
-            <Card w="100%" p={{ base: 0, xl: '20px' }}>
-              <CardHeader p={{ base: '8px', xl: '16px' }}>
+            <Card.Root w="100%" p={{ base: 0, xl: '20px' }}>
+              <Card.Header p={{ base: '8px', xl: '16px' }}>
                 <Heading size="md" fontWeight="600">
                   Pricing
                 </Heading>
-              </CardHeader>
-              <CardBody p={{ base: '8px', xl: '16px' }}>
+              </Card.Header>
+              <Card.Body p={{ base: '8px', xl: '16px' }}>
                 <Flex flexDir="column" gap="24px">
                   <InputField
                     fieldName="price"
@@ -403,11 +391,11 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                     withRoundBorders={false}
                   />
                 </Flex>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Flex>
           <Flex display-name="footer" justify="end">
-            <ButtonGroup spacing="2">
+            <Group>
               <Button variant="ghost" colorScheme="blue" onClick={() => goBackToProducts()}>
                 Cancel
               </Button>
@@ -415,13 +403,14 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
                 variant="solid"
                 colorScheme="blue"
                 type="submit"
-                leftIcon={loading ? <SpinnerContainer size="20px" /> : undefined}
-                isDisabled={loading || generatingPresignedUrls}
+                loading={loading}
+                loadingText="Saving..."
+                disabled={loading || generatingPresignedUrls}
                 form="edit-product-form"
               >
                 Save Changes
               </Button>
-            </ButtonGroup>
+            </Group>
           </Flex>
         </Flex>
       </Flex>

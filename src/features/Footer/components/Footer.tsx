@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Text, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { Mail01Icon, WhatsappIcon } from 'hugeicons-react'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Copyright } from './Copyright'
 import { SEOContent } from './SEOContent'
 
+import { useColorModeValue } from '@/components/ui/color-mode'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { VESA_LOGO_URL } from '@/utils/constants'
 

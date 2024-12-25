@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text, useToast } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 import { isEmpty } from 'lodash'
 import round from 'lodash/round'
 import { FC, RefObject, useState } from 'react'
@@ -9,7 +9,8 @@ import { usePlaceOrderMutation } from '../apis/placeOrder.generated'
 import { userCart } from '../apis/userCart'
 import { useUserCartQuery } from '../apis/userCart.generated'
 
-import { SpinnerContainer } from '@/components/elements/Spinner'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { CartItem, ModeOfPayment, PlaceOrderInput } from '@/types'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
@@ -35,15 +36,12 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
     },
   })
 
-  const toast = useToast()
-
   const [placeOrder, { loading }] = usePlaceOrderMutation({
     onCompleted: () => {
-      toast({
+      toaster.create({
         title: 'Order placed successfully',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
       })
       navigate('/')
     },
@@ -157,7 +155,8 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
           fontWeight="300"
           type="submit"
           form="hook-form"
-          leftIcon={loading ? <SpinnerContainer size="20px" overflow="unset" /> : <> </>}
+          loading={loading}
+          loadingText="Placing Order"
         >
           Place Order
         </Button>

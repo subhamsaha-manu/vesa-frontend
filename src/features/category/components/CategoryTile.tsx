@@ -48,7 +48,7 @@ export const CategoryTile: FC<CategoryTileProps> = ({ category }) => {
           style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}
           lineHeight="1.2"
           textAlign="center"
-          isTruncated
+          truncate
         >
           {upperCase(category.name)}
         </Heading>

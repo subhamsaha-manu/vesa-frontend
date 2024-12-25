@@ -21,10 +21,11 @@ export const Pagination: FC<PaginationProps> = ({ totalPages, currentPage, setCu
     >
       <IconButton
         aria-label="Previous page"
-        icon={<FaAngleLeft />}
-        isDisabled={currentPage === 0}
+        disabled={currentPage === 0}
         onClick={() => setCurrentPage(currentPage - 1)}
-      />
+      >
+        <FaAngleLeft />
+      </IconButton>
 
       <Text color="primary.default">
         {currentPage + 1} of {totalPages}
@@ -32,10 +33,11 @@ export const Pagination: FC<PaginationProps> = ({ totalPages, currentPage, setCu
 
       <IconButton
         aria-label="Next Page"
-        icon={<FaAngleRight />}
-        isDisabled={currentPage + 1 === totalPages}
+        disabled={currentPage + 1 === totalPages}
         onClick={() => setCurrentPage(currentPage + 1)}
-      />
+      >
+        <FaAngleRight />
+      </IconButton>
     </Flex>
   )
 }

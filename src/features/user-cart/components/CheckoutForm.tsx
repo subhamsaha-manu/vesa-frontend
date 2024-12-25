@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormErrorMessage } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isNil from 'lodash/isNil'
 import { FC, useEffect } from 'react'
@@ -9,6 +9,7 @@ import * as z from 'zod'
 import { stateOptions } from '../utils/IndianStates'
 
 import { InputField } from '@/components/form'
+import { Field } from '@/components/ui/field'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { useShippingAddressLazyQuery } from '@/features/user-shipping-address/apis/shippingAddress.generated'
 import {
@@ -149,7 +150,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressI
               isRequired
             />
           </Flex>
-          <FormControl isInvalid={!isNil(errors.state)} isRequired>
+          <Field invalid={!isNil(errors.state)} required errorText="State is mandatory">
             <Select
               isClearable
               isSearchable
@@ -160,8 +161,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ onSubmit, selectedAddressI
               styles={customStyles}
               {...restStateFieldProps}
             />
-            <FormErrorMessage>{errors.state && 'State is mandatory'}</FormErrorMessage>
-          </FormControl>
+          </Field>
           <InputField
             fieldName="phoneNumber"
             label="Phone"
