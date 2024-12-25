@@ -8,6 +8,7 @@ export const orders = gql`
         name
         modeOfPayment
         orderDate
+        dateModified
         orderStatus
         orderTotal
       }

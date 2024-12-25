@@ -134,7 +134,6 @@ export const AddCategoryForm: FC = () => {
     })
   }
 
-  console.info({ errors })
   return (
     <form
       data-testid="add-category-form"

@@ -8,20 +8,20 @@ import {
   Flex,
   IconButton,
   Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { Search01Icon, UserIcon } from 'hugeicons-react'
+import { UserIcon } from 'hugeicons-react'
+import { debounce } from 'lodash'
 import { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import SearchInput from '@/components/elements/SearchInput'
 import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
+import { useEvent } from '@/hooks'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { MOBILE_VESA_LOGO_URL, USER_ID } from '@/utils/constants'
 import { storage } from '@/utils/storage'
@@ -41,6 +41,8 @@ export const LandingPageHeader = () => {
   const isMobile = width && width < 768
 
   const navigate = useNavigate()
+
+  const { dispatch } = useEvent('onSearchInputChange')
 
   const handleUserIconClick = () => {
     if (userId) {
@@ -66,6 +68,15 @@ export const LandingPageHeader = () => {
     },
     ...categoryMenuOptions,
   ]
+
+  const onSearchInputChange = debounce((text: string) => {
+    if (text === '') {
+      dispatch(undefined)
+    }
+    if (text.length > 2) {
+      dispatch(text)
+    }
+  }, 500)
 
   return (
     <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={1500}>
@@ -156,19 +167,10 @@ export const LandingPageHeader = () => {
         <Flex
           display-name="landing-page-header-search-product-flex"
           mr="20px"
+          w="400px"
           display={{ base: 'none', md: 'flex' }}
         >
-          <InputGroup width="400px">
-            <InputLeftElement pointerEvents="none">
-              <Search01Icon color="gray.300" size={20} />
-            </InputLeftElement>
-            <Input
-              placeholder="Search for product"
-              size="md"
-              background="white"
-              borderRadius="40px"
-            />
-          </InputGroup>
+          <SearchInput onSearch={onSearchInputChange} placeholder="Search for products" />
         </Flex>
         <Flex
           justify="end"
