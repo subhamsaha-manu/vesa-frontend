@@ -259,6 +259,7 @@ type MinifiedReceivedOrder {
     orderId: ID!
     name: String!
     orderDate: String!
+    dateModified: String!
     orderStatus: OrderStatus!
     orderTotal: Float!
     modeOfPayment: ModeOfPayment!

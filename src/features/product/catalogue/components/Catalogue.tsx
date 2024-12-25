@@ -6,6 +6,7 @@ import { ProductTile } from './ProductTile'
 
 import { useProductsQuery } from '../apis/products.generated'
 
+import { useEvent } from '@/hooks'
 import { MinifiedProduct, ProductStatus } from '@/types'
 import { CATALOGUE_PAGE_SIZE } from '@/utils/constants'
 
@@ -20,12 +21,22 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
   >([])
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [totalPages, setTotalPages] = useState<number>(0)
+  const [searchText, setSearchText] = useState<string>('')
+
+  const onSearchInput = (text: string) => {
+    setSearchText(text)
+    setPageNumber(0)
+    setProducts([])
+  }
+
+  useEvent('onSearchInputChange', onSearchInput)
 
   const { data, loading, fetchMore } = useProductsQuery({
     variables: {
       productFilter: {
         categoryIds,
         statuses: [ProductStatus.Published],
+        text: searchText,
       },
       pageNumber,
       pageSize: CATALOGUE_PAGE_SIZE,
