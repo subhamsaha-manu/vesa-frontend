@@ -46,7 +46,6 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
 
   useEffect(() => {
     if (data && data.products) {
-      console.info(data.products.products.length)
       setProducts((prev) => [...prev, ...data.products.products])
       setTotalPages(data.products.pageInfo.totalPages)
 
