@@ -67,11 +67,8 @@ export const RequestOtpStep: FC<RequestOtpStepProps> = ({
       <Flex display-name="request-otp" justify="center" gap="4" flexDir="column" align="center">
         <Button
           variant="solid"
-          colorPalette="red"
           size="lg"
           borderRadius="40px"
-          color="white"
-          _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
           onClick={() =>
             document.getElementById('auth-form')?.dispatchEvent(
               new Event('submit', {

@@ -10,10 +10,9 @@ interface ButtonLoadingProps {
 export interface ButtonProps extends ChakraButtonProps, ButtonLoadingProps {}
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
-  const { loading, disabled, loadingText, children, variant, ...rest } = props
-  console.info({ variant })
+  const { loading, disabled, loadingText, children, ...rest } = props
   return (
-    <ChakraButton disabled={loading || disabled} variant={variant} ref={ref} {...rest} padding={6}>
+    <ChakraButton disabled={loading || disabled} ref={ref} {...rest}>
       {loading && !loadingText ? (
         <>
           <AbsoluteCenter display="inline-flex">

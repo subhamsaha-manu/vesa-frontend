@@ -15,26 +15,26 @@ export const system = createSystem(defaultConfig, {
         '2xl': { value: '96em' },
       },
       colors: {
-        brand: {
-          50: { value: '#e6f2ff' },
-          100: { value: '#e6f2ff' },
-          200: { value: '#bfdeff' },
-          300: { value: '#99caff' },
-          // ...
-          950: { value: '#001a33' },
-        },
+        primary: { value: '#0FEE0F' },
+        secondary: { value: '#EE0F0F' },
+        solid: { value: '#EE0F0F' },
+      },
+      radii: {
+        button: { value: '40px' }, // Custom radius token
       },
     },
-    semanticTokens: {
-      colors: {
-        brand: {
-          solid: { value: '{colors.brand.500}' },
-          contrast: { value: '{colors.brand.100}' },
-          fg: { value: '{colors.brand.700}' },
-          muted: { value: '{colors.brand.100}' },
-          subtle: { value: '{colors.brand.200}' },
-          emphasized: { value: '{colors.brand.300}' },
-          focusRing: { value: '{colors.brand.500}' },
+    recipes: {
+      Button: {
+        variants: {
+          solid: {
+            styles: {
+              bg: '{colors.solid}', // Use the "solid" color token
+              color: 'white',
+              _hover: {
+                bg: '{colors.secondary}', // Use the "secondary" color token
+              },
+            },
+          },
         },
       },
     },
