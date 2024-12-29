@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "3.11.8",
-    "@chakra-ui/cli": "^3.2.3",
     "@chakra-ui/react": "^3.2.3",
     "@craco/craco": "^7.1.0",
     "@emotion/react": "^11.14.0",
@@ -97,6 +96,7 @@
     "@babel/preset-env": "^7.24.7",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@chakra-ui/cli": "^3.2.3",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/compat": "^1.1.0",
