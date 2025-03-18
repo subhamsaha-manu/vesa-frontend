@@ -167,8 +167,8 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
         generatePresignedUrlsInput: {
           generateUrlFor: GenerateUrlFor.Product,
           id: productId,
-          thumbnailFileType,
-          mediaFileTypes,
+          thumbnailFileType: thumbnailFileType ?? '',
+          mediaFileTypes: mediaFileTypes ?? [],
         },
       },
     }).then((data) => {
@@ -182,7 +182,9 @@ export const EditProductForm: FC<EditContainerFormProps> = ({ categories, produc
           fileType: mediaFileTypes[index],
         }))
 
-        void uploadFileToS3(thumbnail as File, thumbnailUrl)
+        if (thumbnail) {
+          void uploadFileToS3(thumbnail as File, thumbnailUrl)
+        }
 
         if (medias) {
           Array.from(medias).forEach((file, index) => {

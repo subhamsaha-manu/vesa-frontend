@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const product = gql`
-  query productDetail($productId: ID!, $categoryFilter: CategoryFilter!) {
+  query productDetail($productId: UUID!, $categoryFilter: CategoryFilter!) {
     product(productId: $productId) {
       productId
       title

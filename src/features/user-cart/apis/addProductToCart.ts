@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const addProductToCart = gql`
-  mutation addProductToCart($productId: ID!) {
+  mutation addProductToCart($productId: UUID!) {
     addProductToCart(productId: $productId)
   }
 `

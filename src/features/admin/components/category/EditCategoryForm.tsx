@@ -116,13 +116,16 @@ export const EditCategoryForm: FC<EditContainerFormProps> = ({ categoryDetail })
           generateUrlFor: GenerateUrlFor.Category,
           id: categoryId,
           mediaFileTypes: imageFileType ? [imageFileType] : [],
+          thumbnailFileType: '',
         },
       },
     }).then((data) => {
       if (data.data?.generatePresignedUrls) {
         const { mediaUrls } = data.data.generatePresignedUrls
 
-        void uploadFileToS3(image as File, mediaUrls[0])
+        if (image) {
+          void uploadFileToS3(image as File, mediaUrls[0])
+        }
 
         const variables: UpdateCategoryInput = {
           name,

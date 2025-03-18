@@ -5,6 +5,7 @@ export const generatePresignedUrls = gql`
     generatePresignedUrls(generatePresignedUrlsInput: $generatePresignedUrlsInput) {
       mediaUrls
       thumbnailUrl
+      id
     }
   }
 `

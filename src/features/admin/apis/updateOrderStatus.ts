@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const updateOrderStatus = gql`
-  mutation updateOrderStatus($orderId: ID!, $status: OrderStatus!) {
+  mutation updateOrderStatus($orderId: UUID!, $status: OrderStatus!) {
     updateOrderStatus(orderId: $orderId, status: $status)
   }
 `

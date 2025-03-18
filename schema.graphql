@@ -1,60 +1,62 @@
+scalar UUID
+
 type Query {
     products(productFilter: ProductFilter!, pageNumber: Int!, pageSize: Int!): ProductsResponse!
-    product(productId: ID!): Product!
-    category(categoryId: ID!): Category!
+    product(productId: UUID!): Product!
+    category(categoryId: UUID!): Category!
     categories(categoryFilter: CategoryFilter!): [Category!]!
     userCart: [CartItem!]!
     userWishlist: [MinifiedProduct!]!
     users: [User!]!
     shippingAddresses: [ShippingAddress!]!
-    shippingAddress(addressId: ID!): ShippingAddress!
+    shippingAddress(addressId: UUID!): ShippingAddress!
     userOrderHistory: [MinifiedOrder!]!
     userDetail: User!
     userAddressesMinified: [MinifiedShippingAddress!]!
-    orderDetails(orderId: ID!): Order!
+    orderDetails(orderId: UUID!): Order!
     orders(pageNumber: Int!, pageSize: Int!):OrdersResponse!
 }
 
 type Mutation {
-    register(registerUserInput: RegisterUserInput!): ID!
+    register(registerUserInput: RegisterUserInput!): UUID!
     addProduct(addProductInput: AddProductInput!): Boolean!
     addProducts(addProductsInput: [AddProductInput!]!): Boolean!
     addCategory(addCategoriesInput: AddCategoryInput!): Boolean!
     addCategories(addCategoriesInput: [AddCategoryInput!]!): Boolean!
-    addProductToCart(productId: ID!): Boolean!
-    removeProductFromCart(productId: ID!, removeAll: Boolean): Boolean!
-    addProductToWishlist(productId: ID!): Boolean!
-    removeProductFromWishlist(productId: ID!): Boolean!
+    addProductToCart(productId: UUID!): Boolean!
+    removeProductFromCart(productId: UUID!, removeAll: Boolean): Boolean!
+    addProductToWishlist(productId: UUID!): Boolean!
+    removeProductFromWishlist(productId: UUID!): Boolean!
     emptyCart: Boolean!
     placeOrder(placeOrderInput: PlaceOrderInput!): Boolean!
     contactUs(name: String!, email: String!, phoneNumber: String!): Boolean!
     addShippingAddress(addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
-    updateShippingAddress(addressId: ID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
-    removeShippingAddress(addressId: ID!): Boolean!
+    updateShippingAddress(addressId: UUID!, addUpdateShippingAddressInput: AddUpdateShippingAddressInput!): Boolean!
+    removeShippingAddress(addressId: UUID!): Boolean!
     requestOtp(sendTo:String!, contactMethod: AuthByType!): Boolean!
     verifyOtp(sendTo:String!, contactMethod: AuthByType!, otp: String!): VerifyOtpResponse!
-    updateOrderStatus(orderId: ID!, status: OrderStatus!): Boolean!
-    updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): Boolean!
-    updateCategory(categoryId: ID!, updateCategoryInput: UpdateCategoryInput!): Boolean!
+    updateOrderStatus(orderId: UUID!, status: OrderStatus!): Boolean!
+    updateProduct(productId: UUID!, updateProductInput: UpdateProductInput!): Boolean!
+    updateCategory(categoryId: UUID!, updateCategoryInput: UpdateCategoryInput!): Boolean!
     generatePresignedUrls(generatePresignedUrlsInput: GeneratePresignedUrlsInput!): PresignedUrlsResponse!
 }
 
 input ProductFilter {
-    ids: [ID!]
-    categoryIds: [ID!]
+    ids: [UUID!]
+    categoryIds: [UUID!]
     text: String
     statuses: [ProductStatus!]!
 }
 
 type Product {
-    id: ID!
-    productId: ID!
+    id: UUID!
+    productId: UUID!
     title: String!
     price: Float!
     medias: [Media!]!
     thumbnailUrl: String!
     description: String!
-    categoryIds: [ID!]!
+    categoryIds: [UUID!]!
     quantity: Int!
     isOutOfStock: Boolean!
     status: ProductStatus!
@@ -62,12 +64,12 @@ type Product {
 
 type Media {
     url: String!
-    uuid: ID!
+    uuid: UUID!
 }
 
 type MinifiedProduct {
-    id: ID!
-    productId: ID!
+    id: UUID!
+    productId: UUID!
     title: String!
     price: Float!
     imageUrls: [String!]!
@@ -85,11 +87,11 @@ input RegisterUserInput {
 }
 
 input AddProductInput {
-    productId: ID!
+    productId: UUID!
     title: String!
     description: String!
     price: Float!
-    categoryIds: [ID!]!
+    categoryIds: [UUID!]!
     mediaFiles: [MediaFileInput!]!
     thumbnailFileType: String!
     quantity: Int!
@@ -97,7 +99,7 @@ input AddProductInput {
 }
 
 type Category {
-    categoryId: ID!
+    categoryId: UUID!
     name: String!
     description: String!
     imageUrl: String!
@@ -105,7 +107,7 @@ type Category {
 }
 
 input AddCategoryInput {
-    categoryId: ID!
+    categoryId: UUID!
     name: String!
     description: String!
     imageUrlType: String!
@@ -113,7 +115,7 @@ input AddCategoryInput {
 }
 
 type CartItem {
-    productId: ID!
+    productId: UUID!
     title: String!
     price: Float!
     imageUrl: String!
@@ -126,7 +128,7 @@ enum UserRole {
 }
 
 type User {
-    userId: ID!
+    userId: UUID!
     name: String!
     email: String
     phoneNumber: String
@@ -148,7 +150,7 @@ input PlaceOrderInput {
 }
 
 input OrderItemInput {
-    productId: ID!
+    productId: UUID!
     quantity: Int!
     price: Float!
 }
@@ -162,7 +164,7 @@ enum ModeOfPayment {
 }
 
 type  Order {
-    orderId: ID!
+    orderId: UUID!
     name: String!
     email: String!
     phone: String!
@@ -180,7 +182,7 @@ type  Order {
 }
 
 type OrderItem {
-    productId: ID!
+    productId: UUID!
     title: String!
     price: Float!
     imageUrl: String!
@@ -214,7 +216,7 @@ enum AddressType {
 }
 
 type ShippingAddress {
-    addressId: ID!
+    addressId: UUID!
     name: String!
     addressLine1: String!
     addressLine2: String
@@ -227,14 +229,14 @@ type ShippingAddress {
 }
 
 type MinifiedOrder {
-    orderId: ID!
+    orderId: UUID!
     orderDate: String!
     orderStatus: OrderStatus!
     orderTotal: Float!
 }
 
 type MinifiedShippingAddress {
-    addressId: ID!
+    addressId: UUID!
     name: String!
     isDefault: Boolean!
 }
@@ -246,7 +248,7 @@ enum AuthByType {
 
 type VerifyOtpResponse {
     isVerified: Boolean!
-    userId: ID
+    userId: UUID
     token: String
 }
 
@@ -256,7 +258,7 @@ type OrdersResponse {
 }
 
 type MinifiedReceivedOrder {
-    orderId: ID!
+    orderId: UUID!
     name: String!
     orderDate: String!
     dateModified: String!
@@ -276,7 +278,7 @@ input UpdateProductInput {
     title: String
     description: String
     price: Float
-    categoryIds: [ID!]!
+    categoryIds: [UUID!]!
     mediaFiles: [MediaFileInput!]!
     thumbnailFileType: String
     quantity: Int
@@ -286,8 +288,9 @@ input UpdateProductInput {
 
 input MediaFileInput {
     fileType: String!
-    uuid: ID!
+    uuid: UUID!
 }
+
 
 type ProductsResponse {
     products: [MinifiedProduct!]!
@@ -295,15 +298,16 @@ type ProductsResponse {
 }
 
 input GeneratePresignedUrlsInput {
+    id: UUID
     generateUrlFor: GenerateUrlFor!
-    id: ID!
     mediaFileTypes: [String!]!
-    thumbnailFileType: String
+    thumbnailFileType: String!
 }
 
 type PresignedUrlsResponse {
     mediaUrls: [String!]!
     thumbnailUrl: String!
+    id: UUID!
 }
 
 enum GenerateUrlFor {
@@ -332,7 +336,7 @@ input UpdateCategoryInput {
 }
 
 input CategoryFilter {
-    ids: [ID!]
+    ids: [UUID!]
     text: String
     statuses: [CategoryStatus!]!
 }

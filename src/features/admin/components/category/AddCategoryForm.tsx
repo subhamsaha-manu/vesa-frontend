@@ -15,7 +15,6 @@ import { SharedSelection } from '@nextui-org/system'
 import { FC, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
 import * as z from 'zod'
 
 import { useAddCategoryMutation } from '../../apis/addCategory.generated'
@@ -54,8 +53,6 @@ const schema = z.object({
 
 export const AddCategoryForm: FC = () => {
   const navigate = useNavigate()
-
-  const categoryId = uuidv4()
 
   const {
     handleSubmit,
@@ -107,18 +104,18 @@ export const AddCategoryForm: FC = () => {
       variables: {
         generatePresignedUrlsInput: {
           generateUrlFor: GenerateUrlFor.Category,
-          id: categoryId,
           mediaFileTypes: imageFileType ? [imageFileType] : [],
+          thumbnailFileType: '',
         },
       },
     }).then((data) => {
       if (data.data?.generatePresignedUrls) {
-        const { mediaUrls } = data.data.generatePresignedUrls
+        const { mediaUrls, id } = data.data.generatePresignedUrls
 
         void uploadFileToS3(image as File, mediaUrls[0])
 
         const variables: AddCategoryInput = {
-          categoryId,
+          categoryId: id,
           name,
           description,
           imageUrlType: imageFileType,

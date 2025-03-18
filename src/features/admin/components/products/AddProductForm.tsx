@@ -15,7 +15,6 @@ import { SharedSelection } from '@nextui-org/system'
 import { FC, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
 import * as z from 'zod'
 
 import { ImageUploader } from './ImageUploader'
@@ -71,8 +70,6 @@ type AddContainerFormProps = {
 
 export const AddProductForm: FC<AddContainerFormProps> = ({ categories }) => {
   const navigate = useNavigate()
-
-  const productId = uuidv4()
 
   const {
     handleSubmit,
@@ -135,14 +132,13 @@ export const AddProductForm: FC<AddContainerFormProps> = ({ categories }) => {
       variables: {
         generatePresignedUrlsInput: {
           generateUrlFor: GenerateUrlFor.Product,
-          id: productId,
           thumbnailFileType,
           mediaFileTypes,
         },
       },
     }).then((data) => {
       if (data.data?.generatePresignedUrls) {
-        const { mediaUrls, thumbnailUrl } = data.data.generatePresignedUrls
+        const { mediaUrls, thumbnailUrl, id } = data.data.generatePresignedUrls
 
         const mediaFileIds = mediaUrls.map((url) => extractImageUUID(url))
 
@@ -160,7 +156,7 @@ export const AddProductForm: FC<AddContainerFormProps> = ({ categories }) => {
         }
 
         const variables: AddProductInput = {
-          productId,
+          productId: id,
           title,
           description,
           price: parseFloat(price),

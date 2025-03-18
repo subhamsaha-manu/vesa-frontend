@@ -10,6 +10,12 @@ type AddressListDropdownProps = {
 export const AddressListDropdown: FC<AddressListDropdownProps> = ({ onSelect }) => {
   const { data } = useUserAddressesMinifiedQuery({
     fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      const defaultAddress = data.userAddressesMinified.find(({ isDefault }) => isDefault)
+      if (defaultAddress) {
+        onSelect(defaultAddress.addressId)
+      }
+    },
   })
 
   if (!data) {
@@ -19,13 +25,16 @@ export const AddressListDropdown: FC<AddressListDropdownProps> = ({ onSelect }) 
   return (
     <Flex display-name="address-list-dropdown" flex="1">
       <Select
+        isRequired
         label="Select Address"
         onChange={(e) => onSelect(e.target.value)}
-        selectedKeys={data.userAddressesMinified.find(({ isDefault }) => isDefault)?.addressId}
+        defaultSelectedKeys={[
+          data.userAddressesMinified.find(({ isDefault }) => isDefault)!.addressId,
+        ]}
         color="primary"
         variant="faded"
       >
-        {data.userAddressesMinified.map(({ addressId, name, isDefault }) => (
+        {data.userAddressesMinified.map(({ addressId, name }) => (
           <SelectItem key={addressId} value={addressId}>
             {name}
           </SelectItem>

@@ -16,6 +16,7 @@ import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 type CartSummaryProps = {
   orderDetailsRef: RefObject<FieldValues | null>
 }
+
 export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
   const [totalCartAmount, setTotalCartAmount] = useState<number>(0)
 
@@ -38,14 +39,16 @@ export const CartSummary: FC<CartSummaryProps> = ({ orderDetailsRef }) => {
   const toast = useToast()
 
   const [placeOrder, { loading }] = usePlaceOrderMutation({
-    onCompleted: () => {
-      toast({
-        title: 'Order placed successfully',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      })
-      navigate('/')
+    onCompleted: (data) => {
+      if (data.placeOrder) {
+        toast({
+          title: 'Order placed successfully',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+        navigate('/')
+      }
     },
     refetchQueries: [{ query: userCart }],
   })

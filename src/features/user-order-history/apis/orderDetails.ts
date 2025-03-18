@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const orderDetails = gql`
-  query orderDetails($orderId: ID!) {
+  query orderDetails($orderId: UUID!) {
     orderDetails(orderId: $orderId) {
       orderId
       name

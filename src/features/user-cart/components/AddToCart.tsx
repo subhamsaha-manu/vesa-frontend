@@ -26,8 +26,10 @@ export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
       productId,
     },
     refetchQueries: [{ query: userCart }],
-    onCompleted: () => {
-      setAddedToCart(true)
+    onCompleted: (data) => {
+      if (data.addProductToCart) {
+        setAddedToCart(true)
+      }
     },
   })
 

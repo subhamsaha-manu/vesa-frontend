@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const shippingAddress = gql`
-  query shippingAddress($addressId: ID!) {
+  query shippingAddress($addressId: UUID!) {
     shippingAddress(addressId: $addressId) {
       addressId
       name
