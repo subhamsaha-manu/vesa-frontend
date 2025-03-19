@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { Skeleton } from '@nextui-org/react'
+import { Skeleton } from '@heroui/react'
 import { FC } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import Slider from 'react-slick'

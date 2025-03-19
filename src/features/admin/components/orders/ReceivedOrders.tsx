@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { EyeIcon } from 'hugeicons-react'
 import round from 'lodash/round'
 import moment from 'moment'

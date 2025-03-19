@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { Select, SelectItem } from '@nextui-org/select'
+import { Select, SelectItem } from '@heroui/select'
 import { FC } from 'react'
 
 import { useUserAddressesMinifiedQuery } from '../apis/userAddressesMinified.generated'
@@ -35,7 +35,7 @@ export const AddressListDropdown: FC<AddressListDropdownProps> = ({ onSelect }) 
         variant="faded"
       >
         {data.userAddressesMinified.map(({ addressId, name }) => (
-          <SelectItem key={addressId} value={addressId}>
+          <SelectItem key={addressId} textValue={addressId}>
             {name}
           </SelectItem>
         ))}

@@ -8,7 +8,7 @@ import {
   TableRow,
   Tooltip,
   User,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { FC, Key, useCallback } from 'react'
 import '../table.css'
 import { Link } from 'react-router-dom'

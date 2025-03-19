@@ -1,6 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
-import { Button } from '@nextui-org/react'
+import { Button } from '@heroui/react'
 import { CheckmarkCircle02Icon } from 'hugeicons-react'
 import { FC, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'

@@ -1,6 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
 import { ChakraProvider } from '@chakra-ui/react'
-import { NextUIProvider } from '@nextui-org/react'
+import { HeroUIProvider } from '@heroui/react'
 import { FC, ReactNode, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter } from 'react-router-dom'
@@ -19,7 +19,7 @@ type AppProviderProps = {
 
 export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   return (
-    <NextUIProvider>
+    <HeroUIProvider>
       <ChakraProvider theme={theme}>
         <Suspense fallback={<SpinnerContainer height="60vh" />}>
           <ErrorBoundary fallback={<ErrorFallback />}>
@@ -31,6 +31,6 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
           </ErrorBoundary>
         </Suspense>
       </ChakraProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   )
 }

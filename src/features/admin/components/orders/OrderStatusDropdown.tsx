@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   SharedSelection,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { FC } from 'react'
 
 import { OrderStatus } from '@/types'

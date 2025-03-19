@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { Accordion, AccordionItem } from '@nextui-org/react'
+import { Accordion, AccordionItem } from '@heroui/react'
 import { Logout04Icon, RecordIcon } from 'hugeicons-react'
 import { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'

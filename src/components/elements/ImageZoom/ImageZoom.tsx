@@ -1,4 +1,4 @@
-import { Image, Modal, ModalBody, ModalContent } from '@nextui-org/react'
+import { Image, Modal, ModalBody, ModalContent } from '@heroui/react'
 import { FC, useState } from 'react'
 
 type ImageZoomProps = {

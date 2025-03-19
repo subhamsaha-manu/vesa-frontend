@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { UserIcon } from 'hugeicons-react'
 import { debounce } from 'lodash'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import SearchInput from '@/components/elements/SearchInput'
@@ -21,7 +21,7 @@ import useCategoriesContextProvider from '@/context/CategoriesContextProvider'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { UserCartHeaderIcon } from '@/features/user-cart'
 import { UserWishlistHeaderIcon } from '@/features/user-wishlist'
-import { useEvent } from '@/hooks'
+import { useEvent, useScrollDirection } from '@/hooks'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { MOBILE_VESA_LOGO_URL, USER_ID } from '@/utils/constants'
 import { storage } from '@/utils/storage'
@@ -34,7 +34,10 @@ export const LandingPageHeader = () => {
 
   const userId = storage.getItem(USER_ID)
 
+  const scrollDirection = useScrollDirection()
   const size = useWindowSize()
+
+  const [isScrollingDown, setIsScrollingDown] = useState<boolean>()
 
   const { width } = size
 
@@ -43,6 +46,14 @@ export const LandingPageHeader = () => {
   const navigate = useNavigate()
 
   const { dispatch } = useEvent('onSearchInputChange')
+
+  useEffect(() => {
+    if (scrollDirection === 'up') {
+      setIsScrollingDown(false)
+    } else if (scrollDirection === 'down') {
+      setIsScrollingDown(true)
+    }
+  }, [isScrollingDown, scrollDirection])
 
   const handleUserIconClick = () => {
     if (userId) {
@@ -79,7 +90,13 @@ export const LandingPageHeader = () => {
   }, 500)
 
   return (
-    <Box display-name="landing-page-header-box" position="sticky" top="0" zIndex={1500}>
+    <Box
+      display-name="landing-page-header-box"
+      position="sticky"
+      top="0"
+      zIndex={4}
+      display={isScrollingDown ? 'none' : 'block'}
+    >
       <Flex
         display-name="landing-page-header-flex"
         bg="#e5e2db"

@@ -4,7 +4,7 @@ import { FC, useState } from 'react'
 import Slider from 'react-slick'
 
 const settings = {
-  dots: false,
+  dots: true,
   arrows: false,
   fade: true,
   infinite: true,
@@ -25,13 +25,13 @@ type CarouselProps = {
 export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
   const [slider, setSlider] = useState<Slider | null>(null)
 
-  const top = useBreakpointValue({ base: '80%', md: '50%' })
+  const top = useBreakpointValue({ base: '80%', md: '40%' })
   const side = useBreakpointValue({ base: '30%', md: '10px' })
 
   return (
     <Box
       position="relative"
-      height={{ base: '98vh', xl: '600px' }}
+      height="full"
       width="full"
       overflow="hidden"
       display-name="carousel-box-container"
@@ -87,7 +87,7 @@ export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
           flexDir="column"
           gap={4}
         >
-          <Heading size="4xl" fontWeight="700" letterSpacing="20px" color="#e5e2db">
+          <Heading size="4xl" fontWeight="700" letterSpacing="20px" color="#FFFFFF">
             VESA
           </Heading>
           <Heading

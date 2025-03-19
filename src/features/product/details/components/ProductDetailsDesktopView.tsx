@@ -1,5 +1,5 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
-import { Skeleton } from '@nextui-org/react'
+import { Skeleton } from '@heroui/react'
 import { FC, useEffect, useState } from 'react'
 import ReactImageMagnify from 'react-image-magnify'
 
@@ -39,6 +39,7 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
                 src={productDetail?.thumbnailUrl}
                 alt={productDetail?.title}
                 w="100px"
+                zIndex={2}
                 cursor="pointer"
                 onClick={() => setMainImageURL(productDetail?.thumbnailUrl)}
                 border={mainImageURL === productDetail?.thumbnailUrl ? '2px solid black' : 'none'}
@@ -46,7 +47,7 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
 
               {productDetail?.medias.map(({ url, uuid }) => (
                 <Skeleton
-                  style={{ width: '100px', marginBottom: '16px' }}
+                  style={{ width: '100px', marginBottom: '16px', zIndex: 2 }}
                   isLoaded={!loading}
                   key={uuid}
                 >

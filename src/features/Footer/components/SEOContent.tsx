@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { Accordion, AccordionItem } from '@nextui-org/react'
+import { Accordion, AccordionItem } from '@heroui/react'
 import { ArrowDown02Icon, ArrowUp01Icon } from 'hugeicons-react'
 import React, { FC } from 'react'
 

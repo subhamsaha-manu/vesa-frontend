@@ -1,6 +1,6 @@
 import { Button, Flex } from '@chakra-ui/react'
-import { Select, SelectItem } from '@nextui-org/react'
-import { SharedSelection } from '@nextui-org/system'
+import { Select, SelectItem } from '@heroui/react'
+import { SharedSelection } from '@heroui/system'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 

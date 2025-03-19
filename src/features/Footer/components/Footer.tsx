@@ -29,7 +29,7 @@ export const Footer = () => {
       bottom="0"
       left="0"
       background="#e5e2db"
-      p={{ base: '20px 0 10px 0', xl: '30px 173px' }}
+      p={{ base: '20px 0 10px 0', xl: '30px 120px' }}
     >
       <Flex
         w="100%"
@@ -37,6 +37,7 @@ export const Footer = () => {
         gap="32px"
         flexDir={{ base: 'column', xl: 'row' }}
         p={{ base: '0 20px', xl: '0' }}
+        justify="space-between"
       >
         <Flex flexDir="column" gap={4} display-name="about-vesa">
           <Flex display-name="mobile" gap={2} flexDir="column">

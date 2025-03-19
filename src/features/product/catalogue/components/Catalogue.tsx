@@ -1,7 +1,7 @@
 import { Flex, Grid } from '@chakra-ui/react'
 import { FC, useCallback, useEffect, useState } from 'react'
 
-import { ProductSkeletonTile } from './ProductSkeletonTile'
+import { LoadingSection } from './LoadingSection'
 import { ProductTile } from './ProductTile'
 
 import { useProductsQuery } from '../apis/products.generated'
@@ -15,7 +15,8 @@ type CatalogueProps = {
 }
 
 export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
-  const [pageNumber, setPageNumber] = useState(0)
+  const [pageNumber, setPageNumber] = useState<number>(0)
+
   const [products, setProducts] = useState<
     Array<Omit<MinifiedProduct, 'id' | 'quantity' | 'status'>>
   >([])
@@ -79,23 +80,7 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
   )
 
   if (!products.length && loading) {
-    return (
-      <Flex display-name="skeleton-container" w="100%" h="60vh" flexDir="column">
-        <Grid
-          templateColumns={{
-            base: 'repeat(1, 1fr)',
-            sm: 'repeat(2, 1fr)',
-            md: 'repeat(3, 1fr)',
-            lg: 'repeat(4, 1fr)',
-          }}
-          gap={6}
-        >
-          {Array.from({ length: CATALOGUE_PAGE_SIZE + 4 }).map((_, index) => (
-            <ProductSkeletonTile key={index} />
-          ))}
-        </Grid>
-      </Flex>
-    )
+    return <LoadingSection />
   }
 
   return (
@@ -115,19 +100,20 @@ export const Catalogue: FC<CatalogueProps> = ({ categoryIds }) => {
       </Grid>
 
       {loading && hasMore && (
-        <Grid
-          templateColumns={{
-            base: 'repeat(1, 1fr)',
-            sm: 'repeat(2, 1fr)',
-            md: 'repeat(3, 1fr)',
-            lg: 'repeat(4, 1fr)',
-          }}
-          gap={6}
-        >
-          {Array.from({ length: CATALOGUE_PAGE_SIZE }).map((_, index) => (
-            <ProductSkeletonTile key={index} />
-          ))}
-        </Grid>
+        // <Grid
+        //   templateColumns={{
+        //     base: 'repeat(1, 1fr)',
+        //     sm: 'repeat(2, 1fr)',
+        //     md: 'repeat(3, 1fr)',
+        //     lg: 'repeat(4, 1fr)',
+        //   }}
+        //   gap={6}
+        // >
+        //   {Array.from({ length: CATALOGUE_PAGE_SIZE }).map((_, index) => (
+        //     <ProductSkeletonTile key={index} />
+        //   ))}
+        // </Grid>
+        <LoadingSection />
       )}
 
       {hasMore && !loading && <div ref={observer} style={{ padding: '12px 0' }} />}

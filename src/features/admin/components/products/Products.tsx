@@ -9,7 +9,7 @@ import {
   TableRow,
   Tooltip,
   User,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import round from 'lodash/round'
 import { ChangeEvent, FC, Key, useCallback, useMemo } from 'react'
 import '../table.css'

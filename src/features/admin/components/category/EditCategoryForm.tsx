@@ -9,9 +9,9 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
+import { Select, SelectItem } from '@heroui/react'
+import { SharedSelection } from '@heroui/system'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Select, SelectItem } from '@nextui-org/react'
-import { SharedSelection } from '@nextui-org/system'
 import { FC, useEffect, useState } from 'react'
 import { FieldError, FieldValues, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'

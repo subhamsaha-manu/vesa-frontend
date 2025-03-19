@@ -44,7 +44,7 @@ export const Dashboard: FC = () => {
         justify="center"
         align="center"
         gap={4}
-        p={{ base: '0 2px', xl: '0 8px' }}
+        p={{ base: '0 2px', xl: '0 50px' }}
       >
         <Heading size="lg" color="#1E355B" fontWeight="500">
           Our Collection

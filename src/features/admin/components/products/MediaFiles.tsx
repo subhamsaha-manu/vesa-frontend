@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { Image } from '@nextui-org/react'
+import { Image } from '@heroui/react'
 import { FC } from 'react'
 import { BiSolidTrash } from 'react-icons/bi'
 import Zoom from 'react-medium-image-zoom'

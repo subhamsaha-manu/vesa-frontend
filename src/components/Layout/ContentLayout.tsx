@@ -34,6 +34,10 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
         w="100%"
         p={{ base: '15px', xl: '40px 15px 5px 15px' }}
         gap={2}
+        position="sticky"
+        top="0"
+        background="#fff"
+        zIndex="3"
       >
         <Flex
           onClick={() => navigate('/')}
