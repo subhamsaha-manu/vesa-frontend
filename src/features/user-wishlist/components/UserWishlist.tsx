@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +11,7 @@ import { userWishlist } from '../apis/userWishlist'
 import { useUserWishlistQuery } from '../apis/userWishlist.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import VesaHeading from '@/components/elements/VesaHeading'
 import { ContentLayout } from '@/components/Layout'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
@@ -46,7 +47,7 @@ const UserWishlist: FC = () => {
       >
         <Flex display-name="heading-flex" w="100%" align="center" gap={6}>
           <Flex display-name="heading-flex" align="center">
-            <Heading fontSize={{ base: 'md', xl: 'xl' }}>MY WISHLIST</Heading>
+            <VesaHeading text="My Wishlist" fontSize={{ base: '16px', xl: '40px' }} />
           </Flex>
         </Flex>
         {data.userWishlist.length === 0 ? (

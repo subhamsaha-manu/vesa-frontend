@@ -3,16 +3,22 @@ import { Skeleton } from '@heroui/react'
 import { FC, useEffect, useState } from 'react'
 import ReactImageMagnify from 'react-image-magnify'
 
+import { DeliveryInfo } from './DeliveryInfo'
+import { Details } from './Details'
+import { SizeOptions } from './SizeOptions'
+
 import { ProductViewProps } from '../types'
 
+import VesaHeading from '@/components/elements/VesaHeading'
 import { ContentLayout } from '@/components/Layout'
 import useCurrentUserContext from '@/context/CurrentUserContextProvider'
 import { AddToCart } from '@/features/user-cart'
 import { AddToWishlist } from '@/features/user-wishlist'
 import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
-export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail, loading }) => {
+export const DesktopView: FC<ProductViewProps> = ({ productDetail, loading }) => {
   const [mainImageURL, setMainImageURL] = useState<string | undefined>(productDetail?.thumbnailUrl)
+  const [selectedSize, setSelectedSize] = useState<string>('')
   const { currentUser } = useCurrentUserContext()
 
   useEffect(() => {
@@ -21,8 +27,8 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
 
   return (
     <ContentLayout pageTitle={productDetail?.title ?? ''} showFullPageScroll>
-      <Flex display-name="main-product-section" w="100%" gap={6} p={{ xl: '30px 250px 0 250px' }}>
-        <Flex display-name="product-gallery" w="57%" gap="32px">
+      <Flex display-name="main-product-section" w="100%" gap={6} p={{ xl: '30px 24px 0 24px' }}>
+        <Flex display-name="product-gallery" maxW="50%" gap="32px" flex="0 0 50%">
           {loading ? (
             <Flex display-name="thumbnail-images-skeleton" flexDir="column" gap={4} w="100px">
               {Array.from({ length: 2 }).map((_, index) => (
@@ -65,7 +71,7 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
             </Flex>
           )}
 
-          <Flex display-name="primary-image" w="100%" maxW="421px" maxH="678px">
+          <Flex display-name="primary-image" w="100%">
             <Skeleton style={{ height: '500px', borderRadius: '8px' }} isLoaded={!loading}>
               <ReactImageMagnify
                 {...{
@@ -75,8 +81,8 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
                   },
                   largeImage: {
                     src: mainImageURL ?? '',
-                    width: 500,
-                    height: 800,
+                    width: 600,
+                    height: 900,
                   },
                   enlargedImageContainerStyle: {
                     zIndex: 9,
@@ -90,15 +96,10 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
             </Skeleton>
           </Flex>
         </Flex>
-        <Flex display-name="product-summary" w="43%" flexDir="column" gap={4}>
+        <Flex display-name="product-summary" maxW="50%" flex="0 0 50%" flexDir="column" gap={4}>
           <Flex display-name="product-details" w="100%" flexDir="column" gap="32px">
-            <Skeleton
-              style={{ height: '36px', width: '75%', borderRadius: '8px' }}
-              isLoaded={!loading}
-            >
-              <Heading size="lg" color="#1E355B" fontWeight="500">
-                {productDetail?.title}
-              </Heading>
+            <Skeleton style={{ height: 'max-content', borderRadius: '8px' }} isLoaded={!loading}>
+              <VesaHeading text={productDetail?.title ?? ''} color="#1E355B" />
             </Skeleton>
             <Skeleton
               style={{ height: '36px', width: '100%', borderRadius: '8px' }}
@@ -112,6 +113,7 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
                 align="center"
                 borderRadius={8}
                 h="38px"
+                maxW={{ base: '100%', xl: '50%' }}
               >
                 <Heading size="sm" color="white">
                   Availability
@@ -122,25 +124,29 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
               </Flex>
             </Skeleton>
             <Skeleton
-              style={{ height: '36px', width: '40%', borderRadius: '8px' }}
+              style={{ height: '36px', width: '100%', borderRadius: '8px' }}
               isLoaded={!loading}
             >
-              <Flex display-name="product-price">
-                <Text fontSize="36px" color="#1E355B">
+              <Flex display-name="product-price" align="end" gap={4}>
+                <Text fontSize="36px" color="#1E355B" fontWeight="600">
                   {`${INR_CURRENCY_SYMBOL} ${productDetail?.price}`}
                 </Text>
-              </Flex>
-            </Skeleton>
-            <Skeleton
-              style={{ height: '80px', width: '100%', borderRadius: '8px' }}
-              isLoaded={!loading}
-            >
-              <Flex display-name="product-description">
-                <Text fontSize="18px" fontWeight="100">
-                  {productDetail?.description}
+                <Text fontSize="18px" color="#1E355B" lineHeight="44px">
+                  MRP (Inclusive of all taxes)
                 </Text>
               </Flex>
             </Skeleton>
+            {!loading && (
+              <Flex mt="20px" flexDir="column" gap={8}>
+                <SizeOptions
+                  sizes={['S', 'M', 'L', 'XL']}
+                  selectedSize={selectedSize}
+                  onSelectSize={setSelectedSize}
+                />
+                <DeliveryInfo />
+                <Details productDetail={productDetail!.description} />
+              </Flex>
+            )}
           </Flex>
           {!currentUser?.isAdmin && !loading && (
             <Flex
@@ -151,7 +157,11 @@ export const ProductDetailsDesktopView: FC<ProductViewProps> = ({ productDetail,
               align="center"
               mt="20px"
             >
-              <AddToCart productId={productDetail?.productId ?? ''} />
+              <AddToCart
+                productId={productDetail?.productId ?? ''}
+                isDisabled={productDetail?.isOutOfStock}
+                mobileView={false}
+              />
               <AddToWishlist productId={productDetail?.productId ?? ''} />
             </Flex>
           )}

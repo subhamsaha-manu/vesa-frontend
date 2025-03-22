@@ -14,7 +14,7 @@ import { INR_CURRENCY_SYMBOL } from '@/utils/constants'
 
 import 'react-medium-image-zoom/dist/styles.css'
 
-export const ProductDetailsMobileView: FC<ProductViewProps> = ({ productDetail, loading }) => {
+export const MobileView: FC<ProductViewProps> = ({ productDetail, loading }) => {
   const productImages = productDetail
     ? [...productDetail.medias.map((m) => m.url), productDetail.thumbnailUrl]
     : []

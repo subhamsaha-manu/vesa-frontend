@@ -1,10 +1,11 @@
-import { Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { FC, useCallback, useRef, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import { CartSummary } from './CartSummary'
 import { CheckoutForm } from './CheckoutForm'
 
+import VesaHeading from '@/components/elements/VesaHeading'
 import { ContentLayout } from '@/components/Layout'
 import { AddressListDropdown } from '@/features/user-shipping-address'
 import { useWindowSize } from '@/hooks/useWindowSize'
@@ -27,23 +28,13 @@ export const Checkout: FC = () => {
 
   return (
     <ContentLayout pageTitle="checkout">
-      <Flex
-        display-name="checkout-container"
-        w="100%"
-        gap={6}
-        pt={{ base: '10px', xl: '30px' }}
-        flexDir="column"
-      >
-        <Flex display-name="heading-flex" w="100%" align="center" gap={6}>
-          <Flex display-name="heading-flex" align="center">
-            <Heading fontSize={{ base: 'md', xl: '2xl' }}>CHECKOUT</Heading>
-          </Flex>
-        </Flex>
+      <Flex display-name="heading-flex" w="100%" align="center">
+        <VesaHeading text="Checkout" fontSize={{ base: '16px', xl: '40px' }} />
       </Flex>
       <Flex
         w="100%"
         gap={6}
-        m={{ base: '0 0 30px 0', xl: '30px 0 100px 0' }}
+        m={{ base: '0 0 30px 0', xl: '0' }}
         flexDir={{ base: 'column', xl: 'row' }}
       >
         <Flex

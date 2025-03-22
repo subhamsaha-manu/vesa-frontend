@@ -1,7 +1,8 @@
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { FC } from 'react'
 
 import Carousel from '@/components/elements/Carousel'
+import VesaHeading from '@/components/elements/VesaHeading'
 import { Categories } from '@/features/category'
 import { Catalogue } from '@/features/product'
 import {
@@ -31,9 +32,7 @@ export const Dashboard: FC = () => {
         align="center"
         gap={4}
       >
-        <Heading size="lg" color="#1E355B" fontWeight="500">
-          Shop By Category
-        </Heading>
+        <VesaHeading text="Shop by Category" />
         <Categories />
       </Flex>
 
@@ -43,12 +42,10 @@ export const Dashboard: FC = () => {
         w="100%"
         justify="center"
         align="center"
-        gap={4}
+        gap={8}
         p={{ base: '0 2px', xl: '0 50px' }}
       >
-        <Heading size="lg" color="#1E355B" fontWeight="500">
-          Our Collection
-        </Heading>
+        <VesaHeading text="Our Collection" />
         <Catalogue />
       </Flex>
     </Flex>

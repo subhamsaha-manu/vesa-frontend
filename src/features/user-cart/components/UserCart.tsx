@@ -12,6 +12,7 @@ import { userCart } from '../apis/userCart'
 import { useUserCartQuery } from '../apis/userCart.generated'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import VesaHeading from '@/components/elements/VesaHeading'
 import { ContentLayout } from '@/components/Layout'
 import useUserWishlistCartContextProvider from '@/context/UserWishlistCartContextProvider'
 import { useMinifiedProductDetailsQuery } from '@/features/user-cart/apis/minifiedProductDetails.generated'
@@ -90,7 +91,7 @@ const UserCart: FC = () => {
       <Flex
         display-name="main-user-cart-section"
         w="100%"
-        gap={6}
+        gap={4}
         pt={{ base: '10px', xl: '30px' }}
         flexDir="column"
       >
@@ -102,7 +103,7 @@ const UserCart: FC = () => {
           justify={isMobile ? 'space-between' : 'start'}
         >
           <Flex display-name="heading-flex" align="center">
-            <Heading fontSize={{ base: 'md', xl: 'xl' }}>Your Cart</Heading>
+            <VesaHeading text="My Cart" fontSize={{ base: '16px', xl: '30px' }} />
           </Flex>
           {totalCartItems !== 0 && isMobile && (
             <Flex

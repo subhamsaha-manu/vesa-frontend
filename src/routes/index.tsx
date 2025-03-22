@@ -6,7 +6,7 @@ import { SpinnerContainer } from '@/components/elements/Spinner'
 import { ErrorFallback, MainLayout } from '@/components/Layout'
 import { CurrentUserContextProvider, UserWishlistCartContextProvider } from '@/context'
 import { Dashboard } from '@/features/dashboard'
-import { CategoryProducts, ProductDetailsContainer } from '@/features/product'
+import { CategoryProducts, Container } from '@/features/product'
 import { Checkout } from '@/features/user-cart'
 
 const AboutUs = lazy(() => import('@/features/about-us'))
@@ -129,7 +129,7 @@ export const AppRoutes = () => {
       children: [
         { path: '/', element: <Dashboard /> },
         { path: 'product-category/:categoryName', element: <CategoryProducts /> },
-        { path: 'product/:productId', element: <ProductDetailsContainer /> },
+        { path: 'product/:productId', element: <Container /> },
         { path: 'cart', element: <UserCart /> },
         { path: 'wishlist', element: <UserWishlist /> },
         { path: 'checkout', element: <Checkout /> },

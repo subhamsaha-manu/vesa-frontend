@@ -5,7 +5,7 @@ export const ScrollToTop: FC = () => {
   const location = useLocation()
 
   useLayoutEffect(() => {
-    const element = document.getElementById('main-layout-flex-2')
+    const element = document.getElementById('main-layout-flex')
     if (element) {
       element.scrollTop = 0
       element.scrollLeft = 0

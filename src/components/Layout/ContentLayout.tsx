@@ -32,7 +32,7 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
       <Flex
         display-name="breadcrumb-layout-heading-flex"
         w="100%"
-        p={{ base: '15px', xl: '40px 15px 5px 15px' }}
+        p={{ base: '15px', xl: '30px 80px' }}
         gap={2}
         position="sticky"
         top="0"
@@ -58,7 +58,7 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
       </Flex>
       <Flex
         flexDir="column"
-        p={{ base: '8px', xl: '16px' }}
+        p={{ base: '15px', xl: '0px 80px' }}
         pb={{ base: '50px', xl: showFullPageScroll ? '80px' : '16px' }}
         gap={8}
         display-name={`${pageTitle}-content-layout-container`}
@@ -69,7 +69,6 @@ export const ContentLayout: FC<ContentLayoutProps> = ({
           color: '#485465',
           backgroundColor: '#fff',
           borderRadius: '8px',
-          // boxShadow: '0 12px 20px 0 rgba(0,0,0,.05)',
         }}
       >
         {showHeaderTitle && (

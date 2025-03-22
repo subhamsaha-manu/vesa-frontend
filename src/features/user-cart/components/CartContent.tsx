@@ -69,7 +69,7 @@ export const CartContent: FC<CartContentProps> = ({
                     _hover={{ color: '#D9121F', cursor: 'pointer' }}
                     onClick={() => removeProductFromCart(productId, true)}
                   >
-                    <MultiplicationSignIcon size={15} />
+                    <MultiplicationSignIcon size={25} />
                   </Td>
                   <Td pl={0} pr={0}>
                     <Image src={imageUrl} alt={title} maxW="200px" />
@@ -82,7 +82,10 @@ export const CartContent: FC<CartContentProps> = ({
                   >
                     {title}
                   </Td>
-                  <Td pr={0}>{round(price, 2)}</Td>
+                  <Td pr={0}>
+                    {INR_CURRENCY_SYMBOL}
+                    {round(price, 2)}
+                  </Td>
                   <Td pr={0}>
                     <AdjustCartItemQuantity
                       initialQuantity={quantity}
@@ -95,7 +98,10 @@ export const CartContent: FC<CartContentProps> = ({
                       }
                     />
                   </Td>
-                  <Td pr={0}>{round(price * quantity, 2)}</Td>
+                  <Td pr={0}>
+                    {INR_CURRENCY_SYMBOL}
+                    {round(price * quantity, 2)}
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
@@ -112,7 +118,7 @@ export const CartContent: FC<CartContentProps> = ({
         gap={6}
         mb="100px"
       >
-        <Heading>Cart totals</Heading>
+        <Heading>Order Summary</Heading>
         <Flex flexDir="column">
           <Flex
             display-name="subtotal"
@@ -122,6 +128,15 @@ export const CartContent: FC<CartContentProps> = ({
           >
             <Text>Subtotal</Text>
             <Text>{`${INR_CURRENCY_SYMBOL} ${totalCartAmount}`}</Text>
+          </Flex>
+          <Flex
+            display-name="subtotal"
+            justify="space-between"
+            p="15px 0"
+            borderBottom="1px solid #e6e6e6"
+          >
+            <Text>Shipping</Text>
+            <Text color="#00bb00">FREE</Text>
           </Flex>
           <Flex display-name="total" justify="space-between" p="15px 0">
             <Text>Total</Text>

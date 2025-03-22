@@ -27,9 +27,8 @@ const AuthContainer: FC = () => {
         w="100%"
         flexDir="column"
         gap={6}
-        borderRadius="24px"
         maxW="420px"
-        p={{ base: '12px' }}
+        p={{ base: '20px' }}
         border="1px solid black"
         m="auto"
       >

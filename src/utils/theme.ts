@@ -24,7 +24,7 @@ const breakpoints = {
 }
 
 const fonts = {
-  heading: `'Montserrat', sans-serif`,
+  heading: 'Rufina-Regular',
   body: `'Montserrat', sans-serif`,
 }
 const customTheme = extendTheme({ colors, fonts, breakpoints })

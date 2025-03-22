@@ -35,7 +35,7 @@ export const AddressListDropdown: FC<AddressListDropdownProps> = ({ onSelect }) 
         variant="faded"
       >
         {data.userAddressesMinified.map(({ addressId, name }) => (
-          <SelectItem key={addressId} textValue={addressId}>
+          <SelectItem key={addressId} textValue={name}>
             {name}
           </SelectItem>
         ))}

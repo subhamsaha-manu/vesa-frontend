@@ -39,14 +39,14 @@ export const CategoryProducts: FC = () => {
         <Flex
           display-name="content-layout-heading-flex"
           w="100%"
-          justify="start"
-          mt={{ base: 0, xl: 8 }}
+          justify="space-between"
+          borderBottom="1px solid #E2E8F0"
+          pb={2}
         >
           <Heading size="lg" color="#1E355B" fontWeight="500">
             {upperCase(transformedCategoryName)}
           </Heading>
         </Flex>
-
         <Catalogue categoryIds={[categoryId]} />
       </Flex>
     </ContentLayout>

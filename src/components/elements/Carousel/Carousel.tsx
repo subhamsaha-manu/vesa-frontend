@@ -1,7 +1,9 @@
-import { Box, Flex, Heading, IconButton, useBreakpointValue } from '@chakra-ui/react'
-import { CircleArrowLeft01Icon, CircleArrowRight01Icon } from 'hugeicons-react'
-import { FC, useState } from 'react'
+import { Box, Flex } from '@chakra-ui/react'
+import { FC } from 'react'
 import Slider from 'react-slick'
+
+import './carousel.css'
+import VesaHeading from '@/components/elements/VesaHeading'
 
 const settings = {
   dots: true,
@@ -15,6 +17,9 @@ const settings = {
   slidesToScroll: 1,
   swipe: true,
   touch: true,
+  vertical: true, // Make sure vertical mode is enabled
+  verticalSwiping: true, // Optional for swiping
+  customPaging: () => <div className="custom-dot" />,
 }
 
 type CarouselProps = {
@@ -22,46 +27,17 @@ type CarouselProps = {
   showText: boolean
 }
 
-export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
-  const [slider, setSlider] = useState<Slider | null>(null)
-
-  const top = useBreakpointValue({ base: '80%', md: '40%' })
-  const side = useBreakpointValue({ base: '30%', md: '10px' })
-
+const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
   return (
     <Box
       position="relative"
-      height="full"
+      maxHeight="600px"
+      height="auto"
       width="full"
       overflow="hidden"
       display-name="carousel-box-container"
     >
-      <IconButton
-        aria-label="left-arrow"
-        borderRadius="full"
-        position="absolute"
-        left={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        onClick={() => slider?.slickPrev()}
-      >
-        <CircleArrowLeft01Icon />
-      </IconButton>
-      <IconButton
-        aria-label="right-arrow"
-        borderRadius="full"
-        position="absolute"
-        right={side}
-        top={top}
-        transform="translate(0%, -50%)"
-        zIndex={2}
-        onClick={() => slider?.slickNext()}
-      >
-        <CircleArrowRight01Icon />
-      </IconButton>
-
-      <Slider {...settings} ref={(slider: any) => setSlider(slider)}>
+      <Slider {...settings}>
         {imageUrls.map((url, index) => (
           <Box
             key={index}
@@ -79,27 +55,15 @@ export const Carousel: FC<CarouselProps> = ({ imageUrls, showText }) => {
         <Flex
           display-name="carousel-text"
           position="absolute"
-          w="100%"
-          h="100%"
-          justify="center"
-          align="center"
-          top={0}
+          w="50%"
+          justify="end"
+          align="start"
+          bottom="10%"
+          left="5%"
           flexDir="column"
           gap={4}
         >
-          <Heading size="4xl" fontWeight="700" letterSpacing="20px" color="#FFFFFF">
-            VESA
-          </Heading>
-          <Heading
-            size={{ base: 'xl', xl: '2xl' }}
-            color="#FFFFFF"
-            fontWeight="500"
-            style={{
-              wordSpacing: '30px',
-            }}
-          >
-            &#34;WE CHOOSE YOU&#34;
-          </Heading>
+          <VesaHeading text="What's your style?" color="#FFFFFF" />
         </Flex>
       )}
     </Box>

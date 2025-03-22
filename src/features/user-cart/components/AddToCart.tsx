@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { ShoppingCartCheckIn01Icon } from 'hugeicons-react'
 import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -7,14 +7,23 @@ import { useAddProductToCartMutation } from '../apis/addProductToCart.generated'
 import { userCart } from '../apis/userCart'
 
 import { SpinnerContainer } from '@/components/elements/Spinner'
+import VesaButton from '@/components/elements/VesaButton'
 import { TOKEN } from '@/utils/constants'
 import { storage } from '@/utils/storage'
 
 type AddToCartProps = {
   productId: string
-  mobileView?: boolean
+  mobileView: boolean
+  isDisabled?: boolean
+  roundedButton?: boolean
 }
-export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
+
+export const AddToCart: FC<AddToCartProps> = ({
+  productId,
+  mobileView,
+  isDisabled = false,
+  roundedButton = true,
+}) => {
   const authToken = storage.getItem(TOKEN)
 
   const [addedToCart, setAddedToCart] = useState<boolean>(false)
@@ -36,33 +45,22 @@ export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
   return (
     <Flex display-name="add-to-cart-button-wrapper" style={{ width: 'calc(100%-148px)' }} flex={1}>
       {addedToCart ? (
-        <Button
-          variant="solid"
-          size={mobileView ? 'sm' : 'lg'}
-          color="white"
-          background="black"
-          _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
-          borderRadius="40px"
+        <VesaButton
+          label="View Cart"
+          loading={false}
+          primaryIcon={<></>}
+          secondaryIcon={<></>}
           onClick={() => navigate('/cart')}
-          width="100%"
-        >
-          View Cart
-        </Button>
+          isDisabled={false}
+          mobileView={mobileView}
+          rounded={roundedButton}
+        />
       ) : (
-        <Button
-          variant="solid"
-          size={mobileView ? 'sm' : 'lg'}
-          color="white"
-          background="black"
-          leftIcon={
-            loading ? (
-              <SpinnerContainer size={mobileView ? '5px' : '20px'} overflow="unset" />
-            ) : (
-              <ShoppingCartCheckIn01Icon size={mobileView ? 18 : 22} />
-            )
-          }
-          _hover={{ background: 'white', color: 'black', border: '1px solid black' }}
-          borderRadius="40px"
+        <VesaButton
+          label="Add to Cart"
+          loading={loading}
+          primaryIcon={<ShoppingCartCheckIn01Icon size={mobileView ? 18 : 22} />}
+          secondaryIcon={<SpinnerContainer size={mobileView ? '5px' : '20px'} overflow="unset" />}
           onClick={() => {
             if (authToken) {
               void addToCart()
@@ -70,11 +68,10 @@ export const AddToCart: FC<AddToCartProps> = ({ productId, mobileView }) => {
               navigate('/auth')
             }
           }}
-          isDisabled={loading}
-          width="100%"
-        >
-          Add to Cart
-        </Button>
+          isDisabled={isDisabled}
+          mobileView={mobileView}
+          rounded={roundedButton}
+        />
       )}
     </Flex>
   )

@@ -28,7 +28,7 @@ export const UserCartDesktopView: FC<UserCartDesktopViewProps> = ({
   minifiedProductDetails,
 }) => {
   return (
-    <Flex display-name="main-cart-section" w="100%" gap={6} pt="30px" flexDir="column">
+    <Flex display-name="main-cart-section" w="100%" gap={6} flexDir="column">
       {totalCartItems !== 0 && (
         <Flex
           display-name="continue-shopping-flex"

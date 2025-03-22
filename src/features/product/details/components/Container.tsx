@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { ProductDetailsDesktopView } from './ProductDetailsDesktopView'
-import { ProductDetailsMobileView } from './ProductDetailsMobileView'
+import { DesktopView } from './DesktopView'
+import { MobileView } from './MobileView'
 
 import { useProductQuery } from '../apis/product.generated'
 
@@ -12,7 +12,7 @@ type ProductParamType = {
   productId: string
 }
 
-export const ProductDetailsContainer: FC = () => {
+export const Container: FC = () => {
   const { productId } = useParams<keyof ProductParamType>() as ProductParamType
 
   const size = useWindowSize()
@@ -31,9 +31,9 @@ export const ProductDetailsContainer: FC = () => {
   return (
     <>
       {isMobile ? (
-        <ProductDetailsMobileView productDetail={data?.product} loading={loading} />
+        <MobileView productDetail={data?.product} loading={loading} />
       ) : (
-        <ProductDetailsDesktopView productDetail={data?.product} loading={loading} />
+        <DesktopView productDetail={data?.product} loading={loading} />
       )}
     </>
   )
